@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "140590274669",
+    "project_id": "arzan-app",
+    "storage_bucket": "arzan-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140590274669:android:66aff9fdb2f52adb7ec764",
+        "android_client_info": {
+          "package_name": "afisha.arzan.tm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "140590274669-53hlokfdu84ffh2f085bc18h4dkkuc14.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "afisha.arzan.tm",
+            "certificate_hash": "812002ef75c2f0eaa33d6c5f645f4d36d8e7c46b"
+          }
+        },
+        {
+          "client_id": "140590274669-7ssmout4q98l0qhnb9p1s6map28ha2o1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDt2w4ckCR4u3W0Hw4VEbRdBF9erH7EPjs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "140590274669-7ssmout4q98l0qhnb9p1s6map28ha2o1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

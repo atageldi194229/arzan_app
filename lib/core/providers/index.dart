@@ -1,0 +1,26 @@
+import 'package:provider/provider.dart';
+import 'package:tm/core/localization/index.dart';
+import 'package:tm/core/providers/notification_provider.dart';
+
+import './post_detail_provider.dart';
+import './auth_provider.dart';
+import './home_screen_provider.dart';
+import './banner_provider.dart';
+import './recommended_post_provider.dart';
+import './account_provider.dart';
+
+List<ChangeNotifierProvider> providers = [
+  ChangeNotifierProvider<LangProvider>(create: (context) => LangProvider()),
+  ChangeNotifierProvider<HomeScreenProvider>(
+      create: (context) => HomeScreenProvider()),
+  ChangeNotifierProvider<BannerProvider>(create: (context) => BannerProvider()),
+  ChangeNotifierProvider<RecommendedPostProvider>(
+      create: (context) => RecommendedPostProvider()),
+  ChangeNotifierProvider<PostDetailProvider>(
+      create: (context) => PostDetailProvider()),
+  ChangeNotifierProvider<AuthProvider>(create: (context) => AuthProvider()),
+  ChangeNotifierProvider<AccountProvider>(
+      create: (context) => AccountProvider()),
+  ChangeNotifierProvider<NotificationProvider>(
+      create: (context) => NotificationProvider()),
+];
