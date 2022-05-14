@@ -23,6 +23,7 @@ class ApiPath {
   static String getAccount = "/api/v1/users/";
 
   static String getPosts = "/api/v1/posts";
+  static String createPost = "/api/v1/posts";
 
   static String getBanners = "/api/v1/banners";
 

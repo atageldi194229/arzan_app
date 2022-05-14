@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import '../models/index.dart';
 import '../api_path.dart';
@@ -51,5 +53,48 @@ class PostService {
     } else {
       throw "Unable to fetch data";
     }
+  }
+
+  Future<bool> create({
+    required List<XFile> images,
+    required String title,
+    required String content,
+    required List<int> regionIds,
+  }) async {
+    String token = ApiPath.userToken;
+
+    if (token.isEmpty) throw Exception("User not logged in");
+
+    Uri uri = Uri.http(ApiPath.host, ApiPath.createPost);
+
+    var request = http.MultipartRequest('POST', uri)
+      ..fields['title'] = title
+      ..fields['content'] = content;
+
+    debugPrint("AM2 file start");
+
+    var files = await Future.wait(images.map((e) => e.readAsBytes()));
+
+    debugPrint("AM3 file to byte end");
+
+    for (int i = 0; i < files.length; i++) {
+      request.files.add(http.MultipartFile.fromBytes('image-$i', files[i]));
+    }
+
+    debugPrint("AMrequest start");
+
+    request.headers['Authorization'] = "Bearer: " + token;
+
+    var response = await request.send();
+    debugPrint("AMrequest end");
+
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      return true;
+    }
+
+    throw Exception('Something went wrong');
+    // return false;
   }
 }

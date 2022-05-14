@@ -70,6 +70,7 @@ class _MyAppState extends State<MyApp> {
           msg.data['image'].toString(),
           notification?.body ?? 'No body');
     });
+    // FirebaseMessaging.onBackgroundMessage((message) => null)
   }
 
   @override

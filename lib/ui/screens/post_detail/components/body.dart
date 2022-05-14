@@ -80,7 +80,11 @@ class Body extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '16.04.2022',
+                      post.createdAt
+                          .toIso8601String()
+                          .substring(0, 10)
+                          .split('-')
+                          .join('.'),
                       style: _detailTextStyle,
                     ),
                     Row(

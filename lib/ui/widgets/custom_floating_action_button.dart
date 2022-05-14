@@ -1,4 +1,5 @@
 import 'package:tm/ui/constants.dart';
+import 'package:tm/ui/screens/add_post/add_post_screen.dart';
 import 'package:tm/ui/widgets/internet_error_dialog.dart';
 import 'package:flutter/material.dart';
 
@@ -13,10 +14,11 @@ class CustomFloatingActionButton extends StatelessWidget {
       margin: const EdgeInsets.all(5),
       child: FloatingActionButton(
         onPressed: () {
-          showDialog(
-              context: context,
-              builder: (context) => const InternetErrorDialog());
-          // TODO: create post page navigator code here too
+          // showDialog(
+          //     context: context,
+          //     builder: (context) => const InternetErrorDialog());
+
+          Navigator.pushNamed(context, AddPostScreen.routeName);
         },
         child: Container(
           width: double.infinity,

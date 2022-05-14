@@ -54,7 +54,7 @@ class NotificationUtil {
       showProgress: true,
       priority: Priority.max,
       largeIcon: FilePathAndroidBitmap(bigPicturePath),
-      color: kSoftGreen,
+      // color: kSoftGreen,
       styleInformation: BigPictureStyleInformation(
         FilePathAndroidBitmap(bigPicturePath),
         hideExpandedLargeIcon: false,

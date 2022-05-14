@@ -35,7 +35,6 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
     _firstTime = true;
 
     controller.addListener(() {
-      print(controller.page);
       if (controller.page != null) {
         double next = controller.page!.ceilToDouble() - controller.page!;
         double prev = controller.page! - controller.page!.floorToDouble();
@@ -43,8 +42,6 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
         const double startScrollPage = 0.2;
         const Duration duration = Duration(milliseconds: 300);
         const Curve curve = Curves.easeInOut;
-
-        print("$prev, $next");
 
         if (startScrollPage > prev) {
           controller.nextPage(
@@ -98,31 +95,31 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
 
   alertDialog() {
     showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15)),
-              contentPadding: const EdgeInsets.all(10),
-              content: Column(mainAxisSize: MainAxisSize.min, children: [
-                const Text('data',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-                Text('data' * 10),
-                TextField(
-                  maxLines: 4,
-                  decoration: InputDecoration(
-                      fillColor: Colors.grey.shade200,
-                      filled: true,
-                      hintText: 'Description',
-                      enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(15)),
-                      border: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(15))),
-                )
-              ]),
-            ));
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        contentPadding: const EdgeInsets.all(10),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('data', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text('data' * 10),
+            TextField(
+              maxLines: 4,
+              decoration: InputDecoration(
+                  fillColor: Colors.grey.shade200,
+                  filled: true,
+                  hintText: 'Description',
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.transparent),
+                      borderRadius: BorderRadius.circular(15)),
+                  border: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.transparent),
+                      borderRadius: BorderRadius.circular(15))),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

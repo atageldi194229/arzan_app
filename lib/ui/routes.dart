@@ -1,4 +1,5 @@
 import 'package:tm/ui/screens/about_us/about_us_screen.dart';
+import 'package:tm/ui/screens/add_post/add_post_screen.dart';
 import 'package:tm/ui/screens/login/login_screen.dart';
 import 'package:tm/ui/screens/notification_detail/notification_detail_screen.dart';
 import 'package:tm/ui/screens/notifications/notifications_screen.dart';
@@ -39,6 +40,7 @@ final Map<String, WidgetBuilder> routes = {
   OfficialUsersScreen.routeName: ((context) => const OfficialUsersScreen()),
   ContactUsScreen.routeName: ((context) => const ContactUsScreen()),
   RegisterScreen.routeName: ((context) => const RegisterScreen()),
+  AddPostScreen.routeName: ((context) => const AddPostScreen()),
   NotificationDetailScreen.routeName: ((context) =>
       const NotificationDetailScreen()),
 };

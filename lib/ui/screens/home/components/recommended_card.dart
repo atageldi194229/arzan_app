@@ -83,9 +83,11 @@ class RecommendedCard extends StatelessWidget {
                   child: Text(
                     post.title,
                     textAlign: TextAlign.center,
+                    maxLines: 4,
                     style: const TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ),
