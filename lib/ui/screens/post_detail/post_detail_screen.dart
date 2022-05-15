@@ -10,13 +10,8 @@ import 'components/body.dart';
 class PostDetailScreen<T extends PostListProvider> extends StatefulWidget {
   static String routeName = '/post_detail';
 
-  final Function providerRead;
-  final Function providerWatch;
-
   const PostDetailScreen({
     Key? key,
-    required this.providerRead,
-    required this.providerWatch,
   }) : super(key: key);
 
   @override

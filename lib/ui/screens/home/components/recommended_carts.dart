@@ -4,6 +4,7 @@ import 'package:tm/core/api/models/index.dart' as models;
 import 'package:tm/core/providers/recommended_post_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tm/ui/screens/post_detail/post_detail_screen.dart';
 import './recommended_card.dart';
 
 class RecommendedCarts extends StatefulWidget {
@@ -58,7 +59,19 @@ class _RecommendedCartsState extends State<RecommendedCarts> {
         child: Row(
           children: List.generate(
             posts.length,
-            (index) => RecommendedCard(post: posts[index]),
+            (index) => RecommendedCard(
+              post: posts[index],
+              onTap: () {
+                context.read<RecommendedPostProvider>().setCurrentIndex(index);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        const PostDetailScreen<RecommendedPostProvider>(),
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ),
