@@ -18,7 +18,7 @@ class SearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // init api start
 
-    context.read<RecommendedPostProvider>().getRecommendedPosts();
+    context.read<RecommendedPostProvider>().loadPosts();
 
     // init api end
     return const SafeArea(

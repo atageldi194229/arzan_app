@@ -31,7 +31,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
         bool isTop = _controller.position.pixels == 0;
         if (isTop) {
         } else {
-          context.read<HomeScreenProvider>().fetchPosts();
+          context.read<HomeScreenProvider>().loadPosts();
         }
       }
     });

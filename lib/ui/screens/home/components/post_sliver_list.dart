@@ -17,7 +17,7 @@ class _PostSliverListState extends State<PostSliverList> {
   @override
   void initState() {
     super.initState();
-    context.read<HomeScreenProvider>().fetchPosts();
+    context.read<HomeScreenProvider>().loadPosts();
   }
 
   @override
@@ -35,8 +35,19 @@ class _PostSliverListState extends State<PostSliverList> {
           return PostCard(
               post: posts[index],
               onTap: () {
-                context.read<HomeScreenProvider>().currentIndex = index;
-                Navigator.pushNamed(context, PostDetailScreen.routeName);
+                context.read<HomeScreenProvider>().setCurrentIndex(index);
+                // Navigator.pushNamed(context, PostDetailScreen.routeName);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PostDetailScreen<HomeScreenProvider>(
+                      providerRead: (BuildContext context) =>
+                          context.read<HomeScreenProvider>(),
+                      providerWatch: (BuildContext context) =>
+                          context.watch<HomeScreenProvider>(),
+                    ),
+                  ),
+                );
               });
         },
         childCount: posts.length + 1,
