@@ -138,6 +138,7 @@ class Body extends StatelessWidget {
             decoration: _boxDecoration,
             child: HtmlTextWidget(
               html: post.content,
+              canLaunch: true,
             ),
           ),
           const ComplainButton(),

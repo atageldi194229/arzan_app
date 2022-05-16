@@ -61,14 +61,16 @@ class NotificationCard extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      child:
-                          HtmlTextWidget(html: notification.content, styles: {
-                        "body": Style(
-                          fontSize: const FontSize(11),
-                          fontWeight: FontWeight.w500,
-                          maxLines: 3,
-                        )
-                      }),
+                      child: HtmlTextWidget(
+                        html: notification.content,
+                        styles: {
+                          "body": Style(
+                            fontSize: const FontSize(11),
+                            fontWeight: FontWeight.w500,
+                            maxLines: 3,
+                          ),
+                        },
+                      ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
