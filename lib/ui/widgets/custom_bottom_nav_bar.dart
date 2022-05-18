@@ -1,4 +1,5 @@
 import 'package:tm/core/providers/auth_provider.dart';
+import 'package:tm/ui/components/officalUsers.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/screens/login/login_screen.dart';
 import 'package:tm/ui/screens/profile/profile_screen.dart';
@@ -84,10 +85,40 @@ class CustomBottomNavBar extends StatelessWidget {
                   color: _getIconColor(MenuState.profile),
                 ),
                 onTap: () {
+
+                      
+  // BuildContext dialogContext; 
+  // showDialog(
+  //   context: context, // <<----
+  //   barrierDismissible: false,
+  //   builder: (BuildContext context) {
+  //     dialogContext = context;
+  //     return Dialog(
+  //       child: Column(
+  //         children: [
+  //           new Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //             children: [
+  //                SvgPicture.asset('assets/icons/setings icon.svg',),
+  //                Align(
+  //                  alignment: Alignment.topCenter,
+  //                  child: DefaultOfficalUserIcon(),),
+  //                SvgPicture.asset('assets/icons/setings icon.svg',),
+
+  //             ],
+  //           ),
+  //         ],
+  //       ),
+  //     );
+  //   },
+  // );
+
                   if (_isUserLoggedIn) {
                     Navigator.pushNamed(context, ProfileScreen.routeName);
                   } else {
                     Navigator.pushNamed(context, LoginScreen.routeName);
+                    // Navigator.pushNamed(context, ProfileScreen.routeName);
+
                   }
                 },
               ),
@@ -122,3 +153,8 @@ class _NavbarItem extends StatelessWidget {
     );
   }
 }
+
+
+
+
+      

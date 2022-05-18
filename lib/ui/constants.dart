@@ -26,6 +26,7 @@ const aPrimaryGradientColor = LinearGradient(
     kSoftGreen,
   ],
 );
+const double kDilegSizedBox = 10.0;
 
 const BorderRadius kBorderRadius = BorderRadius.all(
   Radius.circular(5),
