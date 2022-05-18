@@ -30,9 +30,9 @@ void main() async {
 }
 
 printToken() async {
-  print("get token started");
+  debugPrint("get token started");
   String? token = await FirebaseMessaging.instance.getToken();
-  print("FIREBASE MESSAGING TOKEN: $token");
+  debugPrint("FIREBASE MESSAGING TOKEN: $token");
 }
 
 class MyApp extends StatefulWidget {
@@ -70,6 +70,9 @@ class _MyAppState extends State<MyApp> {
           msg.data['image'].toString(),
           notification?.body ?? 'No body');
     });
+
+    FirebaseMessaging.instance.subscribeToTopic('all');
+    FirebaseMessaging.instance.subscribeToTopic('test_1');
     // FirebaseMessaging.onBackgroundMessage((message) => null)
   }
 

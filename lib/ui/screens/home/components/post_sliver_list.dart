@@ -40,12 +40,8 @@ class _PostSliverListState extends State<PostSliverList> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PostDetailScreen<HomeScreenProvider>(
-                      providerRead: (BuildContext context) =>
-                          context.read<HomeScreenProvider>(),
-                      providerWatch: (BuildContext context) =>
-                          context.watch<HomeScreenProvider>(),
-                    ),
+                    builder: (context) =>
+                        const PostDetailScreen<HomeScreenProvider>(),
                   ),
                 );
               });

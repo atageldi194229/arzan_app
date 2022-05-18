@@ -5,7 +5,12 @@ import 'package:flutter/material.dart';
 
 class RecommendedCard extends StatelessWidget {
   final models.Post post;
-  const RecommendedCard({Key? key, required this.post}) : super(key: key);
+  final Function onTap;
+  const RecommendedCard({
+    Key? key,
+    required this.post,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +20,8 @@ class RecommendedCard extends StatelessWidget {
     double cardHeight = cardWidth * 1.3;
 
     return InkWell(
-      onTap:
-          () {}, //=> MyRouter().route(context, PostDetailPage(model: model!)),
+      onTap: () =>
+          onTap(), //=> MyRouter().route(context, PostDetailPage(model: model!)),
       child: Container(
         width: cardWidth,
         height: cardHeight,
