@@ -22,7 +22,9 @@ class NotificationUtil {
   Future<String> _downloadAndSaveFile(String url, String fileName) async {
     final Directory? directory = await getExternalStorageDirectory();
     final String filePath = '${directory!.path}/$fileName.png';
+    // TODO: url yok bolsa default surat ibermeli
     final http.Response response = await http.get(Uri.parse(url));
+
     final File file = File(filePath);
     await file.writeAsBytes(response.bodyBytes);
     return filePath;

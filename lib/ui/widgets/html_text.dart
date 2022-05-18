@@ -23,11 +23,13 @@ Map<String, Style> defaultStyle = {
 class HtmlTextWidget extends StatelessWidget {
   final String html;
   final Map<String, Style>? styles;
+  final bool canLaunch;
 
   const HtmlTextWidget({
     Key? key,
     required this.html,
     this.styles,
+    this.canLaunch = false,
   }) : super(key: key);
 
   @override
@@ -64,8 +66,10 @@ class HtmlTextWidget extends StatelessWidget {
 
   void _onLinkTap(String? url, RenderContext context,
       Map<String, String> attributes, dom.Element? element) {
-    //open URL in webview, or launch URL in browser, or any other logic here
+    // check if can launch
+    if (!canLaunch) return;
 
+    //open URL in webview, or launch URL in browser, or any other logic here
     try {
       if (url != null) {
         launch(url).then((value) {
