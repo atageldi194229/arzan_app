@@ -13,7 +13,7 @@ class OfficalUsers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     return Stack(
+    return Stack(
       children: [
         Container(
           margin: EdgeInsets.symmetric(
@@ -27,9 +27,9 @@ class OfficalUsers extends StatelessWidget {
               boxShadow: kBoxShadow),
           width: getProportionateScreenWidth(150),
           child: Column(children: [
-            DefaultOfficalUserIcon(),
+            const DefaultOfficalUserIcon(),
             SizedBox(height: getProportionateScreenHeight(5)),
-            Text(
+            const Text(
               'Name surname',
               textAlign: TextAlign.center,
               style: TextStyle(fontWeight: FontWeight.bold),
@@ -65,7 +65,7 @@ class OfficalUsers extends StatelessWidget {
                           color: Colors.yellow,
                           borderRadius: BorderRadius.circular(10)),
                       child: Text(4.toString(),
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
                     )
                   ],
                 ),
@@ -84,24 +84,24 @@ class DefaultOfficalUserIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(6),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.all(6),
+      decoration: const BoxDecoration(
         color: Colors.green,
         shape: BoxShape.circle,
       ),
       child: Container(
-        padding: EdgeInsets.all(6),
-        decoration: BoxDecoration(
+        padding: const EdgeInsets.all(6),
+        decoration: const BoxDecoration(
           color: Colors.white,
           shape: BoxShape.circle,
         ),
         child: Container(
-          padding: EdgeInsets.all(6),
-          decoration: BoxDecoration(
+          padding: const EdgeInsets.all(6),
+          decoration: const BoxDecoration(
             color: Colors.green,
             shape: BoxShape.circle,
           ),
-          child:   Image.asset(
+          child: Image.asset(
             'assets/images/logo_ticket.png',
             width: MediaQuery.of(context).size.width / 4,
           ),

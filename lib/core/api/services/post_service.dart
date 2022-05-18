@@ -9,13 +9,18 @@ class PostService {
   Future<List<Post>> fetchData({
     int limit = 15,
     int offset = 0,
+    String? search,
+    int? categoryId,
+    String sort = "createdAt-desc",
   }) async {
     Map<String, String> query = {
-      "categoryId": "1",
-      "sort": "createdAt-desc",
+      "sort": sort,
       "limit": limit.toString(),
       "offset": offset.toString(),
     };
+
+    if (search != null) query["search"] = search;
+    if (categoryId != null) query["categoryId"] = categoryId.toString();
 
     Uri uri = Uri.http(ApiPath.host, ApiPath.getPosts, query);
 

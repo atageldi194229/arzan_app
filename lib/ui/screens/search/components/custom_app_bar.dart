@@ -1,10 +1,12 @@
 import 'package:tm/core/api/services/search_service.dart';
 import 'package:tm/core/providers/home_screen_provider.dart';
+import 'package:tm/core/providers/post_search_provider.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/helper/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tm/ui/screens/search/components/result_list_view.dart';
 
 import 'suggestion_list.dart';
 
@@ -25,7 +27,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   late _MySearchDelegate _delegate;
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
 
     _delegate = _MySearchDelegate();
@@ -46,7 +48,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
-      title: const Text('Posts'),
+      title: const Text('Post search'),
       actions: [
         IconButton(
           tooltip: 'Search',
@@ -111,6 +113,7 @@ class _MySearchDelegate extends SearchDelegate<String> {
       ),
       onPressed: () {
         // SearchDelegate.close() can return values, similar to Navigator.pop().
+        context.read<PostSearchProvider>().setSearch("");
         close(context, '');
       },
     );
@@ -118,31 +121,9 @@ class _MySearchDelegate extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    // TODO: add the post search api here
+    context.read<PostSearchProvider>().setSearch(query);
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const Text('You have selected the word:'),
-            GestureDetector(
-              onTap: () {
-                close(context, query);
-              },
-              child: Text(
-                query,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+    return const ResultListView();
   }
 
   @override

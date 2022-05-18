@@ -1,8 +1,10 @@
+import '../api_path.dart';
+
 class UserModel {
   final int id;
   final String username;
   final String phoneNumber;
-  final String? image;
+  String? _image;
   final String? about;
   final String? partnerType;
   final String? status;
@@ -18,11 +20,18 @@ class UserModel {
   final int? videoCount;
   final int? viewCount;
 
+  get image => _image;
+  _setImage(String? image) {
+    if (image != null) {
+      _image = ApiPath.imageUrl + image;
+    }
+  }
+
   UserModel({
     required this.id,
     required this.username,
     required this.phoneNumber,
-    required this.image,
+    required String image,
     required this.about,
     required this.partnerType,
     required this.status,
@@ -35,7 +44,9 @@ class UserModel {
     required this.postCount,
     required this.videoCount,
     required this.viewCount,
-  });
+  }) {
+    _setImage(image);
+  }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(

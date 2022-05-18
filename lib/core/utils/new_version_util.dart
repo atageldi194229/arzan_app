@@ -6,7 +6,7 @@ void newVersionCheck(BuildContext context) async {
       // androidId: "com.snapchat.android",
       );
 
-  final status = await newVersion.getVersionStatus();
+  final VersionStatus? status = await newVersion.getVersionStatus();
 
   if (status != null) {
     debugPrint("Current local version ${status.localVersion}");

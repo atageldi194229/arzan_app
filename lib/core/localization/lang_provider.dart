@@ -6,7 +6,7 @@ class LangProvider with ChangeNotifier {
 
   get locale => _locale;
 
-  set locale(value) {
+  setLocale(value) {
     _locale = value;
     notifyListeners();
   }

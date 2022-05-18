@@ -1,4 +1,3 @@
-import 'package:tm/core/api/services/post_service.dart';
 import 'package:tm/core/api/services/user_action_service.dart';
 import 'package:flutter/material.dart';
 import 'package:tm/core/api/models/index.dart' as models;
@@ -12,9 +11,9 @@ abstract class PostListProvider extends ChangeNotifier {
 
   int _currentIndex = 0;
 
-  get posts => _posts;
-  get currentIndex => _currentIndex;
-  get currentPost => posts[_currentIndex];
+  List<models.Post> get posts => _posts;
+  int get currentIndex => _currentIndex;
+  models.Post get currentPost => posts[_currentIndex];
 
   setCurrentIndex(value) {
     _currentIndex = value;

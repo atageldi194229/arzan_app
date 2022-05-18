@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class SuggestionList extends StatelessWidget {
   final String query;
   final ValueChanged<String> onSelect;
-  final Function fetchSuggestions;
+  final Future<List<String>> Function() fetchSuggestions;
 
   const SuggestionList({
     Key? key,
