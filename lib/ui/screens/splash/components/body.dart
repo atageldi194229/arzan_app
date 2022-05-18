@@ -6,6 +6,7 @@ import 'package:tm/core/providers/banner_provider.dart';
 import 'package:tm/ui/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:tm/ui/constants.dart';
+import 'package:tm/ui/screens/profile/profile_screen.dart';
 import 'package:tm/ui/size_config.dart';
 import 'package:provider/provider.dart';
 
@@ -45,6 +46,8 @@ class _BodyState extends State<Body> {
               const Duration(milliseconds: 300),
               () {
                 Navigator.pop(context);
+                // Navigator.pushNamed(context, ProfileScreen.routeName);
+
                 Navigator.pushNamed(context, HomeScreen.routeName);
               },
             );

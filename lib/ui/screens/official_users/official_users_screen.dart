@@ -1,6 +1,8 @@
-import 'package:tm/ui/constants.dart';
-import 'package:tm/ui/widgets/default_appbar.dart';
 import 'package:flutter/material.dart';
+import '../../components/officalUsers.dart';
+import '../../constants.dart';
+import '../../widgets/default_appbar.dart';
+ 
 
 class OfficialUsersScreen extends StatelessWidget {
   static const routeName = '/official_users';
@@ -11,6 +13,7 @@ class OfficialUsersScreen extends StatelessWidget {
     Size _size = MediaQuery.of(context).size;
     return Scaffold(
       body: CustomScrollView(
+        physics: BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
             backgroundColor: Colors.white,
@@ -22,115 +25,54 @@ class OfficialUsersScreen extends StatelessWidget {
                 collapseMode: CollapseMode.pin,
                 background: const DefaultAppBar(title: 'Official users'),
                 centerTitle: true,
+                titlePadding: const EdgeInsets.symmetric(horizontal: 10),
                 title: FittedBox(
                   child: SizedBox(
                     width: _size.width,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('6',
-                              style: Theme.of(context).textTheme.headline6),
-                        ],
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '6',
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(4),
+                          child: Center(
+                              child: Icon(
+                            Icons.grid_view_rounded,
+                            color: kSoftGreen,
+                          )),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 5.0, vertical: 9.0),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: kBoxShadow,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        // Divider()
+                      ],
                     ),
                   ),
                 )),
           ),
           SliverToBoxAdapter(
             child: GridView.builder(
-                itemCount: 6,
+                itemCount: 20,
                 shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3, childAspectRatio: 0.55),
-                itemBuilder: (context, index) => const UserBlock()),
+                physics: NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  childAspectRatio: 0.65,
+                  mainAxisSpacing: 12,
+                ),
+                itemBuilder: (context, index) => OfficalUsers(
+                      iconShow: true,
+                    )),
           )
         ],
       ),
-    );
-  }
-}
-
-class UserBlock extends StatefulWidget {
-  const UserBlock({Key? key}) : super(key: key);
-
-  @override
-  State<UserBlock> createState() => _UserBlockState();
-}
-
-class _UserBlockState extends State<UserBlock> {
-  @override
-  Widget build(BuildContext context) {
-    Size _size = MediaQuery.of(context).size;
-    return InkWell(
-      onTap: () {},
-      child: Container(
-        height: _size.height,
-        padding: const EdgeInsets.all(8),
-        margin: const EdgeInsets.all(5),
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(15)),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              flex: 2,
-              child: FadeInImage.assetNetwork(
-                placeholder: imagePlaceholder,
-                image:
-                    'https://m.media-amazon.com/images/I/61iR9NMcKpL._UL1280_.jpg',
-                fit: BoxFit.cover,
-              ),
-            ),
-            // const Expanded(flex: 2, child: UserCircle()),
-            Expanded(
-                child: Column(
-              children: const [
-                Text('Name Surname'),
-                SizedBox(height: 10),
-                SubscribeButton()
-              ],
-            )),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class SubscribeButton extends StatefulWidget {
-  const SubscribeButton({Key? key}) : super(key: key);
-
-  @override
-  State<SubscribeButton> createState() => _SubscribeButtonState();
-}
-
-class _SubscribeButtonState extends State<SubscribeButton> {
-  bool isTapped = false;
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        setState(() {
-          isTapped = !isTapped;
-        });
-      },
-      child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-          decoration: BoxDecoration(
-              color: isTapped ? Colors.grey : kSoftGreen,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: const [
-                BoxShadow(color: Colors.grey, blurRadius: 5, spreadRadius: .5)
-              ]),
-          child: Text(
-            isTapped ? 'Subscribed' : 'Subscribe',
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold),
-          )),
     );
   }
 }
