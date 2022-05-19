@@ -21,7 +21,7 @@ class TT {
       String firstKey = res.keys.toList().first;
 
       context.read<LangProvider>().map = res;
-      context.read<LangProvider>().locale = firstKey;
+      context.read<LangProvider>().setLocale(firstKey);
     });
   }
 }
@@ -41,13 +41,15 @@ extension TTranslateContext on BuildContext {
     return watch<LangProvider>().map.keys.toList();
   }
 
+  get ttCurrentLocale => watch<LangProvider>().locale;
+
   /// to change current language\
   /// Example:
   /// ```dart
   ///   context.ttChangeLocale("en");
   /// ```
   void ttChangeLocale(String locale) {
-    read<LangProvider>().locale = locale;
+    read<LangProvider>().setLocale(locale);
   }
 }
 

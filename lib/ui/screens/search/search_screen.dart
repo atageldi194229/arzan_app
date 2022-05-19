@@ -5,7 +5,6 @@ import 'package:tm/ui/widgets/custom_floating_action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:tm/ui/widgets/custom_bottom_nav_bar.dart';
 import 'package:tm/ui/enums.dart';
-import 'package:provider/provider.dart';
 
 import 'components/body.dart';
 import 'components/custom_app_bar.dart';
@@ -16,11 +15,6 @@ class SearchScreen extends StatelessWidget {
   const SearchScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    // init api start
-
-    context.read<RecommendedPostProvider>().loadPosts();
-
-    // init api end
     return const SafeArea(
       child: Scaffold(
         appBar: CustomAppBar(),

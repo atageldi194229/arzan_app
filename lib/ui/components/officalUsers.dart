@@ -13,7 +13,7 @@ class OfficalUsers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     return Stack(
+    return Stack(
       children: [
         Container(
           margin: EdgeInsets.symmetric(
@@ -30,7 +30,7 @@ class OfficalUsers extends StatelessWidget {
        Image.asset('assets/images/user_icon.png',width: SizeConfig.screenWidth *0.5, fit:BoxFit.fill ),
 
             SizedBox(height: getProportionateScreenHeight(5)),
-            Text(
+            const Text(
               'Name surname',
               textAlign: TextAlign.center,
               style: TextStyle(fontWeight: FontWeight.bold),
@@ -63,7 +63,7 @@ class OfficalUsers extends StatelessWidget {
                           color: Colors.yellow,
                           borderRadius: BorderRadius.circular(10)),
                       child: Text(4.toString(),
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
                     )
                   ],
                 ),
@@ -86,6 +86,7 @@ class DefaultOfficalUserIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return  Image.asset('assets/images/user_icon.png',width: 50, fit:BoxFit.fill );
     
     // Container(
@@ -113,5 +114,32 @@ class DefaultOfficalUserIcon extends StatelessWidget {
     //     ),
     //   ),
     // );
+=======
+    return Container(
+      padding: const EdgeInsets.all(6),
+      decoration: const BoxDecoration(
+        color: Colors.green,
+        shape: BoxShape.circle,
+      ),
+      child: Container(
+        padding: const EdgeInsets.all(6),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.circle,
+        ),
+        child: Container(
+          padding: const EdgeInsets.all(6),
+          decoration: const BoxDecoration(
+            color: Colors.green,
+            shape: BoxShape.circle,
+          ),
+          child: Image.asset(
+            'assets/images/logo_ticket.png',
+            width: MediaQuery.of(context).size.width / 4,
+          ),
+        ),
+      ),
+    );
+>>>>>>> 3fcb0fbbe196ae902eb5fff873f6e728182fd000
   }
 }

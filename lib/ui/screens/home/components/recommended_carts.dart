@@ -5,12 +5,6 @@ import 'package:tm/core/providers/recommended_post_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tm/ui/screens/post_detail/post_detail_screen.dart';
-import '../../../components/contents_with_Divider.dart';
-import '../../../components/officalUsers.dart';
-import '../../../components/view_all_button.dart';
-import '../../../constants.dart';
-import '../../../size_config.dart';
-import '../../official_users/official_users_screen.dart';
 import './recommended_card.dart';
 
 class RecommendedCarts extends StatefulWidget {
@@ -57,53 +51,69 @@ class _RecommendedCartsState extends State<RecommendedCarts> {
   Widget build(BuildContext context) {
     List<models.Post> posts = context.watch<RecommendedPostProvider>().posts;
 
-    return Column(
-      
-      children: [
-    
-          SizedBox(height: kDilegSizedBox),
-        NameContentHome(text: "Recommended"),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 4.0),
-          child: SingleChildScrollView(
-            controller: _controller,
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: List.generate(
-                posts.length,
-                (index) => RecommendedCard(
-                  post: posts[index],
-                  onTap: () {
-                    context.read<RecommendedPostProvider>().setCurrentIndex(index);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const PostDetailScreen<RecommendedPostProvider>(),
-                      ),
-                    );
-                  },
-                ),
-              ),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 4.0),
+      child: SingleChildScrollView(
+        controller: _controller,
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: List.generate(
+            posts.length,
+            (index) => RecommendedCard(
+              post: posts[index],
+              onTap: () {
+                context.read<RecommendedPostProvider>().setCurrentIndex(index);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        const PostDetailScreen<RecommendedPostProvider>(),
+                  ),
+                );
+              },
             ),
           ),
         ),
-           viewAllButton(
-          press: () {},
-        ),
-          SizedBox(height: kDilegSizedBox),
-      
-       
-         
-        SizedBox(height: kDilegSizedBox),
-        NameContentHome(
-          text: "Discounts",
-          count: 2578,
-        ),
-        SizedBox(
-          height: kDilegSizedBox,
-        )
-      ],
+      ),
     );
+
+    // return Column(
+    //   children: [
+    //     SizedBox(height: kDilegSizedBox),
+    //     NameContentHome(text: "Recommended"),
+
+    // viewAllButton(
+    //   press: () {},
+    // ),
+    // SizedBox(height: kDilegSizedBox),
+    // NameContentHome(
+    //   text: "Users",
+    //   count: 186,
+    // ),
+    // SizedBox(height: kDilegSizedBox),
+    // Padding(
+    //   padding: EdgeInsets.only(bottom: getProportionateScreenHeight(15)),
+    //   child: Row(
+    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //     children: [
+    //       Expanded(child: OfficalUsers()),
+    //       Expanded(child: OfficalUsers()),
+    //       Expanded(child: OfficalUsers()),
+    //     ],
+    //   ),
+    // ),
+    // viewAllButton(
+    //     press: () =>
+    //         Navigator.pushNamed(context, OfficialUsersScreen.routeName)),
+    // SizedBox(height: kDilegSizedBox),
+    // NameContentHome(
+    //   text: "Discounts",
+    //   count: 2578,
+    // ),
+    // SizedBox(
+    //   height: kDilegSizedBox,
+    // )
+    // ],
+    // );
   }
 }

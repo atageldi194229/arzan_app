@@ -1,4 +1,3 @@
-// import 'package:tm/core/providers/home_screen_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:tm/core/providers/abstract/post_list_provider.dart';
 import 'package:tm/ui/constants.dart';
@@ -6,6 +5,25 @@ import 'package:tm/ui/widgets/default_appbar.dart';
 import 'package:provider/provider.dart';
 
 import 'components/body.dart';
+
+import 'package:flutter/physics.dart';
+
+class CustomPageViewScrollPhysics extends ScrollPhysics {
+  const CustomPageViewScrollPhysics({ScrollPhysics? parent})
+      : super(parent: parent);
+
+  @override
+  CustomPageViewScrollPhysics applyTo(ScrollPhysics? ancestor) {
+    return CustomPageViewScrollPhysics(parent: buildParent(ancestor));
+  }
+
+  @override
+  SpringDescription get spring => const SpringDescription(
+        mass: 50,
+        stiffness: 1000,
+        damping: 0.2,
+      );
+}
 
 class PostDetailScreen<T extends PostListProvider> extends StatefulWidget {
   static String routeName = '/post_detail';
@@ -86,6 +104,7 @@ class _PostDetailScreenState<T extends PostListProvider>
       backgroundColor: kScaffoldColor,
       appBar: const DefaultAppBar(title: 'Post Detail'),
       body: PageView(
+        physics: const CustomPageViewScrollPhysics(),
         scrollDirection: Axis.vertical,
         controller: _controller,
         onPageChanged: (index) {

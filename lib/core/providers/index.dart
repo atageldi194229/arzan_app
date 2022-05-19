@@ -1,7 +1,8 @@
 import 'package:provider/provider.dart';
 import 'package:tm/core/localization/index.dart';
-import 'package:tm/core/providers/notification_provider.dart';
 
+import './notification_provider.dart';
+import './post_search_provider.dart';
 import './post_detail_provider.dart';
 import './auth_provider.dart';
 import './home_screen_provider.dart';
@@ -23,4 +24,6 @@ List<ChangeNotifierProvider> providers = [
       create: (context) => AccountProvider()),
   ChangeNotifierProvider<NotificationProvider>(
       create: (context) => NotificationProvider()),
+  ChangeNotifierProvider<PostSearchProvider>(
+      create: (context) => PostSearchProvider()),
 ];

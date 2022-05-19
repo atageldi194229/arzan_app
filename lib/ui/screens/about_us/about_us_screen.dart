@@ -1,8 +1,5 @@
 import 'package:tm/core/localization/index.dart';
 import 'package:tm/ui/constants.dart';
-import 'package:tm/ui/enums.dart';
-import 'package:tm/ui/widgets/custom_bottom_nav_bar.dart';
-import 'package:tm/ui/widgets/custom_floating_action_button.dart';
 import 'package:flutter/material.dart';
 
 class AboutUsScreen extends StatelessWidget {
@@ -54,7 +51,7 @@ class AboutUsScreen extends StatelessWidget {
                     style: Theme.of(context).textTheme.headline6!.copyWith(),
                   ),
                   Text(
-                    context.tt('aboutUsText').replaceAll('\\n', '\n'),
+                    context.tt('aboutUsText'),
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
