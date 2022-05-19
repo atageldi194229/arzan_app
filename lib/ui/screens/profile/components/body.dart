@@ -191,11 +191,7 @@ class Body extends StatelessWidget {
                             color: kSoftGreen, shape: BoxShape.circle),
                         child: LayoutBuilder(
                           builder: (context, constraints) {
-                            return Icon(
-                              Icons.person_outline_outlined,
-                              size: constraints.biggest.height,
-                              color: Colors.white,
-                            );
+                            return Image.asset('assets/images/user_icon.png',width: SizeConfig.screenWidth *0.3, fit:BoxFit.fill );
                           },
                         ),
                       ),

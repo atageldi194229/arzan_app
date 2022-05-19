@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../components/officalUsers.dart';
 import '../../constants.dart';
+import '../../size_config.dart';
 import '../../widgets/default_appbar.dart';
  
 
@@ -23,19 +24,15 @@ class OfficialUsersScreen extends StatelessWidget {
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.pin,
-                background: const DefaultAppBar(title: 'Official users'),
+                background: const DefaultAppBar(title: 'Official users', count: true, countAppBar: 33,),
                 centerTitle: true,
                 titlePadding: const EdgeInsets.symmetric(horizontal: 10),
                 title: FittedBox(
                   child: SizedBox(
                     width: _size.width,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          '6',
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
+                        // TextField(),
                         Container(
                           padding: EdgeInsets.all(4),
                           child: Center(
@@ -51,7 +48,6 @@ class OfficialUsersScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        // Divider()
                       ],
                     ),
                   ),
@@ -68,7 +64,7 @@ class OfficialUsersScreen extends StatelessWidget {
                   mainAxisSpacing: 12,
                 ),
                 itemBuilder: (context, index) => OfficalUsers(
-                      iconShow: true,
+                      iconShow: false,
                     )),
           )
         ],

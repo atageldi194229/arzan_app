@@ -92,25 +92,9 @@ class _RecommendedCartsState extends State<RecommendedCarts> {
           press: () {},
         ),
           SizedBox(height: kDilegSizedBox),
-        NameContentHome(
-          text: "Users",
-          count: 186,
-        ),
-        SizedBox(height: kDilegSizedBox),
-           Padding(
-          padding: EdgeInsets.only(bottom: getProportionateScreenHeight(15)),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(child: OfficalUsers()),
-              Expanded(child: OfficalUsers()),
-              Expanded(child: OfficalUsers()),
-            ],
-          ),
-        ),
-           viewAllButton(
-            press: () =>
-                Navigator.pushNamed(context, OfficialUsersScreen.routeName)),
+      
+       
+         
         SizedBox(height: kDilegSizedBox),
         NameContentHome(
           text: "Discounts",

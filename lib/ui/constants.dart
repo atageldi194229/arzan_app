@@ -104,9 +104,10 @@ class DefaultButtonGreen extends StatelessWidget {
     return InkWell(
       onTap: () => press(),
       child: Container(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(6),
         // margin: const EdgeInsets.all(10),
         decoration: BoxDecoration(
+          boxShadow: kBoxShadow,
             color: kSoftGreen, borderRadius: BorderRadius.circular(10)),
         child: Text(
           text,
