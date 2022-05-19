@@ -86,35 +86,6 @@ class DefaultOfficalUserIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-    return  Image.asset('assets/images/user_icon.png',width: 50, fit:BoxFit.fill );
-    
-    // Container(
-    //   padding: EdgeInsets.all(6),
-    //   decoration: BoxDecoration(
-    //     color: Colors.green,
-    //     shape: BoxShape.circle,
-    //   ),
-    //   child: Container(
-    //     padding: EdgeInsets.all(6),
-    //     decoration: BoxDecoration(
-    //       color: Colors.white,
-    //       shape: BoxShape.circle,
-    //     ),
-    //     child: Container(
-    //       padding: EdgeInsets.all(6),
-    //       decoration: BoxDecoration(
-    //         color: Colors.green,
-    //         shape: BoxShape.circle,
-    //       ),
-    //       child:   Image.asset(
-    //         'assets/images/logo_ticket.png',
-    //         width: MediaQuery.of(context).size.width / 4,
-    //       ),
-    //     ),
-    //   ),
-    // );
-=======
     return Container(
       padding: const EdgeInsets.all(6),
       decoration: const BoxDecoration(
@@ -140,6 +111,5 @@ class DefaultOfficalUserIcon extends StatelessWidget {
         ),
       ),
     );
->>>>>>> 3fcb0fbbe196ae902eb5fff873f6e728182fd000
   }
 }
