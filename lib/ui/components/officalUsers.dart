@@ -27,20 +27,18 @@ class OfficalUsers extends StatelessWidget {
               boxShadow: kBoxShadow),
           width: getProportionateScreenWidth(150),
           child: Column(children: [
-            const DefaultOfficalUserIcon(),
+       Image.asset('assets/images/user_icon.png',width: SizeConfig.screenWidth *0.5, fit:BoxFit.fill ),
+
             SizedBox(height: getProportionateScreenHeight(5)),
             const Text(
               'Name surname',
               textAlign: TextAlign.center,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
+            SizedBox(height: kDilegSizedBox+8
+            ,),
             // SizedBox(height: 10),
-            Text(
-              'lor em ' * 15,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-            ),
+           DefaultButtonGreen(text: 'Follow', press: (){}),
           ]),
         ),
         iconShow == true
@@ -57,7 +55,7 @@ class OfficalUsers extends StatelessWidget {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: Image.asset('assets/images/logo_ticket.png'),
+                      child: Image.asset('assets/images/icon_notification.png', width: SizeConfig.screenWidth * 0.45),
                     ),
                     Container(
                       padding: EdgeInsets.all(getProportionateScreenWidth(5)),
@@ -71,6 +69,11 @@ class OfficalUsers extends StatelessWidget {
                 ),
               )
             : Container(),
+       Positioned(
+              right: SizeConfig.screenWidth * 0.14,
+              bottom: SizeConfig.screenHeight * 0.13,
+              child: Image.asset('assets/images/official_icon.png', width: getProportionateScreenHeight(30),)),
+            
       ],
     );
   }

@@ -81,7 +81,8 @@ flutter:
     - assets/icons/
     - assets/fonts/
     - assets/locales/
-
+    - assets/images/user_icon.png
+    - assets/images/official_icon.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

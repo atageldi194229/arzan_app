@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 
 class DefaultAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
-  const DefaultAppBar({Key? key, required this.title})
+  final bool count;
+  final int? countAppBar;
+  const DefaultAppBar({Key? key, required this.title, this.count = false, this.countAppBar})
       : preferredSize = const Size.fromHeight(kToolbarHeight),
         super(key: key);
 
@@ -21,9 +23,16 @@ class _DefaultAppBarState extends State<DefaultAppBar> {
       backgroundColor: Colors.white,
       automaticallyImplyLeading: false,
       centerTitle: true,
-      title: Text(
-        widget.title,
-        style: const TextStyle(color: kTextColor),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+           
+          Text(
+            widget.title,
+            style: const TextStyle(color: kTextColor),
+          ),
+        widget.count ? Text(widget.countAppBar.toString(), style: TextStyle(color: kTextColor),) : Container()
+        ],
       ),
       leading: LayoutBuilder(
         builder: (context, constraints) {
