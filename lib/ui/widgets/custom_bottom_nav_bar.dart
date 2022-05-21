@@ -1,6 +1,7 @@
 import 'package:tm/core/providers/auth_provider.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/screens/login/login_screen.dart';
+import 'package:tm/ui/screens/payment/payment_screen.dart';
 import 'package:tm/ui/screens/profile/profile_screen.dart';
 import 'package:tm/ui/screens/search/search_screen.dart';
 import 'package:flutter/material.dart';
@@ -93,6 +94,16 @@ class CustomBottomNavBar extends StatelessWidget {
                     Navigator.pushNamed(context, LoginScreen.routeName);
                   }
                 },
+              ),
+            ),
+             Expanded(
+              child: _NavbarItem(
+                child: SvgPicture.asset(
+                  'assets/icons/payment.svg',
+                  width: MediaQuery.of(context).size.width / 15,
+                  color: _getIconColor(MenuState.payment),
+                ),
+                onTap: ()  => Navigator.pushNamed(context, PaymentScreen.routeName),
               ),
             ),
             const Spacer(),

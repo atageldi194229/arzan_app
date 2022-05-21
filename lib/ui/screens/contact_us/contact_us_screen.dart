@@ -12,8 +12,8 @@ class ContactUsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const DefaultAppBar(title: 'Habarlasmak'),
+    return const Scaffold(
+      appBar:   DefaultAppBar(title: 'Habarlasmak'),
       body: Body(),
       // bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.home),
     );

@@ -6,6 +6,7 @@ import 'package:tm/ui/screens/home/home_screen.dart';
 import 'package:tm/ui/screens/register/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tm/ui/size_config.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -51,6 +52,13 @@ class _BodyState extends State<Body> {
     super.dispose();
   }
 
+  bool _obscureText = false;
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
@@ -68,9 +76,12 @@ class _BodyState extends State<Body> {
             borderRadius: BorderRadius.circular(15)),
         child: Column(
           children: [
-            const Expanded(
-              child: AvatarLogo(),
+            SizedBox(height: getProportionateScreenHeight(30)),
+              Expanded(
+              child:  Image.asset("assets/images/logo_app.png"),
             ),
+            SizedBox(height: getProportionateScreenHeight(30)),
+
             Expanded(
               child: Form(
                 child: Column(
@@ -96,7 +107,7 @@ class _BodyState extends State<Body> {
                     const SizedBox(height: 10),
                     TextFormField(
                       controller: passwordInputController,
-                      obscureText: true,
+                       obscureText: _obscureText,
                       onSaved: (_) => _tryLogin(),
                       decoration: InputDecoration(
                         fillColor: Colors.grey.shade100,
@@ -105,6 +116,13 @@ class _BodyState extends State<Body> {
                           Icons.lock_outline_rounded,
                           color: kSoftGreen,
                         ),
+                         suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscureText ? Icons.visibility : Icons.visibility_off,
+                              color: kSoftGreen,
+                            ),
+                            onPressed: () => _toggle(),
+                          ),
                         contentPadding: const EdgeInsets.all(0),
                         hintText: 'Password',
                         border: OutlineInputBorder(
@@ -112,13 +130,20 @@ class _BodyState extends State<Body> {
                         ),
                       ),
                     ),
-                    Container(
-                      margin: const EdgeInsets.all(30),
-                      child: const Text(
-                        'Forgot password?',
-                        style: TextStyle(
-                          color: kSoftGreen,
-                          fontWeight: FontWeight.bold,
+                    const Expanded(
+                      child:  Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Align(
+                          alignment: Alignment.topRight,
+                          child: InkWell(
+                            child: Text(
+                              'Forgot password?',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 105, 104, 104),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     )
@@ -134,7 +159,7 @@ class _BodyState extends State<Body> {
                     onTap: () => _tryLogin(),
                     child: Container(
                       padding: const EdgeInsets.all(10),
-                      // margin: const EdgeInsets.all(10),
+                      margin: const EdgeInsets.only(bottom: 15),
                       decoration: BoxDecoration(
                           color: kSoftGreen,
                           borderRadius: BorderRadius.circular(10)),
@@ -148,46 +173,22 @@ class _BodyState extends State<Body> {
                   InkWell(
                     onTap: () =>
                         Navigator.pushNamed(context, RegisterScreen.routeName),
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 30),
-                      child: const Text(
-                        'REGISTRATION',
-                        style: TextStyle(
-                            color: kSoftGreen, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
+                    child:   RichText(
+                        text:  TextSpan(
+                            style: TextStyle(color: Colors.black, fontSize: getProportionateScreenWidth(32)), 
+                            children:const <TextSpan>[
+                              TextSpan(text: "Don't have an account? ", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                              TextSpan(text: 'Sign in', style: TextStyle(color: Color.fromARGB(255, 12, 121, 15), fontWeight: FontWeight.bold))
+                            ],
+                        ),
+                                    textScaleFactor: 0.5,
+                                    )
+                              ),
                 ],
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class AvatarLogo extends StatelessWidget {
-  const AvatarLogo({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(10),
-      decoration: const BoxDecoration(
-        color: kSoftGreen,
-        shape: BoxShape.circle,
-      ),
-      child: LayoutBuilder(
-        builder: (context, constraint) {
-          return Icon(
-            Icons.account_circle_outlined,
-            color: Colors.white,
-            size: constraint.biggest.height,
-          );
-        },
       ),
     );
   }

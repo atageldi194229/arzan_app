@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:tm/core/api/services/auth_service.dart';
+import 'package:tm/core/localization/index.dart';
 import 'package:tm/ui/screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/providers/auth_provider.dart';
 import '../../../helper/keyboard.dart';
 import '../../../helper/toast.dart';
+import '../../../size_config.dart';
 import '../../home/home_screen.dart';
 import 'avatar_logo.dart';
 
@@ -201,9 +203,9 @@ class _BodyState extends State<Body> {
   Column registerPage() {
     return Column(
       children: [
-        const Expanded(
-          child: AvatarLogo(),
-        ),
+         Expanded(
+          child: Image.asset('assets/images/user_icon.png'),
+        ), 
         Expanded(
           child: Form(
             child: SingleChildScrollView(
@@ -228,19 +230,23 @@ class _BodyState extends State<Body> {
           children: [
             DefaultButtonGreen(
               press: () => _validateAndNextPage(),
-              text: "Confirm".toUpperCase(),
+              text: context.tt("register").toUpperCase(),
             ),
-            InkWell(
-              onTap: () => Navigator.pushNamed(context, LoginScreen.routeName),
-              child: Container(
-                margin: const EdgeInsets.symmetric(vertical: 30),
-                child: const Text(
-                  'Login',
-                  style:
-                      TextStyle(color: kSoftGreen, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
+            SizedBox(height:15),
+             InkWell(
+                    onTap: () =>
+                        Navigator.pushNamed(context, LoginScreen.routeName),
+                    child:   RichText(
+                        text:  TextSpan(
+                            style: TextStyle(color: Colors.black, fontSize: getProportionateScreenWidth(32)), 
+                            children:const <TextSpan>[
+                              TextSpan(text: "Already have  account? ", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                              TextSpan(text: 'Sign up', style: TextStyle(color: Color.fromARGB(255, 12, 121, 15), fontWeight: FontWeight.bold))
+                            ],
+                        ),
+                                    textScaleFactor: 0.5,
+                                    )
+                              ),
           ],
         ),
       ],
