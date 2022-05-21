@@ -19,18 +19,18 @@ class NameContentHome extends StatelessWidget {
           child: Row(
             children: [
               Text(
-                text == null ? '' : text, // **************************
-                style: TextStyle(
+                text ?? '', // **************************
+                style: const TextStyle(
                     color: kTextColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 15),
               ),
-              Spacer(),
+              const Spacer(),
               Text(count == null ? '' : count.toString())
             ],
           ),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: getProportionateScreenWidth(10)),
@@ -38,7 +38,7 @@ class NameContentHome extends StatelessWidget {
               width: double.infinity,
               height: getProportionateScreenHeight(3),
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.green,
                 ),
               ),

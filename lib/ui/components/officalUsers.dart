@@ -22,24 +22,30 @@ class OfficalUsers extends StatelessWidget {
           ),
           padding: EdgeInsets.all(getProportionateScreenWidth(7)),
           decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: kBoxShadow),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: kBoxShadow,
+          ),
           width: getProportionateScreenWidth(150),
-          child: Column(children: [
-       Image.asset('assets/images/user_icon.png',width: SizeConfig.screenWidth *0.5, fit:BoxFit.fill ),
+          child: Column(
+            children: [
+              Image.asset(
+                'assets/images/user_icon.png',
+                width: SizeConfig.screenWidth * 0.5,
+                fit: BoxFit.fill,
+              ),
 
-            SizedBox(height: getProportionateScreenHeight(5)),
-            const Text(
-              'Name surname',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: kDilegSizedBox+8
-            ,),
-            // SizedBox(height: 10),
-           DefaultButtonGreen(text: 'Follow', press: (){}),
-          ]),
+              SizedBox(height: getProportionateScreenHeight(5)),
+              const Text(
+                'Name surname',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: kDilegSizedBox + 8),
+              // SizedBox(height: 10),
+              DefaultButtonGreen(text: 'Follow', press: () {}),
+            ],
+          ),
         ),
         iconShow == true
             ? Padding(
@@ -55,25 +61,34 @@ class OfficalUsers extends StatelessWidget {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: Image.asset('assets/images/icon_notification.png', width: SizeConfig.screenWidth * 0.45),
+                      child: Image.asset(
+                        'assets/images/icon_notification.png',
+                        width: SizeConfig.screenWidth * 0.45,
+                      ),
                     ),
                     Container(
                       padding: EdgeInsets.all(getProportionateScreenWidth(5)),
                       decoration: BoxDecoration(
-                          color: Colors.yellow,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Text(4.toString(),
-                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                        color: Colors.yellow,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text(
+                        4.toString(),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     )
                   ],
                 ),
               )
             : Container(),
-       Positioned(
-              right: SizeConfig.screenWidth * 0.14,
-              bottom: SizeConfig.screenHeight * 0.13,
-              child: Image.asset('assets/images/official_icon.png', width: getProportionateScreenHeight(30),)),
-            
+        Positioned(
+          right: SizeConfig.screenWidth * 0.14,
+          bottom: SizeConfig.screenHeight * 0.13,
+          child: Image.asset(
+            'assets/images/official_icon.png',
+            width: getProportionateScreenHeight(30),
+          ),
+        ),
       ],
     );
   }

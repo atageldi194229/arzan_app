@@ -24,15 +24,14 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     newVersionCheck(context);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<RecommendedPostProvider>().loadPosts();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    // init api start
-
-    context.read<RecommendedPostProvider>().loadPosts();
-
-    // init api end
     return const SafeArea(
       child: Scaffold(
         body: Body(),

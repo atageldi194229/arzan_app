@@ -47,7 +47,8 @@ class AboutUsScreen extends StatelessWidget {
                 children: [
                   const SizedBox(height: 10),
                   Text(
-                    'About Us',
+                    context.tt('aboutUsTitle'),
+                    // 'About Us',
                     style: Theme.of(context).textTheme.headline6!.copyWith(),
                   ),
                   Text(
