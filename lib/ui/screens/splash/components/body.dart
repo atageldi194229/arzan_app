@@ -31,7 +31,7 @@ class _BodyState extends State<Body> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       ApiPath.searchForConnection().then((dynamic result) {
         if (result is bool) {
           if (result == true) {

@@ -42,7 +42,7 @@ class _PostDetailScreenState<T extends PostListProvider>
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       var post = context.read<T>().currentPost;
       _viewPost(post);
     });
