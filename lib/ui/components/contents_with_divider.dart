@@ -19,7 +19,7 @@ class NameContentHome extends StatelessWidget {
           child: Row(
             children: [
               Text(
-                text ?? '', // **************************
+                text, // **************************
                 style: const TextStyle(
                     color: kTextColor,
                     fontWeight: FontWeight.bold,
@@ -32,17 +32,18 @@ class NameContentHome extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: getProportionateScreenWidth(10)),
-            child: SizedBox(
-              width: double.infinity,
-              height: getProportionateScreenHeight(3),
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.green,
-                ),
+          padding:
+              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10)),
+          child: SizedBox(
+            width: double.infinity,
+            height: getProportionateScreenHeight(3),
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.green,
               ),
-            ))
+            ),
+          ),
+        )
       ],
     );
   }
