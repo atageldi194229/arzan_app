@@ -1,1 +1,1 @@
-enum MenuState { drawer, search, home, profile, another }
+enum MenuState { drawer, search, home, profile, payment, another }

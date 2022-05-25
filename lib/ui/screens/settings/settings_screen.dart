@@ -1,3 +1,4 @@
+import 'package:tm/core/localization/index.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/screens/settings/components/language_tile.dart';
 import 'package:tm/ui/screens/settings/components/notification_tile.dart';
@@ -20,7 +21,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     Size _size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: kScaffoldColor,
-      appBar: const DefaultAppBar(title: 'Settings'),
+      appBar:   DefaultAppBar(title: context.tt('navSettings')),
       body: ListView(
         children: [
           Container(
@@ -37,20 +38,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 const LanguageTile(),
                 SettingTile(
                     icon: Icons.location_pin,
-                    title: 'Select your region',
+                    title: context.tt('select_region'),
                     onTap: () {}),
-                SettingTile(icon: Icons.list, title: 'Rules', onTap: () {}),
+                SettingTile(icon: Icons.list, title: context.tt("rules") , onTap: () {}),
                 SettingTile(
                     icon: Icons.credit_card_rounded,
-                    title: 'Online payment',
+                    title: context.tt("online_payment"),
                     onTap: () {}),
                 SettingTile(
                     icon: Icons.arrow_downward_rounded,
-                    title: 'Download',
+                    title:  context.tt('download'),
                     onTap: () {}),
                 SettingTile(
                     icon: Icons.exit_to_app,
-                    title: 'Exit',
+                    title: context.tt('exit'),
                     onTap: () => SystemNavigator.pop()),
               ],
             ),

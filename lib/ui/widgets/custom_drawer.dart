@@ -6,6 +6,7 @@ import 'package:tm/ui/screens/contact_us/contact_us_screen.dart';
 import 'package:tm/ui/screens/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tm/ui/size_config.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({Key? key}) : super(key: key);
@@ -19,20 +20,7 @@ class CustomDrawer extends StatelessWidget {
           Expanded(
             flex: 4,
             child: DrawerHeader(
-              child: Column(
-                children: [
-                  Image.asset(
-                    'assets/images/logo_gradient.png',
-                    width: MediaQuery.of(context).size.width / 4,
-                  ),
-                  // const SizedBox(height: 10),
-                  const Spacer(),
-                  const Text(
-                    'Arzan',
-                    style: TextStyle(fontFamily: 'Arista', fontSize: 50),
-                  ),
-                ],
-              ),
+              child: Expanded(child: Image.asset('assets/images/logo_app.png'))
             ),
           ),
           Expanded(
