@@ -25,6 +25,8 @@ class ApiPath {
   static String getPosts = "/api/v1/posts";
   static String createPost = "/api/v1/posts";
 
+  static String getUsers = "/api/v1/users";
+
   static String getBanners = "/api/v1/banners";
 
   static String getNotifications = "/api/v1/notifications";

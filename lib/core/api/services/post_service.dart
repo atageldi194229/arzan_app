@@ -31,7 +31,7 @@ class PostService {
 
       return parsed["posts"].map<Post>((e) => Post.fromMap(e)).toList();
     } else {
-      throw "Unable to fetch data";
+      throw Exception("Unable to fetch data");
     }
   }
 
