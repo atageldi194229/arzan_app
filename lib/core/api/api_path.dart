@@ -31,7 +31,10 @@ class ApiPath {
 
   static String userActions = "/api/v1/user-actions";
 
+  static String region_status = '/api/v1/main/region-stat';
+
   static String getSearchSuggestion = "/api/v1/search/suggestions";
+  
 
   static _pingOneTime(String host, int port,
       {Duration timeout = const Duration(seconds: 5)}) {

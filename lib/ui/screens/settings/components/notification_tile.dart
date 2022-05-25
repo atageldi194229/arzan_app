@@ -1,3 +1,4 @@
+import 'package:tm/core/localization/index.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,9 @@ class _NotificationTileState extends State<NotificationTile> {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text('Notifications'),
+          Text(
+            context.tt('notification'),
+          ),
           PlatformSwitch(
               value: isNotificationOn,
               onChanged: (v) => setState(() => isNotificationOn = v)),

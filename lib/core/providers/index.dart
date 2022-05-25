@@ -1,5 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:tm/core/localization/index.dart';
+import 'package:tm/core/providers/region_status_provider.dart';
 
 import './notification_provider.dart';
 import './post_search_provider.dart';
@@ -26,4 +27,9 @@ List<ChangeNotifierProvider> providers = [
       create: (context) => NotificationProvider()),
   ChangeNotifierProvider<PostSearchProvider>(
       create: (context) => PostSearchProvider()),
+
+  ChangeNotifierProvider<RegionStatusProvidor>(
+      create: (context) => RegionStatusProvidor()),
+  
 ];
+ 

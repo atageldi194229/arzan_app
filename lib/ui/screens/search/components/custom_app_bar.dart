@@ -1,4 +1,5 @@
 import 'package:tm/core/api/services/search_service.dart';
+import 'package:tm/core/localization/index.dart';
 import 'package:tm/core/providers/home_screen_provider.dart';
 import 'package:tm/core/providers/post_search_provider.dart';
 import 'package:tm/ui/constants.dart';
@@ -48,7 +49,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
-      title: const Text('Post search'),
+      title: Text(context.tt('search')),
       actions: [
         IconButton(
           tooltip: 'Search',

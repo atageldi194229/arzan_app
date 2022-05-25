@@ -5,7 +5,6 @@ void newVersionCheck(BuildContext context) async {
   final newVersion = NewVersion(
       // androidId: "com.snapchat.android",
       );
-
   final VersionStatus? status = await newVersion.getVersionStatus();
 
   if (status != null) {

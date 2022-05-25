@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tm/core/localization/index.dart';
 import 'package:tm/core/providers/abstract/post_list_provider.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/widgets/default_appbar.dart';
@@ -102,7 +103,7 @@ class _PostDetailScreenState<T extends PostListProvider>
 
     return Scaffold(
       backgroundColor: kScaffoldColor,
-      appBar: const DefaultAppBar(title: 'Post Detail'),
+      appBar: DefaultAppBar(title: context.tt('post_detail')),
       body: PageView(
         physics: const CustomPageViewScrollPhysics(),
         scrollDirection: Axis.vertical,

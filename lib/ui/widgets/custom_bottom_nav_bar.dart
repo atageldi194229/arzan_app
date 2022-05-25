@@ -96,14 +96,11 @@ class CustomBottomNavBar extends StatelessWidget {
                 },
               ),
             ),
-             Expanded(
+            Expanded(
               child: _NavbarItem(
-                child: SvgPicture.asset(
-                  'assets/icons/payment.svg',
-                  width: MediaQuery.of(context).size.width / 15,
-                  color: _getIconColor(MenuState.payment),
-                ),
-                onTap: ()  => Navigator.pushNamed(context, PaymentScreen.routeName),
+                child: Icon(Icons.payment_outlined, color: Colors.green),
+                onTap: () =>
+                    Navigator.pushNamed(context, PaymentScreen.routeName),
               ),
             ),
             const Spacer(),

@@ -203,9 +203,9 @@ class _BodyState extends State<Body> {
   Column registerPage() {
     return Column(
       children: [
-         Expanded(
+        Expanded(
           child: Image.asset('assets/images/user_icon.png'),
-        ), 
+        ),
         Expanded(
           child: Form(
             child: SingleChildScrollView(
@@ -232,21 +232,30 @@ class _BodyState extends State<Body> {
               press: () => _validateAndNextPage(),
               text: context.tt("register").toUpperCase(),
             ),
-            SizedBox(height:15),
-             InkWell(
-                    onTap: () =>
-                        Navigator.pushNamed(context, LoginScreen.routeName),
-                    child:   RichText(
-                        text:  TextSpan(
-                            style: TextStyle(color: Colors.black, fontSize: getProportionateScreenWidth(32)), 
-                            children:const <TextSpan>[
-                              TextSpan(text: "Already have  account? ", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                              TextSpan(text: 'Sign up', style: TextStyle(color: Color.fromARGB(255, 12, 121, 15), fontWeight: FontWeight.bold))
-                            ],
-                        ),
-                                    textScaleFactor: 0.5,
-                                    )
-                              ),
+            SizedBox(height: 15),
+            InkWell(
+                onTap: () =>
+                    Navigator.pushNamed(context, LoginScreen.routeName),
+                child: RichText(
+                  text: TextSpan(
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: getProportionateScreenWidth(32)),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: context.tt("already_have_account"),
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold)),
+                      TextSpan(
+                          text: context.tt("sign_in"),
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 12, 121, 15),
+                              fontWeight: FontWeight.bold))
+                    ],
+                  ),
+                  textScaleFactor: 0.5,
+                )),
           ],
         ),
       ],
@@ -266,7 +275,7 @@ class _BodyState extends State<Body> {
             color: kSoftGreen,
           ),
           contentPadding: const EdgeInsets.all(0),
-          hintText: 'Username',
+          hintText: context.tt("username"),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
     );
   }
@@ -285,7 +294,7 @@ class _BodyState extends State<Body> {
             color: kSoftGreen,
           ),
           contentPadding: const EdgeInsets.all(0),
-          hintText: 'Phone number',
+          hintText: context.tt("phone_number"),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
     );
   }
@@ -311,7 +320,7 @@ class _BodyState extends State<Body> {
           color: kSoftGreen,
         ),
         contentPadding: const EdgeInsets.all(0),
-        hintText: 'Password',
+        hintText: context.tt("password"),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -332,7 +341,7 @@ class _BodyState extends State<Body> {
           color: kSoftGreen,
         ),
         contentPadding: const EdgeInsets.all(0),
-        hintText: 'Confirm the password',
+        hintText: context.tt("confirm_the_password"),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -345,7 +354,7 @@ class _BodyState extends State<Body> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text('Phone number verification'),
+        Text(context.tt("phone_number_verification")),
         ElevatedButton(
           onPressed: () => _tryRegister(),
           child: const Text('verify'),

@@ -1,6 +1,7 @@
 import 'package:tm/core/localization/index.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:tm/ui/size_config.dart';
 
 class AboutUsScreen extends StatelessWidget {
   static const routeName = '/about_us';
@@ -45,11 +46,14 @@ class AboutUsScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 5),
                   Text(
-                    context.tt('aboutUsTitle'),
+                    context.tt('navAboutUs'),
                     // 'About Us',
                     style: Theme.of(context).textTheme.headline6!.copyWith(),
+                  ),
+                  SizedBox(
+                    height: kDilegSizedBox + 5,
                   ),
                   Text(
                     context.tt('aboutUsText'),
@@ -58,44 +62,12 @@ class AboutUsScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              width: _size.width / 2.5,
-              padding: const EdgeInsets.all(5),
-              margin: EdgeInsets.only(top: _size.height / 5),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  boxShadow: kBoxShadow),
-              child: Container(
-                padding: const EdgeInsets.all(25),
-                decoration: const BoxDecoration(
-                  color: kSoftGreen,
-                  shape: BoxShape.circle,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Flexible(
-                      child: Image.asset('assets/images/logo_ticket.png'),
-                    ),
-                    const Flexible(
-                      flex: 2,
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(
-                          'Arzan',
-                          style: TextStyle(
-                            fontFamily: 'Arista',
-                            fontSize: 20,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            Positioned(
+              top: SizeConfig.screenHeight * 0.2,
+              child: Image.asset('assets/images/aboutUs.png',
+                  width: SizeConfig.screenWidth * 0.3,
+                  height: SizeConfig.screenWidth * 0.3,
+                  fit: BoxFit.fill),
             )
           ],
         ),
