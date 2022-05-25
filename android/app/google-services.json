@@ -37,6 +37,13 @@
             {
               "client_id": "140590274669-7ssmout4q98l0qhnb9p1s6map28ha2o1.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "140590274669-m12f35mpcsg6055rmp2qh2tarnv94m63.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "afisha.arzan.tm"
+              }
             }
           ]
         }
