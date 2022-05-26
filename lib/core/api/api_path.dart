@@ -4,8 +4,9 @@ import 'dart:io';
 class ApiPath {
   // static String host = "192.168.110.215:8788";
   static List<String> availableHosts = [
-    // "arzan.info",
-    "217.174.238.236:3020",
+    "https://arzan.info",
+    "http://217.174.238.236:3020",
+    "https://217.174.238.236:3021",
   ];
 
   static String userToken = "";
@@ -66,14 +67,18 @@ class ApiPath {
       onResult(false);
     });
 
-    for (var element in availableHosts) {
-      List<String> split = element.split(':');
-      String _host = split.first;
-      int _port = 80;
+    for (String element in availableHosts) {
+      Uri _uri = Uri.parse(element);
+      String _host = _uri.host;
+      int _port = _uri.port;
 
-      if (split.length > 1) {
-        _port = int.parse(split.last);
-      }
+      // List<String> split = element.split(':');
+      // String _host = split.first;
+      // int _port = 80;
+
+      // if (split.length > 1) {
+      //   _port = int.parse(split.last);
+      // }
 
       _ping(_host, _port, callback: (dynamic time) {
         if (time != null && time is Duration) {

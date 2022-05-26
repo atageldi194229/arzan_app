@@ -1,6 +1,26 @@
-import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 class ApiService {
+  static Uri uriParse(
+    String authority,
+    String unencodedPath, [
+    Map<String, dynamic>? queryParameters,
+  ]) {
+    String _queryString = "";
+
+    if (queryParameters != null) {
+      _queryString = Uri(
+        queryParameters: queryParameters.map(
+          (key, value) => MapEntry(key, value?.toString()),
+        ),
+      ).query;
+    }
+
+    debugPrint(_queryString);
+
+    return Uri.parse(authority + unencodedPath + '?' + _queryString);
+  }
+
   static Uri createUri(
     String authority,
     String unencodedPath, {
