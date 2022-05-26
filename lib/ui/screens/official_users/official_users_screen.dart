@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../components/officalUsers.dart';
-import '../../constants.dart';
-import '../../size_config.dart';
-import '../../widgets/default_appbar.dart';
- 
+import './components/body.dart';
 
 class OfficialUsersScreen extends StatelessWidget {
   static const routeName = '/official_users';
@@ -11,64 +7,6 @@ class OfficialUsersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size _size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
-        slivers: [
-          SliverAppBar(
-            backgroundColor: Colors.white,
-            expandedHeight: _size.height / 8,
-            automaticallyImplyLeading: false,
-            floating: true,
-            pinned: true,
-            flexibleSpace: FlexibleSpaceBar(
-                collapseMode: CollapseMode.pin,
-                background: const DefaultAppBar(title: 'Official users', count: true, countAppBar: 33,),
-                centerTitle: true,
-                titlePadding: const EdgeInsets.symmetric(horizontal: 10),
-                title: FittedBox(
-                  child: SizedBox(
-                    width: _size.width,
-                    child: Row(
-                      children: [
-                        // TextField(),
-                        Container(
-                          padding: EdgeInsets.all(4),
-                          child: Center(
-                              child: Icon(
-                            Icons.grid_view_rounded,
-                            color: kSoftGreen,
-                          )),
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 5.0, vertical: 9.0),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            boxShadow: kBoxShadow,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )),
-          ),
-          SliverToBoxAdapter(
-            child: GridView.builder(
-                itemCount: 20,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  childAspectRatio: 0.65,
-                  mainAxisSpacing: 12,
-                ),
-                itemBuilder: (context, index) => OfficalUsers(
-                      iconShow: false,
-                    )),
-          )
-        ],
-      ),
-    );
+    return const Scaffold(body: Body());
   }
 }

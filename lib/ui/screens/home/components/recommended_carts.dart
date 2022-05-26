@@ -43,7 +43,7 @@ class _RecommendedCartsState extends State<RecommendedCarts> {
 
   @override
   void initState() {
-    WidgetsBinding.instance?.addPostFrameCallback(_onLayoutDone);
+    WidgetsBinding.instance!.addPostFrameCallback(_onLayoutDone);
     super.initState();
   }
 

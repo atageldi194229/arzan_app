@@ -2,6 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:tm/core/localization/index.dart';
 import 'package:tm/core/utils/notification_util.dart';
+import 'package:tm/firebase_options.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/screens/splash/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -19,7 +20,10 @@ void main() async {
   // TT.init();
 //afisha.arzan.tm
 
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(
     MultiProvider(
