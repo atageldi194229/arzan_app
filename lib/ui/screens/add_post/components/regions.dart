@@ -5,10 +5,13 @@ import '../../../constants.dart';
 class Regions extends StatefulWidget {
   final Function onChanged;
   final List<String> items;
+  final int defaultItemIndex;
+
   const Regions({
     Key? key,
     required this.onChanged,
     required this.items,
+    this.defaultItemIndex = 0,
   }) : super(key: key);
 
   @override
@@ -17,6 +20,19 @@ class Regions extends StatefulWidget {
 
 class _RegionsState extends State<Regions> {
   String _selectedItem = 'Select one';
+
+  @override
+  void initState() {
+    super.initState();
+
+    setState(() {
+      if (widget.items.isEmpty) {
+        _selectedItem = 'List is empty';
+      } else {
+        _selectedItem = widget.items[widget.defaultItemIndex];
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

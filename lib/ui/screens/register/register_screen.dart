@@ -1,3 +1,4 @@
+import 'package:tm/core/localization/index.dart';
 import 'package:tm/ui/screens/register/components/body.dart';
 import "package:flutter/material.dart";
 import 'package:tm/ui/widgets/default_appbar.dart';
@@ -8,8 +9,8 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: DefaultAppBar(title: 'Register'),
+    return Scaffold(
+      appBar: DefaultAppBar(title: context.tt('register')),
       body: Body(),
     );
   }

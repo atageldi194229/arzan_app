@@ -4,8 +4,11 @@ import 'package:tm/ui/screens/login/login_screen.dart';
 import 'package:tm/ui/screens/notification_detail/notification_detail_screen.dart';
 import 'package:tm/ui/screens/notifications/notifications_screen.dart';
 import 'package:tm/ui/screens/official_users/official_users_screen.dart';
+import 'package:tm/ui/screens/payment/components/payment_screen/fourth_payment_step.dart';
+import 'package:tm/ui/screens/payment/components/payment_screen/second_payment_step.dart';
+import 'package:tm/ui/screens/payment/components/payment_screen/success_screen.dart';
+import 'package:tm/ui/screens/payment/components/payment_screen/third_payment_step.dart';
 import 'package:tm/ui/screens/payment/payment_screen.dart';
-import 'package:tm/ui/screens/post_detail/post_detail_screen.dart';
 import 'package:tm/ui/screens/profile/profile_screen.dart';
 import 'package:tm/ui/screens/register/register_screen.dart';
 import 'package:tm/ui/screens/search/search_screen.dart';
@@ -44,5 +47,11 @@ final Map<String, WidgetBuilder> routes = {
   AddPostScreen.routeName: ((context) => const AddPostScreen()),
   NotificationDetailScreen.routeName: ((context) =>
       const NotificationDetailScreen()),
-  PaymentScreen.routeName: ((context) => PaymentScreen()),
+
+  //payment screen
+  PaymentScreen.routeName: ((context) => const PaymentScreen()),
+  SecondPaymentScreen.routeName: ((context) => const SecondPaymentScreen()),
+  ThirdPaymentScreen.routeName: (context) => const ThirdPaymentScreen(),
+  FourthPaymentScreen.routeName: (context) => const FourthPaymentScreen(),
+  SuccessPaymentScreen.routeName: (context) => const SuccessPaymentScreen()
 };

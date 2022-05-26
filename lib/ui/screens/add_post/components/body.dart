@@ -1,6 +1,9 @@
 import "package:flutter/material.dart";
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:tm/core/api/models/index.dart';
 import 'package:tm/core/api/services/post_service.dart';
+import 'package:tm/core/providers/region_status_provider.dart';
 
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/helper/toast.dart';
@@ -49,6 +52,12 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
 
+    List<RegionStatusModel> regions =
+        context.watch<RegionStatusProvidor>().list;
+
+    List<String> regionNames =
+        regions.map((e) => e.name ?? "regionyn name yok").toList();
+
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.symmetric(
@@ -70,18 +79,14 @@ class _BodyState extends State<Body> {
               child: Column(
                 children: [
                   Regions(
-                    items: const [
-                      'Ashgabat',
-                      'Balkan',
-                      'Ahal',
-                      "Mary",
-                      'Lebap',
-                      "Dasaguz"
-                    ],
-                    onChanged: (index) {},
+                    items: regionNames,
+                    onChanged: (index) {
+                      context
+                          .read<RegionStatusProvidor>()
+                          .setSelectedRegion(regions[index]);
+                    },
                   ),
-                  SizedBox(height: getProportionateScreenWidth(10)),
-                  SizedBox(height: getProportionateScreenWidth(10)),
+                  SizedBox(height: getProportionateScreenWidth(20)),
                   ImagePickingRow(
                     onChange: (values) => images = values,
                   ),

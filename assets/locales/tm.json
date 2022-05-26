@@ -2,6 +2,10 @@
     "locale": "Turkmen",
     "language": "Dil",
 
+    "unrealiable_of_informtion" : "Maglumat bermek mümkin däl",
+    "inappropriate_image": "Dahylsyz surat",
+    "illegal_content": " Bikanun mazmun",
+
     "navAboutUs":"Biz barada",
     "navPayment":"Töleg",
     "navShare":"Paýlaşmak",
@@ -9,12 +13,32 @@
     "navRateUs":"Baha bermek",
     "navSettings":"Sazlamalar",
     "navExit":"Çykmak",
-     
+    "search": "Gözlemek",
+    "post_detail": "Haryt maglumaty",
+    "to_send": "Ibermek",
+    "description": "Düşündiriş...",
+    "other":"Başga",
+    "complain": "Şikaýat",
+    "sign_in" : "Hasabyňyza giriň",
+    "sign_up" : "Goşuluň",
+    "dont_have_account" : "Hasabyňyz ýokmy?",
+    "already_have_account" : "Eýýäm hasabyňyz barmy?",
+    "login": "Giriş",
+    "forget_password": "Paroly ýatdan çykarmak",
+    "username_phone":"Telefon belgisi ýa-da ulanyjy ady",
+    "phone_number": "Telefon belgisi",
+    "username": "Ulanyjy ady",
+    "password": "Parol",
+    "confirm_the_password":"Paroly tassykla",
+    "phone_number_verification" : "Telefon belgisini barlamak",
+
+
+    "notification": "Duýduryşlar",
     "rules" : "Düzgün",
     "select_region": "Sebitiňizi saýlaň",
     "online_payment": "Nagt töleg",
     "download":"Geçirmek",
     "exit": "Çykyş",
     "register" : "Registrasiýa",
-    "aboutUsText": "The multilateral development of our state in the field of the digital economy, approved by the Respected President of Turkmenistan, has rapidly begun to switch to the digital regime in all sectors of the economy of our country. To support the digitalization policy, as well as for the digital development of small and medium-sized businesses in our country, the Arzan project was created.\n\nArzan is an application where you can find and post all discounts, promotions and news from any cities and regions of our country.\n\nWhat is special about Arzan?\n\nThe peculiarity of Arzan is that here you can view the tape with discounts and promotions simply and conveniently in all corners of our country. You do not need to spend hours looking for a discount on a particular product, just write the name of the product in the search bar, and it will automatically give you the promotions and discounts you need.\n\nAnd our main feature is that you can set your own promotions or discounts in Arzan.\n\nAdd your favorite promotions and discounts to your favorites, share them on social networks and let everyone know where the most relevant discounts and promotions are."
+    "aboutUsText": "Türkmenistanyň Hormatly Prezidenti tarapyndan tassyklanan sanly ykdysadyýet pudagynda döwletimiziň köptaraplaýyn ösüşi çaltlyk bilen ýurdumyzyň ykdysadyýetiniň ähli pudaklarynda sanly re regimeime geçip başlady. Sanlaşdyrma syýasatyny goldamak, şeýle hem biziň ýurdumyzda kiçi we orta kärhanalaryň sanly ösüşi üçin Arzan taslamasy döredildi.Türkmenistanyň Hormatly Prezidenti tarapyndan tassyklanan sanly ykdysadyýet pudagynda döwletimiziň köptaraplaýyn ösüşi çaltlyk bilen ýurdumyzyň ykdysadyýetiniň ähli pudaklarynda sanly re regimeime geçip başlady. Sanlaşdyrma syýasatyny goldamak, şeýle hem biziň ýurdumyzda kiçi we orta kärhanalaryň sanly ösüşi üçin Arzan taslamasy döredildi.Arzan, ähli arzanladyşlary, mahabatlary we täzelikleri tapyp we ýerleşdirip boljak programma. ýurdumyzyň islendik şäherleri we sebitleri. Arzanyň aýratynlygy, bu ýerde lentany arzanladyş we mahabat bilen ýurduň ähli künjeklerinde görüp bilersiňiz. Belli bir önüme arzanladyş gözlemek üçin birnäçe sagat sarp etmegiň zerurlygy ýok, diňe gözleg setirine önümiň adyny ýazyň, ol size mahabat we arzanladyşlary awtomatiki usulda berer. We esasy aýratynlygymyz Arzanda öz mahabatlaryňyzy ýa-da arzanladyşlaryňyzy belläp bilersiňiz.Halaýan mahabatlaryňyzy we arzanladyşlaryňyzy halaýanlaryňyza goşuň, sosial ulgamlarda paýlaşyň we iň arzanladyşlaryň we mahabatlaryň nirededigini hemmelere habar beriň."
 }

@@ -18,10 +18,9 @@ class CustomDrawer extends StatelessWidget {
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            flex: 4,
-            child: DrawerHeader(
-              child: Expanded(child: Image.asset('assets/images/logo_app.png'))
-            ),
+            flex: 5,
+            child:
+                DrawerHeader(child: Image.asset('assets/images/logo_app.png')),
           ),
           Expanded(
             flex: 14,

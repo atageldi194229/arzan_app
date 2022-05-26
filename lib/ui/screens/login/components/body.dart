@@ -1,3 +1,4 @@
+import 'package:tm/core/localization/index.dart';
 import 'package:tm/core/providers/auth_provider.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/helper/keyboard.dart';
@@ -77,11 +78,10 @@ class _BodyState extends State<Body> {
         child: Column(
           children: [
             SizedBox(height: getProportionateScreenHeight(30)),
-              Expanded(
-              child:  Image.asset("assets/images/logo_app.png"),
+            Expanded(
+              child: Image.asset("assets/images/logo_app.png"),
             ),
             SizedBox(height: getProportionateScreenHeight(30)),
-
             Expanded(
               child: Form(
                 child: Column(
@@ -100,14 +100,14 @@ class _BodyState extends State<Body> {
                             color: kSoftGreen,
                           ),
                           contentPadding: const EdgeInsets.all(0),
-                          hintText: '+993 phone number or username',
+                          hintText: context.tt('username_phone'),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10))),
                     ),
                     const SizedBox(height: 10),
                     TextFormField(
                       controller: passwordInputController,
-                       obscureText: _obscureText,
+                      obscureText: _obscureText,
                       onSaved: (_) => _tryLogin(),
                       decoration: InputDecoration(
                         fillColor: Colors.grey.shade100,
@@ -116,28 +116,30 @@ class _BodyState extends State<Body> {
                           Icons.lock_outline_rounded,
                           color: kSoftGreen,
                         ),
-                         suffixIcon: IconButton(
-                            icon: Icon(
-                              _obscureText ? Icons.visibility : Icons.visibility_off,
-                              color: kSoftGreen,
-                            ),
-                            onPressed: () => _toggle(),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscureText
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: kSoftGreen,
                           ),
+                          onPressed: () => _toggle(),
+                        ),
                         contentPadding: const EdgeInsets.all(0),
-                        hintText: 'Password',
+                        hintText: context.tt('password'),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                     ),
-                    const Expanded(
-                      child:  Padding(
+                    Expanded(
+                      child: Padding(
                         padding: EdgeInsets.only(top: 10),
                         child: Align(
                           alignment: Alignment.topRight,
                           child: InkWell(
                             child: Text(
-                              'Forgot password?',
+                              context.tt('forget_password'),
                               style: TextStyle(
                                 color: Color.fromARGB(255, 105, 104, 104),
                                 fontWeight: FontWeight.bold,
@@ -163,9 +165,9 @@ class _BodyState extends State<Body> {
                       decoration: BoxDecoration(
                           color: kSoftGreen,
                           borderRadius: BorderRadius.circular(10)),
-                      child: const Text(
-                        'ENTER',
-                        style: TextStyle(
+                      child: Text(
+                        context.tt('login'),
+                        style: const TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -173,17 +175,27 @@ class _BodyState extends State<Body> {
                   InkWell(
                     onTap: () =>
                         Navigator.pushNamed(context, RegisterScreen.routeName),
-                    child:   RichText(
-                        text:  TextSpan(
-                            style: TextStyle(color: Colors.black, fontSize: getProportionateScreenWidth(32)), 
-                            children:const <TextSpan>[
-                              TextSpan(text: "Don't have an account? ", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                              TextSpan(text: 'Sign in', style: TextStyle(color: Color.fromARGB(255, 12, 121, 15), fontWeight: FontWeight.bold))
-                            ],
-                        ),
-                                    textScaleFactor: 0.5,
-                                    )
-                              ),
+                    child: RichText(
+                      text: TextSpan(
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: getProportionateScreenWidth(32)),
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: context.tt('dont_have_account'),
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold)),
+                          TextSpan(
+                              text: context.tt('sign_up'),
+                              style: const TextStyle(
+                                  color: Color.fromARGB(255, 12, 121, 15),
+                                  fontWeight: FontWeight.bold))
+                        ],
+                      ),
+                      textScaleFactor: 0.5,
+                    ),
+                  ),
                 ],
               ),
             ),
