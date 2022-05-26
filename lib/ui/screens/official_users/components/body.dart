@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tm/core/api/models/user.dart';
+import 'package:tm/core/providers/official_user_list_provider.dart';
 import 'package:tm/ui/components/officalUsers.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/widgets/default_appbar.dart';
@@ -10,14 +13,23 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size _size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
+
+    OfficialUserListProvider provider =
+        context.watch<OfficialUserListProvider>();
+
+    List<UserModel> officials = provider.items;
+
+    if (officials.isEmpty) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
         SliverAppBar(
           backgroundColor: Colors.white,
-          expandedHeight: _size.height / 8,
+          expandedHeight: size.height / 8,
           automaticallyImplyLeading: false,
           floating: true,
           pinned: true,
@@ -32,18 +44,11 @@ class Body extends StatelessWidget {
             titlePadding: const EdgeInsets.symmetric(horizontal: 10),
             title: FittedBox(
               child: SizedBox(
-                width: _size.width,
+                width: size.width,
                 child: Row(
                   children: [
-                    // TextField(),
                     Container(
                       padding: const EdgeInsets.all(4),
-                      child: Center(
-                        child: Icon(
-                          Icons.grid_view_rounded,
-                          color: kSoftGreen,
-                        ),
-                      ),
                       margin: const EdgeInsets.symmetric(
                         horizontal: 5.0,
                         vertical: 9.0,
@@ -52,6 +57,12 @@ class Body extends StatelessWidget {
                         color: Colors.white,
                         boxShadow: kBoxShadow,
                         borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.grid_view_rounded,
+                          color: kSoftGreen,
+                        ),
                       ),
                     ),
                   ],

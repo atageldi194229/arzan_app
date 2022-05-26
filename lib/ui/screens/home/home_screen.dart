@@ -1,6 +1,7 @@
 import 'package:tm/core/providers/recommended_post_provider.dart';
 import 'package:tm/core/utils/new_version_util.dart';
 import 'package:tm/ui/constants.dart';
+import 'package:tm/ui/helper/flutter_3_ambiguate.dart';
 import 'package:tm/ui/widgets/custom_drawer.dart';
 import 'package:tm/ui/widgets/custom_floating_action_button.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     // newVersionCheck(context);
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    ambiguate(WidgetsBinding.instance)!.addPostFrameCallback((_) {
       context.read<RecommendedPostProvider>().loadPosts();
     });
   }

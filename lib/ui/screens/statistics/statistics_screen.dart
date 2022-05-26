@@ -1,5 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:tm/ui/constants.dart';
+import 'package:tm/ui/helper/flutter_3_ambiguate.dart';
 import 'package:tm/ui/screens/add_post/components/regions.dart';
 import 'package:tm/ui/widgets/default_appbar.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
       () => setState(() => currentTab = _tabController!.index),
     );
 
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    ambiguate(WidgetsBinding.instance)!.addPostFrameCallback((_) {
       context.read<RegionStatusProvidor>().loadStatistics();
     });
   }

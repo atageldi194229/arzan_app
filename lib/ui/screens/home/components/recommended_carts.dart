@@ -4,6 +4,7 @@ import 'package:tm/core/api/models/index.dart' as models;
 import 'package:tm/core/providers/recommended_post_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tm/ui/helper/flutter_3_ambiguate.dart';
 import 'package:tm/ui/screens/post_detail/post_detail_screen.dart';
 import './recommended_card.dart';
 
@@ -43,7 +44,7 @@ class _RecommendedCartsState extends State<RecommendedCarts> {
 
   @override
   void initState() {
-    WidgetsBinding.instance!.addPostFrameCallback(_onLayoutDone);
+    ambiguate(WidgetsBinding.instance)!.addPostFrameCallback(_onLayoutDone);
     super.initState();
   }
 

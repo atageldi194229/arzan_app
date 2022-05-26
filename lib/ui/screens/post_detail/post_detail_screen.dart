@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tm/core/localization/index.dart';
 import 'package:tm/core/providers/abstract/post_list_provider.dart';
 import 'package:tm/ui/constants.dart';
+import 'package:tm/ui/helper/flutter_3_ambiguate.dart';
 import 'package:tm/ui/widgets/default_appbar.dart';
 import 'package:provider/provider.dart';
 
@@ -43,7 +44,7 @@ class _PostDetailScreenState<T extends PostListProvider>
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    ambiguate(WidgetsBinding.instance)!.addPostFrameCallback((_) {
       var post = context.read<T>().currentPost;
       _viewPost(post);
     });

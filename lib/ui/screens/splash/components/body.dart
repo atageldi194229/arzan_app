@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:tm/core/api/api_path.dart';
 import 'package:tm/core/providers/auth_provider.dart';
 import 'package:tm/core/providers/banner_provider.dart';
+import 'package:tm/ui/helper/flutter_3_ambiguate.dart';
 import 'package:tm/ui/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:tm/ui/constants.dart';
-import 'package:tm/ui/screens/profile/profile_screen.dart';
 import 'package:tm/ui/size_config.dart';
 import 'package:provider/provider.dart';
 
@@ -31,7 +31,7 @@ class _BodyState extends State<Body> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    ambiguate(WidgetsBinding.instance)!.addPostFrameCallback((_) {
       ApiPath.searchForConnection().then((dynamic result) {
         if (result is bool) {
           if (result == true) {
