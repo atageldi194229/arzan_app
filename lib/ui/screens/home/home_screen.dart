@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    newVersionCheck(context);
+    // newVersionCheck(context);
 
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       context.read<RecommendedPostProvider>().loadPosts();

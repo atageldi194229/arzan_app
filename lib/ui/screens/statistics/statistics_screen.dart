@@ -21,86 +21,125 @@ class _StatisticsScreenState extends State<StatisticsScreen>
     with TickerProviderStateMixin {
   TabController? _tabController;
 
+  int selectedRegionIndex = 0;
+
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
-    _tabController!
-        .addListener(() => setState(() => currentTab = _tabController!.index));
+
+    _tabController = TabController(
+      length: 2,
+      vsync: this,
+      initialIndex: 0,
+    );
+
+    _tabController!.addListener(
+      () => setState(() => currentTab = _tabController!.index),
+    );
+
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      context.read<RegionStatusProvidor>().loadStatistics();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    int? getValue;
+    RegionStatusProvidor statisticProvider =
+        context.watch<RegionStatusProvidor>();
 
-    List<RegionStatusModel> regions =
-        context.watch<RegionStatusProvidor>().list;
+    List<RegionStatusModel> regions = statisticProvider.list;
 
     List<String> regionNames = regions.map((e) => e.name ?? '').toList();
+
+    if (statisticProvider.list.isEmpty) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
     return Scaffold(
       appBar: const DefaultAppBar(title: 'My statistics'),
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(10)),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+          ),
           child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text(getValue.toString()),
-                Regions(
-                  items: regionNames,
-                  onChanged: (index) {
-                    getValue = index;
-                    print(getValue);
-                    context
-                        .read<RegionStatusProvidor>()
-                        .setSelectedRegion(regions[index]);
-                  },
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(regionNames[selectedRegionIndex]),
+              Regions(
+                defaultItemIndex: selectedRegionIndex,
+                items: regionNames,
+                onChanged: (index) {
+                  setState(() {
+                    selectedRegionIndex = index;
+                  });
+                },
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 15),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: const [
+                    BoxShadow(
+                        color: Colors.grey, spreadRadius: .1, blurRadius: 2)
+                  ],
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: const [
-                        BoxShadow(
-                            color: Colors.grey, spreadRadius: .1, blurRadius: 2)
-                      ]),
-                  child: Text('',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headline5!.copyWith(
-                          color: kSoftGreen, fontWeight: FontWeight.bold)),
+                child: Text(
+                  '',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline5!
+                      .copyWith(color: kSoftGreen, fontWeight: FontWeight.bold),
                 ),
-                DefaultTabController(
-                    length: 3, // length of tabs
-                    initialIndex: 0,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          const TabBar(
-                            labelColor: Colors.green,
-                            unselectedLabelColor: Colors.black,
-                            tabs: [
-                              Tab(text: 'Day'),
-                              Tab(text: 'Week'),
-                              Tab(text: 'Month'),
-                            ],
+              ),
+              DefaultTabController(
+                length: 3, // length of tabs
+                initialIndex: 0,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    const TabBar(
+                      labelColor: Colors.green,
+                      unselectedLabelColor: Colors.black,
+                      tabs: [
+                        Tab(text: 'Day'),
+                        Tab(text: 'Week'),
+                        Tab(text: 'Month'),
+                      ],
+                    ),
+                    Container(
+                      height: 300, //height of TabBarView
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          top: BorderSide(color: Colors.grey, width: 0.5),
+                        ),
+                      ),
+                      child: TabBarView(
+                        children: [
+                          StatisticsDataTable(
+                            statisticProvider.list[selectedRegionIndex].day,
                           ),
-                          Container(
-                              height: 300, //height of TabBarView
-                              decoration: const BoxDecoration(
-                                  border: Border(
-                                      top: BorderSide(
-                                          color: Colors.grey, width: 0.5))),
-                              child: const TabBarView(children: [
-                                StatisticsDataTable(),
-                                StatisticsDataTable(),
-                                StatisticsDataTable(),
-                              ]))
-                        ])),
-              ]),
+                          StatisticsDataTable(
+                            statisticProvider.list[selectedRegionIndex].week,
+                          ),
+                          StatisticsDataTable(
+                            statisticProvider.list[selectedRegionIndex].month,
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -108,7 +147,9 @@ class _StatisticsScreenState extends State<StatisticsScreen>
 }
 
 class StatisticsDataTable extends StatefulWidget {
-  const StatisticsDataTable({
+  final dynamic data;
+  const StatisticsDataTable(
+    this.data, {
     Key? key,
   }) : super(key: key);
 
@@ -117,15 +158,16 @@ class StatisticsDataTable extends StatefulWidget {
 }
 
 class _StatisticsDataTableState extends State<StatisticsDataTable> {
-  void initState() {
-    super.initState();
-    context.read<RegionStatusProvidor>().loadStatistics();
-  }
-
   @override
   Widget build(BuildContext context) {
     RegionStatusProvidor statisticProvider =
         context.watch<RegionStatusProvidor>();
+
+    if (statisticProvider.list.isEmpty) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
 
     return Center(
       child: Column(
@@ -133,32 +175,41 @@ class _StatisticsDataTableState extends State<StatisticsDataTable> {
         // children: [
         //   TextButton(
         //       onPressed: () {
-        //         print(statisticProvider.list.map((e) => e.month!.postCount));
+        //         print(statisticProvider.list.where((element) => ));
         //       },
         //       child: Text('asd'))
         // ],
         children: [
-          StatisticTile(icon: Icons.create, title: 'All posts', stats: '81'),
           StatisticTile(
-              icon: Icons.visibility_outlined, title: 'Views', stats: '4868'),
+            icon: Icons.create,
+            title: 'Likes',
+            stats: widget.data!.likeCount.toString(),
+          ),
           StatisticTile(
-              icon: Icons.favorite_border_rounded, title: 'Likes', stats: '3'),
+            icon: Icons.visibility_outlined,
+            title: 'Paýlaşanlar',
+            stats: widget.data!.shareCount.toString(),
+          ),
           StatisticTile(
-              icon: Icons.share_outlined, title: 'Shared', stats: '2'),
-          TextButton(
-              child: Text('asd'),
-              onPressed: () {
-                context.read<RegionStatusProvidor>().loadStatistics();
-                for (var i in statisticProvider.list) {
-                  print(i);
-                }
-              }),
+            icon: Icons.favorite_border_rounded,
+            title: 'Postlar',
+            stats: widget.data!.postCount.toString(),
+          ),
+          StatisticTile(
+            icon: Icons.share_outlined,
+            title: 'Postlar',
+            stats: widget.data!.viewCount.toString(),
+          ),
         ],
+
+        // children: [
+
+        // ],
         // children: statisticProvider.list
         //     .map(
         //       (e) => StatisticTile(
         //           icon: Icons.create,
-        //           title: e.day.toString() ?? 'no name',
+        //           title: e.name.toString() ?? 'no name',
         //           stats: e.month!.likeCount.toString()),
         //     )
         //     .toList(),
@@ -181,7 +232,9 @@ class StatisticTile extends StatelessWidget {
       leading: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-            color: kSoftGreen, borderRadius: BorderRadius.circular(10)),
+          color: kSoftGreen,
+          borderRadius: BorderRadius.circular(10),
+        ),
         child: Icon(icon, color: Colors.white),
       ),
       title: Row(
@@ -205,7 +258,7 @@ class StatisticTile extends StatelessWidget {
               child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
-              stats,
+              stats.toString(),
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,

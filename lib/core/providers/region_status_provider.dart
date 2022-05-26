@@ -19,12 +19,15 @@ class RegionStatusProvidor extends ChangeNotifier {
   }
 
   loadStatistics() async {
+    debugPrint("Region stat load statistics function");
+
     if (isFetching) return;
     isFetching = true;
 
     try {
+      debugPrint("Region stat load started");
       var _list = await RegionStatusService().getRegions();
-      print(_list);
+      debugPrint('regions stat length: ${_list.length}');
       addAllPosts(_list);
     } catch (err) {
       debugPrint(err.toString());
