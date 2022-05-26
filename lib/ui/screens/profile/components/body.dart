@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:tm/core/api/models/user.dart';
 import 'package:tm/core/providers/account_provider.dart';
 import 'package:tm/ui/components/avatar_logo.dart';
