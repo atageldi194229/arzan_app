@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:tm/core/api/models/user.dart';
 import 'package:tm/core/providers/account_provider.dart';
+import 'package:tm/ui/components/avatar_logo.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -239,33 +240,9 @@ class Body extends StatelessWidget {
                           Positioned(
                             left: SizeConfig.screenWidth * 0.3,
                             top: SizeConfig.screenWidth * 0.1,
-                            child: Container(
+                            child: SizedBox(
                               height: size.width / 4,
-                              decoration: const BoxDecoration(
-                                color: kSoftGreen,
-                                shape: BoxShape.circle,
-                              ),
-                              child: LayoutBuilder(
-                                builder: (context, constraints) {
-                                  Widget placeholder = Icon(
-                                    Icons.person_outline_outlined,
-                                    size: constraints.biggest.height,
-                                    color: Colors.white,
-                                  );
-
-                                  if (user.image == null ||
-                                      user.image!.isEmpty) {
-                                    return placeholder;
-                                  }
-
-                                  return CircleAvatar(
-                                    maxRadius: constraints.biggest.height / 2,
-                                    backgroundImage:
-                                        CachedNetworkImageProvider(user.image!),
-                                    // foregroundImage: CachedNetworkImageProvider(user.image!),
-                                  );
-                                },
-                              ),
+                              child: AvatarLogo(user.image),
                             ),
                           ),
                           Container()

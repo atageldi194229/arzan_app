@@ -29,8 +29,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
     _controller.addListener(() {
       if (_controller.position.atEdge) {
         bool isTop = _controller.position.pixels == 0;
-        if (isTop) {
-        } else {
+        if (!isTop) {
           context.read<HomeScreenProvider>().loadPosts();
         }
       }

@@ -6,8 +6,30 @@ import 'package:tm/ui/components/official_user.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/widgets/default_appbar.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
+
+  @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  final ScrollController controller = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Setup the listener.
+    controller.addListener(() {
+      if (controller.position.atEdge) {
+        bool isTop = controller.position.pixels == 0;
+        if (!isTop) {
+          context.read<OfficialUserListProvider>().load();
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +93,7 @@ class Body extends StatelessWidget {
         ),
         SliverToBoxAdapter(
           child: GridView.builder(
+            controller: controller,
             itemCount: officials.length,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),

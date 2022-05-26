@@ -4,6 +4,7 @@ import 'package:tm/ui/constants.dart';
 
 class AvatarLogo extends StatelessWidget {
   final String? image;
+
   const AvatarLogo(this.image, {Key? key}) : super(key: key);
 
   @override

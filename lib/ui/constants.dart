@@ -92,10 +92,13 @@ OutlineInputBorder outlineInputBorder() {
 }
 
 class DefaultButtonGreen extends StatelessWidget {
+  final bool active;
+
   const DefaultButtonGreen({
     Key? key,
     required this.text,
     required this.press,
+    this.active = true,
   }) : super(key: key);
   final String text;
   final GestureTapCallback press;
@@ -104,17 +107,21 @@ class DefaultButtonGreen extends StatelessWidget {
     return InkWell(
       onTap: () => press(),
       child: Container(
-        padding: const EdgeInsets.all(6),
-        // margin: const EdgeInsets.all(10),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 8.0,
+          vertical: 4.0,
+        ),
         decoration: BoxDecoration(
           boxShadow: kBoxShadow,
-          color: kSoftGreen,
-          borderRadius: kBorderRadius, // BorderRadius.circular(10),
+          color: active ? kSoftGreen : Colors.white,
+          borderRadius: kBorderRadius,
         ),
         child: Text(
           text,
-          style:
-              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: active ? Colors.white : null,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );

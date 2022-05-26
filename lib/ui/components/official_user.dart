@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:tm/core/api/models/index.dart';
 
 import '../constants.dart';
-import '../size_config.dart';
 
 class OfficialUser extends StatelessWidget {
   final bool iconShow;
@@ -19,121 +18,89 @@ class OfficialUser extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        // double height = constraints.maxWidth;
+        double iconSize = constraints.maxWidth * 0.18;
 
         return Container(
-          // height: height,
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: kBorderRadius, // BorderRadius.circular(10),
+            borderRadius: kBorderRadius,
             boxShadow: kBoxShadow,
           ),
-          child: Column(
+          child: Stack(
             children: [
               Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  CachedNetworkImage(
-                    imageUrl: user.image,
-                    width: SizeConfig.screenWidth * 0.5,
-                    fit: BoxFit.fill,
-                  ),
-                ],
-              ),
-              const Spacer(),
-              Text(
-                user.username,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              DefaultButtonGreen(text: 'Follow', press: () {}),
-            ],
-          ),
-        );
-
-        return Stack(
-          children: [
-            Container(
-              margin: EdgeInsets.symmetric(
-                horizontal: getProportionateScreenWidth(5),
-                // vertical: getProportionateScreenHeight(10)
-              ),
-              padding: EdgeInsets.all(getProportionateScreenWidth(7)),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: kBorderRadius, // BorderRadius.circular(10),
-                boxShadow: kBoxShadow,
-              ),
-              width: getProportionateScreenWidth(150),
-              child: Column(
-                children: [
-                  CachedNetworkImage(
-                    imageUrl: user.image,
-                    width: SizeConfig.screenWidth * 0.5,
-                    fit: BoxFit.fill,
-                  ),
-                  // Image.asset(
-                  //   'assets/images/user_icon.png',
-                  //   width: SizeConfig.screenWidth * 0.5,
-                  //   fit: BoxFit.fill,
-                  // ),
-
-                  SizedBox(height: getProportionateScreenHeight(5)),
+                  LayoutBuilder(builder: (context, constraints) {
+                    return Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        user.image == null
+                            ? const DefaultOfficalUserIcon()
+                            : CachedNetworkImage(
+                                imageUrl: user.image,
+                                width: constraints.maxWidth,
+                                height: constraints.maxWidth,
+                                fit: BoxFit.contain,
+                              ),
+                        Positioned(
+                          child: Image.asset(
+                            'assets/images/official_icon.png',
+                            width: iconSize,
+                            height: iconSize,
+                          ),
+                        )
+                      ],
+                    );
+                  }),
                   Text(
                     user.username,
                     textAlign: TextAlign.center,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: kDilegSizedBox + 8),
-                  // SizedBox(height: 10),
-                  DefaultButtonGreen(text: 'Follow', press: () {}),
+                  DefaultButtonGreen(
+                    text: 'Follow',
+                    // active: false,
+                    press: () {},
+                  ),
                 ],
               ),
-            ),
-            iconShow == true
-                ? Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: getProportionateScreenWidth(8),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Row(
+                  children: [
+                    Container(
+                      width: iconSize,
+                      height: iconSize,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Image.asset(
+                        'assets/images/icon_notification.png',
+                      ),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          width: SizeConfig.screenWidth * 0.05,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Image.asset(
-                            'assets/images/icon_notification.png',
-                            width: SizeConfig.screenWidth * 0.45,
-                          ),
+                    const Spacer(),
+                    Container(
+                      width: iconSize,
+                      height: iconSize,
+                      decoration: BoxDecoration(
+                        color: Colors.yellow,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Text(
+                          4.toString(),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        Container(
-                          padding:
-                              EdgeInsets.all(getProportionateScreenWidth(5)),
-                          decoration: BoxDecoration(
-                            color: Colors.yellow,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Text(
-                            4.toString(),
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        )
-                      ],
+                      ),
                     ),
-                  )
-                : Container(),
-            Positioned(
-              right: SizeConfig.screenWidth * 0.14,
-              bottom: SizeConfig.screenHeight * 0.13,
-              child: Image.asset(
-                'assets/images/official_icon.png',
-                width: getProportionateScreenHeight(30),
-              ),
-            ),
-          ],
+                  ],
+                ),
+              )
+            ],
+          ),
         );
       },
     );
@@ -156,7 +123,7 @@ class DefaultOfficalUserIcon extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(6),
         decoration: const BoxDecoration(
-          color: Colors.white,
+          // color: Colors.white,
           shape: BoxShape.circle,
         ),
         child: Container(

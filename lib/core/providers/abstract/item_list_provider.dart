@@ -4,8 +4,11 @@ abstract class ItemListProvider<T> extends ChangeNotifier {
   bool isFetching = false;
   final List<T> _items = [];
 
-  int limit = 20;
+  int _limit = 20;
   int offset = 0;
+
+  int get limit => _limit;
+  set limit(value) => _limit = value;
 
   int _currentIndex = 0;
 
