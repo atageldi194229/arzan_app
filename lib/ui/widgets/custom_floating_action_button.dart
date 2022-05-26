@@ -1,6 +1,5 @@
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/screens/add_post/add_post_screen.dart';
-import 'package:tm/ui/widgets/internet_error_dialog.dart';
 import 'package:flutter/material.dart';
 
 class CustomFloatingActionButton extends StatelessWidget {

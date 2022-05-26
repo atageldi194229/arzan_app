@@ -19,7 +19,7 @@ class NotificationService {
       },
     );
     var response = await http.get(uri, headers: {
-      "Authorization": "Bearer: " + ApiPath.userToken,
+      "Authorization": "Bearer: ${ApiPath.userToken}",
     });
 
     if (response.statusCode == 200) {

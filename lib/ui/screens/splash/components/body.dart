@@ -19,8 +19,6 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  int _progress = 0;
-  bool _isConnectionProblem = false;
   String _progressText = "Initialization";
 
   void _initAllData() {
@@ -36,7 +34,6 @@ class _BodyState extends State<Body> {
         if (result is bool) {
           if (result == true) {
             setState(() {
-              _progress++;
               _progressText = "Progress done.";
             });
 
@@ -53,7 +50,6 @@ class _BodyState extends State<Body> {
             );
           } else {
             setState(() {
-              _isConnectionProblem = true;
               _progressText = "Internet connection problem";
             });
           }

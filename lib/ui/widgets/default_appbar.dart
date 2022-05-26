@@ -5,7 +5,8 @@ class DefaultAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
   final bool count;
   final int? countAppBar;
-  const DefaultAppBar({Key? key, required this.title, this.count = false, this.countAppBar})
+  const DefaultAppBar(
+      {Key? key, required this.title, this.count = false, this.countAppBar})
       : preferredSize = const Size.fromHeight(kToolbarHeight),
         super(key: key);
 
@@ -13,10 +14,10 @@ class DefaultAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Size preferredSize; // default is 56.0
 
   @override
-  _DefaultAppBarState createState() => _DefaultAppBarState();
+  DefaultAppBarState createState() => DefaultAppBarState();
 }
 
-class _DefaultAppBarState extends State<DefaultAppBar> {
+class DefaultAppBarState extends State<DefaultAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -26,12 +27,16 @@ class _DefaultAppBarState extends State<DefaultAppBar> {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-           
           Text(
             widget.title,
             style: const TextStyle(color: kTextColor),
           ),
-        widget.count ? Text(widget.countAppBar.toString(), style: TextStyle(color: kTextColor),) : Container()
+          widget.count
+              ? Text(
+                  widget.countAppBar.toString(),
+                  style: const TextStyle(color: kTextColor),
+                )
+              : Container()
         ],
       ),
       leading: LayoutBuilder(

@@ -7,12 +7,12 @@ class PaymentContainer extends StatelessWidget {
   const PaymentContainer({
     Key? key,
     required Size size,
-    required this.payment_steps,
+    required this.paymentSteps,
   })  : _size = size,
         super(key: key);
 
   final Size _size;
-  final Widget payment_steps;
+  final Widget paymentSteps;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class PaymentContainer extends StatelessWidget {
                   padding:
                       EdgeInsets.only(top: getProportionateScreenWidth(20)),
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 29, 148, 33),
+                    color: const Color.fromARGB(255, 29, 148, 33),
                     boxShadow: kBoxShadow,
                   ),
                   width: _size.width,
@@ -42,7 +42,7 @@ class PaymentContainer extends StatelessWidget {
                           color: Colors.white,
                         ),
                       ),
-                      Spacer()
+                      const Spacer()
                     ],
                   ),
                 ),
@@ -76,7 +76,7 @@ class PaymentContainer extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: kBoxShadow,
                         ),
-                        child: payment_steps,
+                        child: paymentSteps,
                       ),
                       Stack(
                         clipBehavior: Clip.none,

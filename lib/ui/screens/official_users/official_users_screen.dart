@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tm/core/providers/official_user_list_provider.dart';
+import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/helper/flutter_3_ambiguate.dart';
 import './components/body.dart';
 
@@ -24,6 +25,9 @@ class _OfficialUsersScreenState extends State<OfficialUsersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: Body());
+    return const Scaffold(
+      backgroundColor: kScaffoldColor,
+      body: Body(),
+    );
   }
 }

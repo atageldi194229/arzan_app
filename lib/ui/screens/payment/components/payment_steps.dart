@@ -99,7 +99,7 @@ class _FirstPaymentStepState extends State<FirstPaymentStep> {
                 value: 1,
                 selectedValue: _value,
               ),
-              SizedBox(height: kDilegSizedBox),
+              const SizedBox(height: kDilegSizedBox),
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: SizeConfig.screenWidth * 0.3),
@@ -206,13 +206,13 @@ class _SecondPaymentStepState extends State<SecondPaymentStep> {
                 value: 1,
                 selectedValue: _value,
               ),
-              SizedBox(height: kDilegSizedBox),
+              const SizedBox(height: kDilegSizedBox),
               NextPreBtn(
-                submit_btn: "next",
-                press_next: () {
+                submitButton: "next",
+                onPressNext: () {
                   Navigator.pushNamed(context, ThirdPaymentScreen.routeName);
                 },
-                press_prev: () {
+                onPressPrev: () {
                   Navigator.pop(context);
                 },
               )
@@ -258,7 +258,7 @@ class _ThirdPaymentStepState extends State<ThirdPaymentStep> {
                     _value = true;
                   });
                 },
-                price_status: true,
+                priceStatus: true,
                 price: 123,
                 groupVal: 2,
                 text: 'Asgabat',
@@ -272,7 +272,7 @@ class _ThirdPaymentStepState extends State<ThirdPaymentStep> {
                     _value = true;
                   });
                 },
-                price_status: true,
+                priceStatus: true,
                 price: 123,
                 groupVal: 2,
                 text: 'Asgabat',
@@ -280,7 +280,7 @@ class _ThirdPaymentStepState extends State<ThirdPaymentStep> {
                 selectedValue: _value,
               ),
               RadioList(
-                price_status: true,
+                priceStatus: true,
                 price: 123,
                 press: (value) {
                   setState(() {
@@ -295,11 +295,11 @@ class _ThirdPaymentStepState extends State<ThirdPaymentStep> {
               ),
               const SizedBox(height: kDilegSizedBox),
               NextPreBtn(
-                submit_btn: "next",
-                press_prev: () {
+                submitButton: "next",
+                onPressPrev: () {
                   Navigator.pop(context);
                 },
-                press_next: () {
+                onPressNext: () {
                   Navigator.pushNamed(context, FourthPaymentScreen.routeName);
                 },
               )
@@ -339,18 +339,18 @@ class _FourthStepPaymentState extends State<FourthStepPayment> {
                 text: 'Confirmation',
               ),
               const SizedBox(height: kDilegSizedBox + 10),
-              UserDetailPayment(user_name: "Sergo", title: "name"),
-              UserDetailPayment(user_name: "Sergo", title: "name"),
-              UserDetailPayment(user_name: "Sergo", title: "name"),
-              UserDetailPayment(user_name: "Sergo", title: "name"),
+              const UserDetailPayment(username: "Sergo", title: "name"),
+              const UserDetailPayment(username: "Sergo", title: "name"),
+              const UserDetailPayment(username: "Sergo", title: "name"),
+              const UserDetailPayment(username: "Sergo", title: "name"),
               const SizedBox(height: kDilegSizedBox),
               NextPreBtn(
-                icon_status: false,
-                submit_btn: "submit",
-                press_prev: () {
+                iconStatus: false,
+                submitButton: "submit",
+                onPressPrev: () {
                   Navigator.pop(context);
                 },
-                press_next: () {
+                onPressNext: () {
                   Navigator.pushNamed(context, SuccessPaymentScreen.routeName);
                 },
               )
@@ -426,7 +426,7 @@ class _SuccessPaymentStepState extends State<SuccessPaymentStep> {
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(

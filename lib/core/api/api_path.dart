@@ -11,9 +11,9 @@ class ApiPath {
 
   static String userToken = "";
   static String host = "";
-  static String httpsPath = "http://" + host;
+  static String httpsPath = "http://$host";
 
-  static get imageUrl => httpsPath + "/api";
+  static get imageUrl => "$httpsPath/api";
 
   static String authLogin = "/api/v1/login";
   static String authRegister = "/api/v1/register";
@@ -34,10 +34,9 @@ class ApiPath {
 
   static String userActions = "/api/v1/user-actions";
 
-  static String region_status = '/api/v1/main/region-stat';
+  static String regionStatus = '/api/v1/main/region-stat';
 
   static String getSearchSuggestion = "/api/v1/search/suggestions";
-  
 
   static _pingOneTime(String host, int port,
       {Duration timeout = const Duration(seconds: 5)}) {
@@ -68,23 +67,23 @@ class ApiPath {
     });
 
     for (String element in availableHosts) {
-      Uri _uri = Uri.parse(element);
-      String _host = _uri.host;
-      int _port = _uri.port;
+      Uri uri = Uri.parse(element);
+      String pingHost = uri.host;
+      int pingPort = uri.port;
 
       // List<String> split = element.split(':');
-      // String _host = split.first;
-      // int _port = 80;
+      // String pingHost = split.first;
+      // int pingPort = 80;
 
       // if (split.length > 1) {
-      //   _port = int.parse(split.last);
+      //   pingPort = int.parse(split.last);
       // }
 
-      _ping(_host, _port, callback: (dynamic time) {
+      _ping(pingHost, pingPort, callback: (dynamic time) {
         if (time != null && time is Duration) {
           if (host.isNotEmpty) return;
-          host = _host;
-          if (_port != 80) host += ":$_port";
+          host = pingHost;
+          if (pingPort != 80) host += ":$pingPort";
           timer.cancel();
           onResult(true);
         }

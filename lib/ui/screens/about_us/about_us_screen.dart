@@ -10,7 +10,7 @@ class AboutUsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size _size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       // bottomNavigationBar:
       // const CustomBottomNavBar(selectedMenu: MenuState.home),
@@ -21,12 +21,12 @@ class AboutUsScreen extends StatelessWidget {
           alignment: Alignment.topCenter,
           children: [
             Container(
-              width: _size.width,
-              height: _size.height / 3,
+              width: size.width,
+              height: size.height / 3,
               color: Colors.green,
             ),
             Container(
-              width: _size.width,
+              width: size.width,
               decoration: BoxDecoration(
                 borderRadius: kBorderRadius,
                 color: Colors.white,
@@ -36,10 +36,10 @@ class AboutUsScreen extends StatelessWidget {
                 left: 10,
                 right: 10,
                 bottom: 10,
-                top: _size.height / 4,
+                top: size.height / 4,
               ),
               padding: EdgeInsets.only(
-                top: _size.width / 4,
+                top: size.width / 4,
                 left: 10,
                 right: 10,
                 bottom: 10,
@@ -52,9 +52,7 @@ class AboutUsScreen extends StatelessWidget {
                     // 'About Us',
                     style: Theme.of(context).textTheme.headline6!.copyWith(),
                   ),
-                  SizedBox(
-                    height: kDilegSizedBox + 5,
-                  ),
+                  const SizedBox(height: kDilegSizedBox + 5),
                   Text(
                     context.tt('aboutUsText'),
                     style: Theme.of(context).textTheme.bodyMedium,

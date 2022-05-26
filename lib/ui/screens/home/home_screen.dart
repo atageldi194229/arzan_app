@@ -1,5 +1,4 @@
 import 'package:tm/core/providers/recommended_post_provider.dart';
-import 'package:tm/core/utils/new_version_util.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/helper/flutter_3_ambiguate.dart';
 import 'package:tm/ui/widgets/custom_drawer.dart';

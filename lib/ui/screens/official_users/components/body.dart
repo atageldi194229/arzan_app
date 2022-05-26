@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tm/core/api/models/user.dart';
 import 'package:tm/core/providers/official_user_list_provider.dart';
-import 'package:tm/ui/components/officalUsers.dart';
+import 'package:tm/ui/components/official_user.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/widgets/default_appbar.dart';
 
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);
-
-  get kSoftGreen => null;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +56,7 @@ class Body extends StatelessWidget {
                         boxShadow: kBoxShadow,
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: Center(
+                      child: const Center(
                         child: Icon(
                           Icons.grid_view_rounded,
                           color: kSoftGreen,
@@ -73,15 +71,18 @@ class Body extends StatelessWidget {
         ),
         SliverToBoxAdapter(
           child: GridView.builder(
-            itemCount: 20,
+            itemCount: officials.length,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
+            padding: const EdgeInsets.all(8.0),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
               childAspectRatio: 0.65,
-              mainAxisSpacing: 12,
+              mainAxisSpacing: 8.0,
+              crossAxisSpacing: 8.0,
             ),
-            itemBuilder: (context, index) => const OfficalUsers(
+            itemBuilder: (context, index) => OfficialUser(
+              officials[index],
               iconShow: false,
             ),
           ),

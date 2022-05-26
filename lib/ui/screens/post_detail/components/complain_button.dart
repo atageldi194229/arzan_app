@@ -1,4 +1,3 @@
-import 'package:flutter_html/flutter_html.dart';
 import 'package:tm/core/localization/index.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +30,7 @@ class _ComplainButtonState extends State<ComplainButton> {
                   title: Text(
                     context.tt('complain'),
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   actions: <Widget>[
                     Container(
@@ -56,7 +55,7 @@ class _ComplainButtonState extends State<ComplainButton> {
                               },
                               title: Text(
                                 context.tt('illegal_content'),
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold),
                               ),
@@ -76,7 +75,7 @@ class _ComplainButtonState extends State<ComplainButton> {
                                 });
                               },
                               title: Text(context.tt('inappropriate_image'),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w700)),
                               selected: _value,
@@ -96,7 +95,7 @@ class _ComplainButtonState extends State<ComplainButton> {
                               },
                               title: Text(
                                   context.tt('unrealiable_of_informtion'),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w700)),
                               selected: _value,
@@ -115,7 +114,7 @@ class _ComplainButtonState extends State<ComplainButton> {
                                 });
                               },
                               title: Text(context.tt('other'),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w700)),
                               selected: _value,
@@ -124,13 +123,13 @@ class _ComplainButtonState extends State<ComplainButton> {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: kDilegSizedBox + 10,
                     ),
                     statusTextArea
                         ? Container(
                             decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 197, 196, 196),
+                                color: const Color.fromARGB(255, 197, 196, 196),
                                 borderRadius: BorderRadius.circular(10)),
                             child: TextField(
                               maxLines: 10,
@@ -140,12 +139,12 @@ class _ComplainButtonState extends State<ComplainButton> {
                                 enabledBorder: InputBorder.none,
                                 focusedBorder: InputBorder.none,
                                 hintText: context.tt('description'),
-                                hintStyle:
-                                    TextStyle(fontWeight: FontWeight.bold),
+                                hintStyle: const TextStyle(
+                                    fontWeight: FontWeight.bold),
                                 // counterText: '(0/1000)',
 
-                                counterStyle:
-                                    TextStyle(fontWeight: FontWeight.bold),
+                                counterStyle: const TextStyle(
+                                    fontWeight: FontWeight.bold),
                                 contentPadding: EdgeInsets.symmetric(
                                   horizontal: getProportionateScreenHeight(20),
                                   vertical: getProportionateScreenWidth(15),
@@ -154,17 +153,17 @@ class _ComplainButtonState extends State<ComplainButton> {
                             ),
                           )
                         : Container(),
-                    SizedBox(height: kDilegSizedBox),
+                    const SizedBox(height: kDilegSizedBox),
                     Align(
                       alignment: Alignment.center,
                       child: Container(
                         padding:
                             EdgeInsets.all(getProportionateScreenWidth(12)),
                         decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 233, 16, 0),
+                            color: const Color.fromARGB(255, 233, 16, 0),
                             borderRadius: BorderRadius.circular(10)),
                         child: Text(context.tt('to_send'),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15)),
@@ -186,7 +185,7 @@ class _ComplainButtonState extends State<ComplainButton> {
           ),
           child: Text(
             context.tt('complain'),
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.red,
               letterSpacing: 0.7,
               fontSize: 15,

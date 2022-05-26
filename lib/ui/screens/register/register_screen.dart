@@ -11,7 +11,7 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DefaultAppBar(title: context.tt('register')),
-      body: Body(),
+      body: const Body(),
     );
   }
 }

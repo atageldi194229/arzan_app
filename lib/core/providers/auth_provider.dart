@@ -65,30 +65,30 @@ class AuthProvider with ChangeNotifier {
       isLoggedIn = true;
 
       if (responseData['user'] is Map) {
-        Map<String, dynamic> _user = responseData["user"];
+        Map<String, dynamic> user = responseData["user"];
 
-        userId = _user["id"];
-        username = _user["username"];
+        userId = user["id"];
+        username = user["username"];
       }
 
       token = responseData["token"].toString();
 
-      print(token);
-      print("LOGIN DONE");
+      debugPrint(token);
+      debugPrint("LOGIN DONE");
 
       _saveInCache();
 
       if (onDone != null) onDone();
 
       notifyListeners();
-      print("user: ${responseData['user']['username']}");
+      debugPrint("user: ${responseData['user']['username']}");
     } else {
-      print("error message: ${responseData['error']}");
+      debugPrint("error message: ${responseData['error']}");
 
       // if (responseData["errorCode"] == 11) {
-      //   // print("Username or Password is invalid");
+      //   // debugPrint("Username or Password is invalid");
       // } else if (responseData["errorCode"] == 10) {
-      //   // print("User not found");
+      //   // debugPrint("User not found");
       // }
     }
   }
@@ -114,7 +114,7 @@ class AuthProvider with ChangeNotifier {
         onDone: onLogin,
       );
     }).catchError((err) {
-      print(err.message);
+      debugPrint(err.message);
     });
   }
 

@@ -9,7 +9,7 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-          margin: EdgeInsets.all(12),
+          margin: const EdgeInsets.all(12),
           width: SizeConfig.screenWidth * 1.5,
           // height: SizeConfig.screenHeight * 4,
           decoration: BoxDecoration(
@@ -20,7 +20,10 @@ class Body extends StatelessWidget {
               child: Text(
                 'lorem' * 50,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.normal,
+                ),
               ),
             ),
             Container(
@@ -67,7 +70,7 @@ class Body extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Padding(
               padding:
                   EdgeInsets.only(bottom: getProportionateScreenHeight(20)),

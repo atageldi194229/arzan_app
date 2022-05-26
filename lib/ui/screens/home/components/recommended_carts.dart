@@ -20,7 +20,7 @@ class _RecommendedCartsState extends State<RecommendedCarts> {
   Timer? timer;
 
   _onLayoutDone(_) {
-    Size _size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
 
     timer = Timer.periodic(const Duration(seconds: 3), (timer) {
       if (timer.tick == 1) return;
@@ -31,7 +31,7 @@ class _RecommendedCartsState extends State<RecommendedCarts> {
       if (maxOffset - offset == 0) {
         offset = 0;
       } else {
-        offset += _size.width;
+        offset += size.width;
       }
 
       _controller.animateTo(

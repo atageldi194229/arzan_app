@@ -1,4 +1,3 @@
-import 'package:tm/core/providers/recommended_post_provider.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/widgets/custom_drawer.dart';
 import 'package:tm/ui/widgets/custom_floating_action_button.dart';

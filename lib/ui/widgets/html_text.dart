@@ -1,9 +1,9 @@
 import 'package:tm/ui/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-// import 'package:html/parser.dart' as htmlparser;
-import 'package:html/dom.dart' as dom;
 import 'package:url_launcher/url_launcher.dart';
+// ignore: depend_on_referenced_packages
+import 'package:html/dom.dart' as dom;
 
 Map<String, Style> defaultStyle = {
   "p": Style(
@@ -34,22 +34,22 @@ class HtmlTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, Style> _style = {};
+    Map<String, Style> style = {};
 
     defaultStyle.forEach((key, value) {
-      _style[key] = Style().merge(value);
+      style[key] = Style().merge(value);
     });
 
     styles?.forEach((key, value) {
-      if (_style.containsKey(key)) {
-        _style[key] = _style[key]!.merge(value);
+      if (style.containsKey(key)) {
+        style[key] = style[key]!.merge(value);
       } else {
-        _style[key] = value;
+        style[key] = value;
       }
     });
 
     return Html(
-      style: _style,
+      style: style,
       data: html,
       onLinkTap: _onLinkTap,
 
@@ -72,16 +72,13 @@ class HtmlTextWidget extends StatelessWidget {
     //open URL in webview, or launch URL in browser, or any other logic here
     try {
       if (url != null) {
-        launch(url).then((value) {
-          if (!value) {
-            // print("Could not launch $url");
-          }
-        });
+        launchUrl(Uri.parse(url));
       }
     } on Exception {
-      // print(exception.toString());
+      debugPrint("could not launch url: $url");
     } catch (error) {
-      // print(error.toString());
+      debugPrint(error.toString());
+      debugPrint("could not launch url: $url");
     }
   }
 }

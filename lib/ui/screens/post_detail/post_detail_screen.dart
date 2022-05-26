@@ -96,11 +96,11 @@ class _PostDetailScreenState<T extends PostListProvider>
     List posts = postListProvider.posts;
     int currentIndex = postListProvider.currentIndex;
 
-    final _controller = PageController(
+    final controller = PageController(
       initialPage: currentIndex,
     );
 
-    firstTimeCall(_controller);
+    firstTimeCall(controller);
 
     return Scaffold(
       backgroundColor: kScaffoldColor,
@@ -108,7 +108,7 @@ class _PostDetailScreenState<T extends PostListProvider>
       body: PageView(
         physics: const CustomPageViewScrollPhysics(),
         scrollDirection: Axis.vertical,
-        controller: _controller,
+        controller: controller,
         onPageChanged: (index) {
           _viewPost(posts[index]);
           if (posts.length - 5 < index) {
@@ -119,7 +119,7 @@ class _PostDetailScreenState<T extends PostListProvider>
           posts.length,
           (index) => Body(
             post: posts[index],
-            controller: _controller,
+            controller: controller,
           ),
         ),
       ),

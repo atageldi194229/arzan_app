@@ -18,7 +18,7 @@ class _RefreshWidgetState extends State<RefreshWidget> {
   Widget build(BuildContext context) => buildAndroidList();
 
   Widget buildAndroidList() => RefreshIndicator(
-        child: widget.child,
         onRefresh: widget.onRefresh,
+        child: widget.child,
       );
 }

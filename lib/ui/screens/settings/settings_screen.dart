@@ -18,14 +18,14 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
-    Size _size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: kScaffoldColor,
-      appBar:   DefaultAppBar(title: context.tt('navSettings')),
+      appBar: DefaultAppBar(title: context.tt('navSettings')),
       body: ListView(
         children: [
           Container(
-            width: _size.width,
+            width: size.width,
             margin: const EdgeInsets.all(10),
             padding: const EdgeInsets.symmetric(vertical: 15),
             decoration: BoxDecoration(
@@ -40,14 +40,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     icon: Icons.location_pin,
                     title: context.tt('select_region'),
                     onTap: () {}),
-                SettingTile(icon: Icons.list, title: context.tt("rules") , onTap: () {}),
+                SettingTile(
+                    icon: Icons.list, title: context.tt("rules"), onTap: () {}),
                 SettingTile(
                     icon: Icons.credit_card_rounded,
                     title: context.tt("online_payment"),
                     onTap: () {}),
                 SettingTile(
                     icon: Icons.arrow_downward_rounded,
-                    title:  context.tt('download'),
+                    title: context.tt('download'),
                     onTap: () {}),
                 SettingTile(
                     icon: Icons.exit_to_app,

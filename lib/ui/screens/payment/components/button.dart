@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tm/ui/size_config.dart';
 
 class NextBtn extends StatelessWidget {
-  final bool icon_status;
+  final bool iconStatus;
   final Function press;
   final String text;
   final IconData? icon;
@@ -11,7 +11,7 @@ class NextBtn extends StatelessWidget {
     required this.text,
     required this.icon,
     required this.press,
-    this.icon_status = true,
+    this.iconStatus = true,
   }) : super(key: key);
 
   @override
@@ -40,8 +40,8 @@ class NextBtn extends StatelessWidget {
             style: const TextStyle(
                 color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          icon_status ? const Spacer() : Container(),
-          icon_status
+          iconStatus ? const Spacer() : Container(),
+          iconStatus
               ? Icon(
                   icon,
                   color: Colors.white,
@@ -102,17 +102,17 @@ class PrevBtn extends StatelessWidget {
 }
 
 class NextPreBtn extends StatelessWidget {
-  final String submit_btn;
-  final Function press_next;
-  final Function press_prev;
-  final bool icon_status;
+  final String submitButton;
+  final Function onPressNext;
+  final Function onPressPrev;
+  final bool iconStatus;
 
   const NextPreBtn(
       {Key? key,
-      required this.press_prev,
-      required this.press_next,
-      required this.submit_btn,
-      this.icon_status = true})
+      required this.onPressPrev,
+      required this.onPressNext,
+      required this.submitButton,
+      this.iconStatus = true})
       : super(key: key);
 
   @override
@@ -121,15 +121,15 @@ class NextPreBtn extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         PrevBtn(
-          press: press_prev,
+          press: onPressPrev,
           icon: Icons.arrow_left_sharp,
           text: 'back',
         ),
         NextBtn(
-          icon_status: icon_status,
-          text: submit_btn,
-          icon: icon_status ? Icons.arrow_right_sharp : null,
-          press: press_next,
+          iconStatus: iconStatus,
+          text: submitButton,
+          icon: iconStatus ? Icons.arrow_right_sharp : null,
+          press: onPressNext,
         )
       ],
     );

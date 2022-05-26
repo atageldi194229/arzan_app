@@ -28,29 +28,35 @@ class _BodyState extends State<Body> {
   String content = '';
   List<int> regionIds = [];
 
+  _showSuccessToast() {
+    showToast(context, "Congratulations, you could create your post!!!");
+
+    Navigator.pop(context);
+    Navigator.pushNamed(context, ProfileScreen.routeName);
+  }
+
+  _showFailureToast() {
+    showToast(context, "Could not create post. Please, try again");
+  }
+
   _createPost() async {
-    debugPrint("AM1");
     bool result = await PostService().create(
       images: images,
       title: title,
       content: content,
       regionIds: regionIds,
     );
-    debugPrint("AM_END");
 
     if (result) {
-      showToast(context, "Congratulations, you could create your post!!!");
-
-      Navigator.pop(context);
-      Navigator.pushNamed(context, ProfileScreen.routeName);
+      _showSuccessToast();
     } else {
-      showToast(context, "Could not create post. Please, try again");
+      _showFailureToast();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    Size _size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
 
     List<RegionStatusModel> regions =
         context.watch<RegionStatusProvidor>().list;
@@ -65,7 +71,7 @@ class _BodyState extends State<Body> {
           horizontal: getProportionateScreenWidth(2),
         ),
         child: Container(
-          width: _size.width,
+          width: size.width,
           height: SizeConfig.screenHeight * 0.85,
           margin: const EdgeInsets.all(10),
           decoration: BoxDecoration(

@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 import '../../../constants.dart';
 
 class GradientText extends StatelessWidget {
-  const GradientText(
-    this.text, {
-    required this.gradient,
-    this.style,
-  });
   final String text;
   final TextStyle? style;
   final Gradient gradient;
+
+  const GradientText(
+    this.text, {
+    Key? key,
+    required this.gradient,
+    this.style,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -64,11 +66,11 @@ class PaymentTitle extends StatelessWidget {
 
 class UserDetailPayment extends StatelessWidget {
   final String title;
-  final String user_name;
+  final String username;
   const UserDetailPayment({
     Key? key,
     required this.title,
-    required this.user_name,
+    required this.username,
   }) : super(key: key);
 
   @override
@@ -86,7 +88,7 @@ class UserDetailPayment extends StatelessWidget {
               ),
             ),
             Text(
-              user_name,
+              username,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: kTextColor,

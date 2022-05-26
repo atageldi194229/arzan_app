@@ -12,13 +12,13 @@ class SuccessPaymentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size _size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: DefaultAppBar(title: context.tt('navPayment')),
       body: PaymentContainer(
-        size: _size,
-        payment_steps: SuccessPaymentStep(),
+        size: size,
+        paymentSteps: const SuccessPaymentStep(),
       ),
     );
   }

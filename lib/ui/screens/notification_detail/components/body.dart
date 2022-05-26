@@ -1,7 +1,6 @@
 import 'package:tm/ui/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:tm/core/api/models/index.dart' as models;
-import 'package:tm/ui/widgets/html_text.dart';
 
 import './image_box.dart';
 import './complain_button.dart';
@@ -17,15 +16,15 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var _boxDecoration = const BoxDecoration(
+    var boxDecoration = const BoxDecoration(
       color: Colors.white,
       borderRadius: kBorderRadius,
       // boxShadow: kBoxShadow,
     );
 
-    var _ei10 = const EdgeInsets.all(10);
-    var _cardMargin = const EdgeInsets.all(10).copyWith(top: 0);
-    var _detailTextStyle = const TextStyle(
+    var ei10 = const EdgeInsets.all(10);
+    var cardMargin = const EdgeInsets.all(10).copyWith(top: 0);
+    var detailTextStyle = const TextStyle(
       fontWeight: FontWeight.w500,
       color: kTextColor,
     );
@@ -34,16 +33,16 @@ class Body extends StatelessWidget {
       children: [
         Container(
           width: double.infinity,
-          margin: _cardMargin.copyWith(top: 10),
-          padding: _ei10,
-          decoration: _boxDecoration,
+          margin: cardMargin.copyWith(top: 10),
+          padding: ei10,
+          decoration: boxDecoration,
           child: ImageBox(images: [notification.image]),
         ),
         Container(
           width: double.infinity,
-          margin: _cardMargin,
-          padding: _ei10,
-          decoration: _boxDecoration,
+          margin: cardMargin,
+          padding: ei10,
+          decoration: boxDecoration,
           child: Column(
             children: [
               Row(
@@ -67,7 +66,7 @@ class Body extends StatelessWidget {
                         .substring(0, 10)
                         .split('-')
                         .join('.'),
-                    style: _detailTextStyle,
+                    style: detailTextStyle,
                   ),
                 ],
               ),
@@ -76,9 +75,9 @@ class Body extends StatelessWidget {
         ),
         Container(
           width: double.infinity,
-          margin: _cardMargin,
-          padding: _ei10,
-          decoration: _boxDecoration,
+          margin: cardMargin,
+          padding: ei10,
+          decoration: boxDecoration,
           // child: HtmlTextWidget(
           // html: notification.content,
           // ),
@@ -87,24 +86,5 @@ class Body extends StatelessWidget {
         const ComplainButton(),
       ],
     );
-
-    // return NotificationListener<OverscrollNotification>(
-    //   onNotification: (OverscrollNotification value) {
-    //     if (value.overscroll < 0 && controller.offset + value.overscroll <= 0) {
-    //       if (controller.offset != 0) controller.jumpTo(0);
-    //       return true;
-    //     }
-    //     if (controller.offset + value.overscroll >=
-    //         controller.position.maxScrollExtent) {
-    //       if (controller.offset != controller.position.maxScrollExtent) {
-    //         controller.jumpTo(controller.position.maxScrollExtent);
-    //       }
-    //       return true;
-    //     }
-    //     controller.jumpTo(controller.offset + value.overscroll);
-    //     return true;
-    //   },
-    //   child: ???,
-    // );
   }
 }

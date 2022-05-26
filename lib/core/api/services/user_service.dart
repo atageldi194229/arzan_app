@@ -28,7 +28,7 @@ class UserService {
     var response = await http.get(
       uri,
       headers: <String, String>{
-        "Authorization": "Bearer: " + ApiPath.userToken,
+        "Authorization": "Bearer: ${ApiPath.userToken}",
       },
     );
 

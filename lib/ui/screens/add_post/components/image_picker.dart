@@ -23,8 +23,8 @@ class _ImagePickingRowState extends State<ImagePickingRow> {
     widget.onChange(images);
   }
 
-  _addImages(List<XFile> _images) {
-    _customSetState(() => images.addAll(_images));
+  _addImages(List<XFile> images) {
+    _customSetState(() => this.images.addAll(images));
   }
 
   _removeAllImages() {
@@ -37,15 +37,15 @@ class _ImagePickingRowState extends State<ImagePickingRow> {
 
   _pickImages() async {
     try {
-      final List<XFile>? _images = await ImagePicker().pickMultiImage();
-      if (_images == null) return;
+      final List<XFile>? images = await ImagePicker().pickMultiImage();
+      if (images == null) return;
 
       // some magic to limit image pick
 
-      int _length = 5 - images.length - _images.length;
-      _length = _length < 0 ? 0 : _length;
+      int length = 5 - this.images.length - images.length;
+      length = length < 0 ? 0 : length;
 
-      _addImages(_images.take(_length).toList());
+      _addImages(images.take(length).toList());
 
       // end
     } on PlatformException catch (e) {
@@ -55,7 +55,7 @@ class _ImagePickingRowState extends State<ImagePickingRow> {
 
   @override
   Widget build(BuildContext context) {
-    Size _size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     return Row(
       children: [
         InkWell(
@@ -67,18 +67,20 @@ class _ImagePickingRowState extends State<ImagePickingRow> {
             }
           },
           child: Container(
-              width: _size.width / 8,
-              height: _size.height / 16,
-              padding: const EdgeInsets.all(10),
-              margin: const EdgeInsets.symmetric(horizontal: 5),
-              decoration: BoxDecoration(
-                  border: images.length >= 5
-                      ? Border.all(color: Colors.grey)
-                      : Border.all(color: Colors.green),
-                  borderRadius: BorderRadius.circular(10)),
-              child: images.length >= 5
-                  ? const Icon(Icons.delete_forever_rounded, color: Colors.grey)
-                  : const Icon(Icons.image, color: Colors.green)),
+            width: size.width / 8,
+            height: size.height / 16,
+            padding: const EdgeInsets.all(10),
+            margin: const EdgeInsets.symmetric(horizontal: 5),
+            decoration: BoxDecoration(
+              border: images.length >= 5
+                  ? Border.all(color: Colors.grey)
+                  : Border.all(color: Colors.green),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: images.length >= 5
+                ? const Icon(Icons.delete_forever_rounded, color: Colors.grey)
+                : const Icon(Icons.image, color: Colors.green),
+          ),
         ),
         images.isNotEmpty
             ? Row(
@@ -87,12 +89,16 @@ class _ImagePickingRowState extends State<ImagePickingRow> {
                   (index) => InkWell(
                     onTap: () => _removeImage(index),
                     child: Container(
-                      width: _size.width / 8,
-                      height: _size.height / 16,
+                      width: size.width / 8,
+                      height: size.height / 16,
                       margin: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 2),
-                      child: Image.file(File(images[index].path),
-                          fit: BoxFit.fill),
+                        vertical: 10,
+                        horizontal: 2,
+                      ),
+                      child: Image.file(
+                        File(images[index].path),
+                        fit: BoxFit.fill,
+                      ),
                     ),
                   ),
                 ),

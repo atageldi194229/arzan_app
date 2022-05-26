@@ -12,7 +12,7 @@ class PaymentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DefaultAppBar(title: context.tt('navPayment')),
-      body: Body(),
+      body: const Body(),
     );
   }
 }

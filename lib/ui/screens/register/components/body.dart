@@ -13,7 +13,6 @@ import '../../../helper/keyboard.dart';
 import '../../../helper/toast.dart';
 import '../../../size_config.dart';
 import '../../home/home_screen.dart';
-import 'avatar_logo.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -113,17 +112,17 @@ class _BodyState extends State<Body> {
 
     if (!phoneNumber.startsWith("+993") || phoneNumber.length != 12) {
       // if (!phoneValidatorRegExp.hasMatch(phoneNumber)) {
-      print("validation error phonenumber");
+      debugPrint("validation error phonenumber");
       anyValidationError = true;
     }
 
     if (!usernameValidatorRegExp.hasMatch(username)) {
-      print("validation error username");
+      debugPrint("validation error username");
       anyValidationError = true;
     }
 
     if (password.length < 8) {
-      print("validation error password");
+      debugPrint("validation error password");
       anyValidationError = true;
     }
 
@@ -133,15 +132,15 @@ class _BodyState extends State<Body> {
     );
 
     if (!result['username'] || !result['phoneNumber']) {
-      print("username or phoneNumber already exists");
+      debugPrint("username or phoneNumber already exists");
       anyValidationError = true;
-      print(result);
+      debugPrint(result);
     }
 
     if (!anyValidationError) {
       _changePageView(1);
     } else {
-      print("validation error broooooooooooooo");
+      debugPrint("validation error broooooooooooooo");
     }
   }
 
@@ -172,18 +171,18 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    Size _size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     // bool _keyboardVisibility = MediaQuery.of(context).viewInsets.bottom != 0;
 
-    List<Widget> _pages = [
+    List<Widget> pages = [
       registerPage(),
       smsVerificationPage(),
     ];
 
     return SingleChildScrollView(
       child: Container(
-        width: _size.width,
-        height: _size.height * 0.87,
+        width: size.width,
+        height: size.height * 0.87,
         margin: const EdgeInsets.all(10),
         padding: const EdgeInsets.symmetric(horizontal: 15),
         decoration: BoxDecoration(
@@ -193,8 +192,8 @@ class _BodyState extends State<Body> {
         child: PageView.builder(
           controller: _pageController,
           physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (BuildContext context, int index) => _pages[index],
-          itemCount: _pages.length,
+          itemBuilder: (BuildContext context, int index) => pages[index],
+          itemCount: pages.length,
         ),
       ),
     );
@@ -232,7 +231,7 @@ class _BodyState extends State<Body> {
               press: () => _validateAndNextPage(),
               text: context.tt("register").toUpperCase(),
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             InkWell(
                 onTap: () =>
                     Navigator.pushNamed(context, LoginScreen.routeName),
@@ -244,12 +243,12 @@ class _BodyState extends State<Body> {
                     children: <TextSpan>[
                       TextSpan(
                           text: context.tt("already_have_account"),
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold)),
                       TextSpan(
                           text: context.tt("sign_in"),
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Color.fromARGB(255, 12, 121, 15),
                               fontWeight: FontWeight.bold))
                     ],

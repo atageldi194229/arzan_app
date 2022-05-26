@@ -16,46 +16,12 @@ class NotificationDetailScreen extends StatefulWidget {
 }
 
 class _NotificationDetailScreenState extends State<NotificationDetailScreen> {
-  // bool _firstTime = false;
-  // firstTimeCall(PageController controller) {
-  //   if (_firstTime) return;
-  //   _firstTime = true;
-
-  //   controller.addListener(() {
-  //     print(controller.page);
-  //     if (controller.page != null) {
-  //       double next = controller.page!.ceilToDouble() - controller.page!;
-  //       double prev = controller.page! - controller.page!.floorToDouble();
-
-  //       const double startScrollPage = 0.2;
-  //       const Duration duration = Duration(milliseconds: 300);
-  //       const Curve curve = Curves.easeInOut;
-
-  //       print("$prev, $next");
-
-  //       if (startScrollPage > prev) {
-  //         controller.nextPage(
-  //           duration: duration,
-  //           curve: curve,
-  //         );
-  //       }
-
-  //       if (startScrollPage > next) {
-  //         controller.previousPage(
-  //           duration: duration,
-  //           curve: curve,
-  //         );
-  //       }
-  //     }
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     List notifications = context.watch<NotificationProvider>().items;
     int currentIndex = context.watch<NotificationProvider>().currentIndex;
 
-    final _controller = PageController(
+    final controller = PageController(
       initialPage: currentIndex,
     );
 
@@ -66,7 +32,7 @@ class _NotificationDetailScreenState extends State<NotificationDetailScreen> {
       appBar: const DefaultAppBar(title: 'Notification Detail'),
       body: PageView(
         // scrollDirection: Axis.vertical,
-        controller: _controller,
+        controller: controller,
         onPageChanged: (index) {
           if (notifications.length - 5 < index) {
             context.read<NotificationProvider>().fetchData();

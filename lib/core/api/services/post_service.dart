@@ -94,12 +94,12 @@ class PostService {
 
     debugPrint("AMrequest start");
 
-    request.headers['Authorization'] = "Bearer: " + token;
+    request.headers['Authorization'] = "Bearer: $token";
 
     var response = await request.send();
     debugPrint("AMrequest end");
 
-    print(response.statusCode);
+    debugPrint(response.statusCode.toString());
 
     if (response.statusCode == 200) {
       return true;

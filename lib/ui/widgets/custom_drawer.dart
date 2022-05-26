@@ -6,7 +6,6 @@ import 'package:tm/ui/screens/contact_us/contact_us_screen.dart';
 import 'package:tm/ui/screens/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tm/ui/size_config.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({Key? key}) : super(key: key);
@@ -90,10 +89,11 @@ class CustomDrawer extends StatelessWidget {
                   children: [
                     const Icon(Icons.copyright_rounded),
                     Text(
-                        DateTime.now().toString().substring(0, 4) +
-                            ' Arzan. ' +
-                            'All rights reserved',
-                        style: const TextStyle(fontWeight: FontWeight.w500))
+                      '${DateTime.now().toString().substring(0, 4)} Arzan. All rights reserved',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ],
                 ),
               ],

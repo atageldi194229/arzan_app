@@ -27,8 +27,10 @@ class CustomBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Radius _radius = const Radius.circular(25);
-    bool _isUserLoggedIn = context.watch<AuthProvider>().isLoggedIn;
+    Radius radius = const Radius.circular(25);
+    bool isUserLoggedIn = context.watch<AuthProvider>().isLoggedIn;
+
+    debugPrint("usUserLoggedIn: $isUserLoggedIn");
 
     return BottomAppBar(
       shape: const CircularNotchedRectangle(),
@@ -36,8 +38,8 @@ class CustomBottomNavBar extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
-            topLeft: _radius,
-            topRight: _radius,
+            topLeft: radius,
+            topRight: radius,
           ),
         ),
         child: Row(
@@ -88,7 +90,7 @@ class CustomBottomNavBar extends StatelessWidget {
                   color: _getIconColor(MenuState.profile),
                 ),
                 onTap: () {
-                  if (_isUserLoggedIn) {
+                  if (isUserLoggedIn) {
                     Navigator.pushNamed(context, ProfileScreen.routeName);
                   } else {
                     Navigator.pushNamed(context, LoginScreen.routeName);
@@ -98,7 +100,7 @@ class CustomBottomNavBar extends StatelessWidget {
             ),
             Expanded(
               child: _NavbarItem(
-                child: Icon(Icons.payment_outlined, color: Colors.green),
+                child: const Icon(Icons.payment_outlined, color: Colors.green),
                 onTap: () =>
                     Navigator.pushNamed(context, PaymentScreen.routeName),
               ),
@@ -128,8 +130,8 @@ class _NavbarItem extends StatelessWidget {
       hoverColor: Colors.transparent,
       focusColor: Colors.transparent,
       highlightColor: Colors.transparent,
-      child: child,
       onTap: onTap,
+      child: child,
     );
   }
 }

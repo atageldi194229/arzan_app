@@ -16,13 +16,13 @@ class AppBarButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        child: Center(child: child),
         margin: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 9.0),
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: kBoxShadow,
           borderRadius: BorderRadius.circular(10),
         ),
+        child: Center(child: child),
       ),
     );
   }

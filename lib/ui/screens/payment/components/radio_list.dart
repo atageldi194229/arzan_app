@@ -3,7 +3,7 @@ import 'package:tm/core/localization/index.dart';
 
 class RadioList extends StatefulWidget {
   final Function press;
-  final bool price_status;
+  final bool priceStatus;
   final int? price;
   final String text;
   final int value;
@@ -17,7 +17,7 @@ class RadioList extends StatefulWidget {
     required this.groupVal,
     required this.press,
     this.selectedValue = false,
-    this.price_status = false,
+    this.priceStatus = false,
     this.price,
   }) : super(key: key);
 

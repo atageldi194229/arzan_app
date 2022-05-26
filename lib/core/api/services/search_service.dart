@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../api_path.dart';
@@ -18,11 +19,11 @@ class SearchService {
       body: jsonEncode(body),
     );
 
-    print("response status code: ${response.statusCode}");
+    debugPrint("response status code: ${response.statusCode}");
 
     if (response.statusCode == 200) {
       var parsed = jsonDecode(response.body);
-      print(parsed['suggestions'].length);
+      debugPrint(parsed['suggestions'].length);
 
       return List<String>.from(parsed["suggestions"]);
     } else {

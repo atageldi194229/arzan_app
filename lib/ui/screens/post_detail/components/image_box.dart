@@ -11,13 +11,13 @@ class ImageBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size _size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
 
     return Stack(
       children: [
         SizedBox(
-          width: _size.width,
-          height: _size.width / 1.5,
+          width: size.width,
+          height: size.width / 1.5,
           // color: kSoftGreen,
           // child: FadeInImage.assetNetwork(
           //   placeholder: imagePlaceholder,

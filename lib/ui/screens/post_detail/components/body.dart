@@ -17,16 +17,16 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var _boxDecoration = const BoxDecoration(
+    var boxDecoration = const BoxDecoration(
       color: Colors.white,
       borderRadius: kBorderRadius,
       // boxShadow: kBoxShadow,
     );
 
-    var _ei10 = const EdgeInsets.all(10);
-    var _cardMargin = const EdgeInsets.all(10).copyWith(top: 0);
-    double _iconSize = 20;
-    var _detailTextStyle = const TextStyle(
+    var ei10 = const EdgeInsets.all(10);
+    var cardMargin = const EdgeInsets.all(10).copyWith(top: 0);
+    double iconSize = 20;
+    var detailTextStyle = const TextStyle(
       fontWeight: FontWeight.w500,
       color: kTextColor,
     );
@@ -51,16 +51,16 @@ class Body extends StatelessWidget {
         children: [
           Container(
             width: double.infinity,
-            margin: _cardMargin.copyWith(top: 10),
-            padding: _ei10,
-            decoration: _boxDecoration,
+            margin: cardMargin.copyWith(top: 10),
+            padding: ei10,
+            decoration: boxDecoration,
             child: ImageBox(post: post),
           ),
           Container(
             width: double.infinity,
-            margin: _cardMargin,
-            padding: _ei10,
-            decoration: _boxDecoration,
+            margin: cardMargin,
+            padding: ei10,
+            decoration: boxDecoration,
             child: Column(
               children: [
                 Row(
@@ -85,18 +85,18 @@ class Body extends StatelessWidget {
                           .substring(0, 10)
                           .split('-')
                           .join('.'),
-                      style: _detailTextStyle,
+                      style: detailTextStyle,
                     ),
                     Row(
                       children: [
                         Icon(
                           Icons.remove_red_eye_outlined,
                           color: kTextColor,
-                          size: _iconSize,
+                          size: iconSize,
                         ),
                         Text(
                           post.viewCount.toString(),
-                          style: _detailTextStyle,
+                          style: detailTextStyle,
                         ),
                       ],
                     ),
@@ -105,11 +105,11 @@ class Body extends StatelessWidget {
                         Icon(
                           Icons.share_outlined,
                           color: kTextColor,
-                          size: _iconSize,
+                          size: iconSize,
                         ),
                         Text(
                           post.shareCount.toString(),
-                          style: _detailTextStyle,
+                          style: detailTextStyle,
                         ),
                       ],
                     ),
@@ -118,11 +118,11 @@ class Body extends StatelessWidget {
                         Icon(
                           Icons.favorite_border,
                           color: kTextColor,
-                          size: _iconSize,
+                          size: iconSize,
                         ),
                         Text(
                           post.likeCount.toString(),
-                          style: _detailTextStyle,
+                          style: detailTextStyle,
                         ),
                       ],
                     ),
@@ -133,9 +133,9 @@ class Body extends StatelessWidget {
           ),
           Container(
             width: double.infinity,
-            margin: _cardMargin,
-            padding: _ei10,
-            decoration: _boxDecoration,
+            margin: cardMargin,
+            padding: ei10,
+            decoration: boxDecoration,
             child: HtmlTextWidget(
               html: post.content,
               canLaunch: true,

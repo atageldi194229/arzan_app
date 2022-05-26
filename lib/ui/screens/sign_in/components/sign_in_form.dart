@@ -14,11 +14,11 @@ class SignForm extends StatefulWidget {
   const SignForm({Key? key}) : super(key: key);
 
   @override
-  _SignFormState createState() => _SignFormState();
+  SignFormState createState() => SignFormState();
 }
 
-class _SignFormState extends State<SignForm> {
-  final _formKey = GlobalKey<FormState>();
+class SignFormState extends State<SignForm> {
+  final formKey = GlobalKey<FormState>();
   String? email;
   String? password;
   bool? remember = false;
@@ -43,7 +43,7 @@ class _SignFormState extends State<SignForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,
+      key: formKey,
       child: Column(
         children: [
           buildPhoneNumberFormField(),
@@ -80,8 +80,8 @@ class _SignFormState extends State<SignForm> {
             text: "Continue",
             press: () {
               showToast(context, "Hey boy");
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
+              if (formKey.currentState!.validate()) {
+                formKey.currentState!.save();
                 // if all are valid then go to success screen
                 KeyboardUtil.hideKeyboard(context);
                 Navigator.pushNamed(context, LoginSuccessScreen.routeName);

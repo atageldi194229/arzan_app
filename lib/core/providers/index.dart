@@ -10,6 +10,7 @@ import './home_screen_provider.dart';
 import './banner_provider.dart';
 import './recommended_post_provider.dart';
 import './account_provider.dart';
+import './official_user_list_provider.dart';
 
 List<ChangeNotifierProvider> providers = [
   ChangeNotifierProvider<LangProvider>(create: (context) => LangProvider()),
@@ -27,9 +28,8 @@ List<ChangeNotifierProvider> providers = [
       create: (context) => NotificationProvider()),
   ChangeNotifierProvider<PostSearchProvider>(
       create: (context) => PostSearchProvider()),
-
   ChangeNotifierProvider<RegionStatusProvidor>(
       create: (context) => RegionStatusProvidor()),
-  
+  ChangeNotifierProvider<OfficialUserListProvider>(
+      create: (context) => OfficialUserListProvider()),
 ];
- 

@@ -21,7 +21,7 @@ class _BodyState extends State<Body> {
   TextEditingController passwordInputController = TextEditingController();
 
   _onLogin() {
-    print("I MA HERE BROROOROOROROOO");
+    debugPrint("I MA HERE BROROOROOROROOO");
 
     String username = context.read<AuthProvider>().username;
 
@@ -37,7 +37,7 @@ class _BodyState extends State<Body> {
     String username = phoneInputController.text;
     String password = passwordInputController.text;
 
-    print("try login: $username $password");
+    debugPrint("try login: $username $password");
 
     context.read<AuthProvider>().login(
           username: username,
@@ -62,13 +62,13 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    Size _size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     // bool _keyboardVisibility = MediaQuery.of(context).viewInsets.bottom != 0;
 
     return SingleChildScrollView(
       child: Container(
-        width: _size.width,
-        height: _size.height * 0.87,
+        width: size.width,
+        height: size.height * 0.87,
         margin: const EdgeInsets.all(10),
         padding: const EdgeInsets.symmetric(horizontal: 15),
         decoration: BoxDecoration(
@@ -134,13 +134,13 @@ class _BodyState extends State<Body> {
                     ),
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsets.only(top: 10),
+                        padding: const EdgeInsets.only(top: 10),
                         child: Align(
                           alignment: Alignment.topRight,
                           child: InkWell(
                             child: Text(
                               context.tt('forget_password'),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Color.fromARGB(255, 105, 104, 104),
                                 fontWeight: FontWeight.bold,
                               ),

@@ -61,7 +61,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
             );
 
             if (selected != null && selected.isNotEmpty) {
-              showToast(context, selected);
+              (() => showToast(context, selected))();
             }
           },
         ),
@@ -160,10 +160,10 @@ class _MySearchDelegate extends SearchDelegate<String> {
 
     SharedPreferences prefs = await _prefs;
 
-    List<String> _history = prefs.getStringList(suggestionHistoryPrefKey) ?? [];
+    List<String> history = prefs.getStringList(suggestionHistoryPrefKey) ?? [];
 
-    _history.insert(0, query);
+    history.insert(0, query);
 
-    prefs.setStringList(suggestionHistoryPrefKey, _history);
+    prefs.setStringList(suggestionHistoryPrefKey, history);
   }
 }

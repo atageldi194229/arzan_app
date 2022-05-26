@@ -12,10 +12,10 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
-    Size _size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     return PaymentContainer(
-      size: _size,
-      payment_steps: FirstPaymentStep(),
+      size: size,
+      paymentSteps: const FirstPaymentStep(),
     );
   }
 }

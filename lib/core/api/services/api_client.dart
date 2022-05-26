@@ -1,13 +1,14 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:tm/core/api/api_path.dart';
 import "package:dio/dio.dart";
 
 class Client {
   Dio init() {
-    Dio _dio = Dio();
-    _dio.interceptors.add(ApiInterceptors());
-    _dio.options.baseUrl = ApiPath.httpsPath;
-    return _dio;
+    Dio dio = Dio();
+    dio.interceptors.add(ApiInterceptors());
+    dio.options.baseUrl = ApiPath.httpsPath;
+    return dio;
   }
 }
 
@@ -25,7 +26,7 @@ class ApiInterceptors extends Interceptor {
     DioError err,
     ErrorInterceptorHandler handler,
   ) {
-    print("Dio error: ${err.message}");
+    debugPrint("Dio error: ${err.message}");
   }
 
   @override

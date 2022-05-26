@@ -9,8 +9,8 @@ void newVersionCheck(BuildContext context) async {
 
   if (status != null) {
     debugPrint("Current local version ${status.localVersion}");
-    debugPrint("Can update to the new version: " +
-        (status.canUpdate == true ? 'true' : 'false'));
+    debugPrint(
+        "Can update to the new version: ${status.canUpdate == true ? 'true' : 'false'}");
 
     if (!status.canUpdate) return;
 

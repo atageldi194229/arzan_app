@@ -15,10 +15,10 @@ class StatisticsScreen extends StatefulWidget {
   const StatisticsScreen({Key? key}) : super(key: key);
 
   @override
-  _StatisticsScreenState createState() => _StatisticsScreenState();
+  StatisticsScreenState createState() => StatisticsScreenState();
 }
 
-class _StatisticsScreenState extends State<StatisticsScreen>
+class StatisticsScreenState extends State<StatisticsScreen>
     with TickerProviderStateMixin {
   TabController? _tabController;
 
@@ -176,7 +176,7 @@ class _StatisticsDataTableState extends State<StatisticsDataTable> {
         // children: [
         //   TextButton(
         //       onPressed: () {
-        //         print(statisticProvider.list.where((element) => ));
+        //         debugPrint(statisticProvider.list.where((element) => ));
         //       },
         //       child: Text('asd'))
         // ],

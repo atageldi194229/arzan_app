@@ -1,6 +1,6 @@
 import '../api_path.dart';
 
-class Banner {
+class BannerModel {
   final int id;
   late final String _image;
   final String payload;
@@ -9,15 +9,15 @@ class Banner {
   set image(value) => _image = value;
   get image => ApiPath.imageUrl + _image;
 
-  Banner({
+  BannerModel({
     required this.id,
     required image,
     required this.payload,
     required this.keywords,
   }) : _image = image;
 
-  factory Banner.fromMap(Map<String, dynamic> json) {
-    return Banner(
+  factory BannerModel.fromMap(Map<String, dynamic> json) {
+    return BannerModel(
       id: json['id'],
       image: json['image'],
       payload: json['payload'],

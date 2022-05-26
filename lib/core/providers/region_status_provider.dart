@@ -13,8 +13,8 @@ class RegionStatusProvidor extends ChangeNotifier {
     notifyListeners();
   }
 
-  addAllPosts(List<models.RegionStatusModel> postList) {
-    list.addAll(postList);
+  addAllPosts(List<models.RegionStatusModel> itemList) {
+    list.addAll(itemList);
     notifyListeners();
   }
 
@@ -26,9 +26,9 @@ class RegionStatusProvidor extends ChangeNotifier {
 
     try {
       debugPrint("Region stat load started");
-      var _list = await RegionStatusService().getRegions();
-      debugPrint('regions stat length: ${_list.length}');
-      addAllPosts(_list);
+      var itemList = await RegionStatusService().getRegions();
+      debugPrint('regions stat length: ${itemList.length}');
+      addAllPosts(itemList);
     } catch (err) {
       debugPrint(err.toString());
     }

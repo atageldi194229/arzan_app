@@ -1,8 +1,6 @@
 import 'package:tm/ui/screens/contact_us/components/body.dart';
 import 'package:flutter/material.dart';
 
-import '../../enums.dart';
-import '../../widgets/custom_bottom_nav_bar.dart';
 import '../../widgets/default_appbar.dart';
 
 class ContactUsScreen extends StatelessWidget {
@@ -13,7 +11,7 @@ class ContactUsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      appBar:   DefaultAppBar(title: 'Habarlasmak'),
+      appBar: DefaultAppBar(title: 'Habarlasmak'),
       body: Body(),
       // bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.home),
     );

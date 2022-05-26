@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:tm/core/api/services/exceptions/unauthorized_exception.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -23,7 +24,7 @@ class AuthService {
       body: jsonEncode(body),
     );
 
-    print("response status code: ${response.statusCode}");
+    debugPrint("response status code: ${response.statusCode}");
 
     if ([200, 500].contains(response.statusCode)) {
       var parsed = jsonDecode(response.body);
@@ -100,7 +101,7 @@ class AuthService {
       body: jsonEncode(body),
     );
 
-    print("response status code: ${response.statusCode}");
+    debugPrint("response status code: ${response.statusCode}");
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
@@ -131,7 +132,7 @@ class AuthService {
       body: jsonEncode(body),
     );
 
-    print("response status code: ${response.statusCode}");
+    debugPrint("response status code: ${response.statusCode}");
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body);

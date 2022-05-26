@@ -11,7 +11,7 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size _size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
 
     UserModel? user = context.watch<AccountProvider>().user;
 
@@ -29,13 +29,13 @@ class Body extends StatelessWidget {
             child: Stack(
               children: [
                 Container(
-                  padding: EdgeInsets.only(top:getProportionateScreenWidth(20)),
-                  width: _size.width,
-                  height: _size.height / 3,
+                  padding:
+                      EdgeInsets.only(top: getProportionateScreenWidth(20)),
+                  width: size.width,
+                  height: size.height / 3,
                   color: Colors.green,
                   child: Column(
                     children: [
-                   
                       Image.asset(
                         'assets/images/logo_ticket.png',
                         width: getProportionateScreenWidth(100),
@@ -65,8 +65,8 @@ class Body extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: _size.width,
-            height: _size.height * 1.2,
+            width: size.width,
+            height: size.height * 1.2,
             child: Stack(
               alignment: Alignment.center,
               children: [
@@ -78,8 +78,9 @@ class Body extends StatelessWidget {
                   child: Stack(
                     children: [
                       Container(
-                        width: _size.width,
-                        margin: const EdgeInsets.symmetric(horizontal:5, vertical: 90),
+                        width: size.width,
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 90),
                         padding: EdgeInsets.only(
                           top: MediaQuery.of(context).size.height / 12,
                           left: 10,
@@ -224,42 +225,40 @@ class Body extends StatelessWidget {
                           ],
                         ),
                       ),
-                        Stack(
-                          clipBehavior:Clip.none,
-                          children: [
-                             Positioned(
-                              top: SizeConfig.screenWidth * 0.12,
-                              left: 10 ,
-                              child: const Icon(
-                              
-                               Icons.add_box,
+                      Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Positioned(
+                            top: SizeConfig.screenWidth * 0.12,
+                            left: 10,
+                            child: const Icon(
+                              Icons.add_box,
                               color: Colors.green,
-                              ),
                             ),
-                            Positioned(
+                          ),
+                          Positioned(
                             left: SizeConfig.screenWidth * 0.3,
                             top: SizeConfig.screenWidth * 0.1,
                             child: Container(
-                              height: _size.width / 4,
+                              height: size.width / 4,
                               decoration: const BoxDecoration(
-                              
                                 color: kSoftGreen,
                                 shape: BoxShape.circle,
                               ),
                               child: LayoutBuilder(
                                 builder: (context, constraints) {
-                                  Widget _placeholder = Icon(
+                                  Widget placeholder = Icon(
                                     Icons.person_outline_outlined,
                                     size: constraints.biggest.height,
                                     color: Colors.white,
                                   );
-                            
-                                  if (user.image == null || user.image!.isEmpty) {
-                                    return _placeholder;
+
+                                  if (user.image == null ||
+                                      user.image!.isEmpty) {
+                                    return placeholder;
                                   }
-                            
+
                                   return CircleAvatar(
-                                    
                                     maxRadius: constraints.biggest.height / 2,
                                     backgroundImage:
                                         CachedNetworkImageProvider(user.image!),
@@ -268,14 +267,13 @@ class Body extends StatelessWidget {
                                 },
                               ),
                             ),
-                            ),
-                            Container()
-                          ],
-                        ),
+                          ),
+                          Container()
+                        ],
+                      ),
                     ],
                   ),
                 ),
-             
               ],
             ),
           )

@@ -14,9 +14,9 @@ class RecommendedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size _size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
 
-    double cardWidth = _size.width / 3.8;
+    double cardWidth = size.width / 3.8;
     double cardHeight = cardWidth * 1.3;
 
     return InkWell(
@@ -65,8 +65,8 @@ class RecommendedCard extends StatelessWidget {
                 placeholder: (context, url) => const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Align(
-                    child: CircularProgressIndicator(),
                     alignment: Alignment.topCenter,
+                    child: CircularProgressIndicator(),
                   ),
                 ),
                 errorWidget: (context, url, error) => const Icon(Icons.error),

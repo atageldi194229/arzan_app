@@ -1,7 +1,3 @@
-// import 'package:tm/core/providers/account_provider.dart';
-// import 'package:tm/core/providers/auth_provider.dart';
-// import 'package:provider/provider.dart';
-
 import 'package:provider/provider.dart';
 import 'package:tm/core/providers/account_provider.dart';
 import 'package:tm/core/providers/auth_provider.dart';
@@ -28,9 +24,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
 
-    AuthProvider _auth = context.read<AuthProvider>();
+    AuthProvider auth = context.read<AuthProvider>();
     context.read<AccountProvider>().initUser(
-          userId: _auth.userId,
+          userId: auth.userId,
         );
   }
 
