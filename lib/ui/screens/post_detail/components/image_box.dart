@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tm/core/api/models/index.dart' as models;
+import 'package:tm/core/api/models/index.dart';
 import 'package:tm/ui/widgets/image_view.dart';
 
 class ImageBox extends StatelessWidget {
-  final models.Post post;
+  final PostModel post;
   const ImageBox({
     Key? key,
     required this.post,
@@ -18,13 +18,6 @@ class ImageBox extends StatelessWidget {
         SizedBox(
           width: size.width,
           height: size.width / 1.5,
-          // color: kSoftGreen,
-          // child: FadeInImage.assetNetwork(
-          //   placeholder: imagePlaceholder,
-          //   image: post.image,
-          //   fit: BoxFit.contain,
-          // ),
-
           child: ImageView(images: post.images),
         ),
         Positioned(

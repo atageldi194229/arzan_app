@@ -1,7 +1,7 @@
 import 'dart:convert';
 import '../api_path.dart';
 
-class Post {
+class PostModel {
   final int id;
   List<String> _images = [];
   final String title;
@@ -15,7 +15,7 @@ class Post {
   get images => _images;
   get image => _images.isEmpty ? null : _images.first;
 
-  Post({
+  PostModel({
     required this.id,
     required images,
     required this.title,
@@ -27,8 +27,8 @@ class Post {
   }) : _images = List<String>.from(
             images.map((e) => ApiPath.imageUrl + e.toString()).toList());
 
-  factory Post.fromMap(Map<String, dynamic> json) {
-    return Post(
+  factory PostModel.fromMap(Map<String, dynamic> json) {
+    return PostModel(
       id: json['id'],
       images: jsonDecode(json['images']),
       title: json['title'],
@@ -40,8 +40,8 @@ class Post {
     );
   }
 
-  factory Post.empty() {
-    return Post(
+  factory PostModel.empty() {
+    return PostModel(
       id: 0,
       images: [],
       title: 'Empty',

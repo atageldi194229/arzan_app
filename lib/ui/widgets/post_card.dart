@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:tm/core/api/models/index.dart' as models;
+import 'package:tm/core/api/models/index.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/widgets/html_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/style.dart';
 
 class PostCard extends StatelessWidget {
-  final models.Post post;
+  final PostModel post;
   final VoidCallback onTap;
 
   const PostCard({Key? key, required this.post, required this.onTap})

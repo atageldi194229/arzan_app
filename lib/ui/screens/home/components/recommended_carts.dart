@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:tm/core/api/models/index.dart' as models;
+import 'package:tm/core/api/models/index.dart';
 import 'package:tm/core/providers/recommended_post_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -50,7 +50,7 @@ class _RecommendedCartsState extends State<RecommendedCarts> {
 
   @override
   Widget build(BuildContext context) {
-    List<models.Post> posts = context.watch<RecommendedPostProvider>().posts;
+    List<PostModel> posts = context.watch<RecommendedPostProvider>().posts;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 4.0),

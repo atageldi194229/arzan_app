@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:tm/core/api/models/index.dart' as models;
+import 'package:tm/core/api/models/index.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:flutter/material.dart';
 
 class RecommendedCard extends StatelessWidget {
-  final models.Post post;
+  final PostModel post;
   final Function onTap;
   const RecommendedCard({
     Key? key,

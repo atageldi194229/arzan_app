@@ -1,4 +1,4 @@
-import 'package:tm/core/api/models/index.dart' as models;
+import 'package:tm/core/api/models/index.dart';
 import 'package:tm/core/api/services/post_service.dart';
 
 import './abstract/post_list_provider.dart';
@@ -18,7 +18,7 @@ class PostSearchProvider extends PostListProvider {
   }
 
   @override
-  Future<List<models.Post>> fetchPosts(int limit, int offset) {
+  Future<List<PostModel>> fetchPosts(int limit, int offset) {
     return PostService().fetchData(
       limit: limit,
       offset: offset,

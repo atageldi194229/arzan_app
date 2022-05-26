@@ -6,7 +6,7 @@ import '../models/index.dart';
 import '../api_path.dart';
 
 class PostService {
-  Future<List<Post>> fetchData({
+  Future<List<PostModel>> fetchData({
     int limit = 15,
     int offset = 0,
     String? search,
@@ -29,13 +29,15 @@ class PostService {
     if (response.statusCode == 200) {
       var parsed = jsonDecode(response.body);
 
-      return parsed["posts"].map<Post>((e) => Post.fromMap(e)).toList();
+      return parsed["posts"]
+          .map<PostModel>((e) => PostModel.fromMap(e))
+          .toList();
     } else {
       throw Exception("Unable to fetch data");
     }
   }
 
-  Future<List<Post>> fetchDataForMainScreen(
+  Future<List<PostModel>> fetchDataForMainScreen(
       {int limit = 30, int offset = 0}) async {
     // return List.generate(
     //   10,
@@ -60,7 +62,9 @@ class PostService {
     if (response.statusCode == 200) {
       var parsed = jsonDecode(response.body);
 
-      return parsed["posts"].map<Post>((e) => Post.fromMap(e)).toList();
+      return parsed["posts"]
+          .map<PostModel>((e) => PostModel.fromMap(e))
+          .toList();
     } else {
       throw "Unable to fetch data";
     }

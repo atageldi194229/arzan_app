@@ -1,13 +1,13 @@
+import 'package:tm/core/api/models/index.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:tm/core/api/models/index.dart' as models;
 import 'package:tm/ui/widgets/html_text.dart';
 
 import './image_box.dart';
 import './complain_button.dart';
 
 class Body extends StatelessWidget {
-  final models.Post post;
+  final PostModel post;
   final ScrollController controller;
   const Body({
     Key? key,

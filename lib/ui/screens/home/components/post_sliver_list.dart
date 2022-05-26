@@ -1,4 +1,4 @@
-import 'package:tm/core/api/models/index.dart' as models;
+import 'package:tm/core/api/models/index.dart';
 import 'package:tm/core/providers/home_screen_provider.dart';
 import 'package:tm/ui/screens/post_detail/post_detail_screen.dart';
 import 'package:tm/ui/widgets/custom_indicator.dart';
@@ -22,7 +22,7 @@ class _PostSliverListState extends State<PostSliverList> {
 
   @override
   Widget build(BuildContext context) {
-    List<models.Post> posts = context.watch<HomeScreenProvider>().posts;
+    List<PostModel> posts = context.watch<HomeScreenProvider>().posts;
 
     return SliverList(
       delegate: SliverChildBuilderDelegate(
