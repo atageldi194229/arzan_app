@@ -15,12 +15,13 @@ class Body extends StatelessWidget {
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(20)),
           child: Column(mainAxisSize: MainAxisSize.min, children: [
-            Padding(
-              padding: const EdgeInsets.all(15.0),
+            const Padding(
+              padding: EdgeInsets.all(15.0),
               child: Text(
-                'lorem' * 50,
+                'Biziň bilen habarlaşmak üçin şu aşakdaky telefon belgä aýlamagyňyzy haýyş edýäris.'
+                '\n +99364103444',
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.normal,
                 ),
