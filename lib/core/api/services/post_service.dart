@@ -49,17 +49,6 @@ class PostService {
 
   Future<List<PostModel>> fetchDataForMainScreen(
       {int limit = 30, int offset = 0}) async {
-    // return List.generate(
-    //   10,
-    //   (index) => Post(
-    //     id: index,
-    //     images: [],
-    //     title: "qwerty",
-    //     content: "Lorem ipsum doler sit",
-    //     viewCount: 5,
-    //     likeCount: 1,
-    //   ),
-    // );
     Uri uri = Uri.http(ApiPath.host, ApiPath.getPosts, {
       "limit": limit.toString(),
       "offset": offset.toString(),
@@ -103,30 +92,20 @@ class PostService {
       ..fields['title'] = title
       ..fields['content'] = content;
 
-    debugPrint("AM2 file start");
-
     var files = await Future.wait(images.map((e) => e.readAsBytes()));
-
-    debugPrint("AM3 file to byte end");
 
     for (int i = 0; i < files.length; i++) {
       request.files.add(http.MultipartFile.fromBytes('image-$i', files[i]));
     }
 
-    debugPrint("AMrequest start");
-
     request.headers['Authorization'] = "Bearer: $token";
 
     var response = await request.send();
-    debugPrint("AMrequest end");
-
-    debugPrint(response.statusCode.toString());
 
     if (response.statusCode == 200) {
       return true;
     }
 
     throw Exception('Something went wrong');
-    // return false;
   }
 }
