@@ -25,6 +25,8 @@ class _RecommendedCartsState extends State<RecommendedCarts> {
     timer = Timer.periodic(const Duration(seconds: 3), (timer) {
       if (timer.tick == 1) return;
 
+      if (!_controller.hasClients) return;
+
       double offset = _controller.offset;
       double maxOffset = _controller.position.maxScrollExtent;
 
