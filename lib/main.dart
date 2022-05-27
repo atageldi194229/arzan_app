@@ -76,7 +76,7 @@ class _MyAppState extends State<MyApp> {
     });
 
     FirebaseMessaging.instance.subscribeToTopic('all');
-    FirebaseMessaging.instance.subscribeToTopic('test_1');
+    // FirebaseMessaging.instance.subscribeToTopic('test_1');
     // FirebaseMessaging.onBackgroundMessage((message) => null)
   }
 

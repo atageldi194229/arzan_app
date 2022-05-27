@@ -5,7 +5,12 @@ class RegionProvider with ChangeNotifier {
   late List<RegionModel> _regions = <RegionModel>[];
   int currentRegionId = 0;
 
-  //TODO: currentRegionId yzyny dowam et
+  RegionModel get currentRegion {
+    return _regions.firstWhere(
+      (region) => region.id == currentRegionId,
+      orElse: () => RegionModel(id: 0, name: "Ashgabat"),
+    );
+  }
 
   List<RegionModel> get regions => _regions;
 
