@@ -40,7 +40,7 @@ class _RegionsState extends State<Regions> {
 
     return ExpansionTile(
       leading: const Icon(
-        Icons.location_city,
+        Icons.fmd_good_outlined,
         color: kSoftGreen,
       ),
       title: Text(

@@ -39,7 +39,10 @@ class StatisticsScreenState extends State<StatisticsScreen>
     );
 
     ambiguate(WidgetsBinding.instance)!.addPostFrameCallback((_) {
-      context.read<RegionStatusProvidor>().loadStatistics();
+      RegionStatusProvidor provider = context.read<RegionStatusProvidor>();
+      if (provider.list.isEmpty) {
+        provider.loadStatistics();
+      }
     });
   }
 
@@ -59,7 +62,8 @@ class StatisticsScreenState extends State<StatisticsScreen>
     }
 
     return Scaffold(
-      appBar: const DefaultAppBar(title: 'My statistics'),
+      appBar: const DefaultAppBar(title: 'Statistics'),
+      backgroundColor: kScaffoldColor,
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.all(10),
@@ -71,7 +75,7 @@ class StatisticsScreenState extends State<StatisticsScreen>
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text(regionNames[selectedRegionIndex]),
+              // Text(regionNames[selectedRegionIndex]),
               Regions(
                 defaultItemIndex: selectedRegionIndex,
                 items: regionNames,
@@ -81,25 +85,25 @@ class StatisticsScreenState extends State<StatisticsScreen>
                   });
                 },
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: const [
-                    BoxShadow(
-                        color: Colors.grey, spreadRadius: .1, blurRadius: 2)
-                  ],
-                ),
-                child: Text(
-                  '',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline5!
-                      .copyWith(color: kSoftGreen, fontWeight: FontWeight.bold),
-                ),
-              ),
+              // Container(
+              //   padding: const EdgeInsets.symmetric(vertical: 15),
+              //   decoration: BoxDecoration(
+              //     color: Colors.white,
+              //     borderRadius: BorderRadius.circular(10),
+              //     boxShadow: const [
+              //       BoxShadow(
+              //           color: Colors.grey, spreadRadius: .1, blurRadius: 2)
+              //     ],
+              //   ),
+              //   child: Text(
+              //     '',
+              //     textAlign: TextAlign.center,
+              //     style: Theme.of(context)
+              //         .textTheme
+              //         .headline5!
+              //         .copyWith(color: kSoftGreen, fontWeight: FontWeight.bold),
+              //   ),
+              // ),
               DefaultTabController(
                 length: 3, // length of tabs
                 initialIndex: 0,
@@ -182,23 +186,23 @@ class _StatisticsDataTableState extends State<StatisticsDataTable> {
         // ],
         children: [
           StatisticTile(
-            icon: Icons.create,
-            title: 'Likes',
+            icon: Icons.favorite_border_rounded,
+            title: 'Halanylanlar',
             stats: widget.data!.likeCount.toString(),
           ),
           StatisticTile(
-            icon: Icons.visibility_outlined,
-            title: 'Paýlaşanlar',
+            icon: Icons.share_outlined,
+            title: 'Paýlaşylanlar',
             stats: widget.data!.shareCount.toString(),
           ),
           StatisticTile(
-            icon: Icons.favorite_border_rounded,
-            title: 'Postlar',
+            icon: Icons.create,
+            title: 'Goşulan postlar',
             stats: widget.data!.postCount.toString(),
           ),
           StatisticTile(
-            icon: Icons.share_outlined,
-            title: 'Postlar',
+            icon: Icons.visibility_outlined,
+            title: 'Seredilenler',
             stats: widget.data!.viewCount.toString(),
           ),
         ],

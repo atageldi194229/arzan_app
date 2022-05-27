@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 class AccountProvider with ChangeNotifier {
   UserModel? _user;
   int _userId = 0;
+  bool _inited = false;
 
-  get user => _user;
+  UserModel? get user => _user;
 
   set user(value) {
     _user = value;
@@ -17,8 +18,48 @@ class AccountProvider with ChangeNotifier {
     user = await AccountService().fetchData(userId: _userId);
   }
 
-  initUser({required int userId}) {
+  _initFollowingIdList() async {
+    if (_user == null) return;
+
+    try {
+      _user!.followingIdList = await AccountService().fetchFollowingIdList();
+      notifyListeners();
+    } catch (err) {
+      debugPrint(err.toString());
+    }
+  }
+
+  initUser({required int userId}) async {
+    if (_inited) return;
+    _inited = true;
+
     _userId = userId;
-    _fetchData();
+    await _fetchData();
+    _initFollowingIdList();
+  }
+
+  follow(int userId, bool isFollowing) {
+    debugPrint('_user is null:  ${(_user == null).toString()}');
+
+    if (_user == null) return;
+
+    List<int> defaultFollowingList = _user!.followingIdList;
+
+    final Future request;
+
+    if (isFollowing) {
+      _user!.followingIdList.add(userId);
+      request = AccountService().follow(userId: userId);
+    } else {
+      _user!.followingIdList.remove(userId);
+      request = AccountService().unfollow(userId: userId);
+    }
+
+    notifyListeners();
+
+    request.catchError((error) {
+      _user!.followingIdList = defaultFollowingList;
+      notifyListeners();
+    });
   }
 }

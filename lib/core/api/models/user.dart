@@ -20,6 +20,8 @@ class UserModel {
   final int? videoCount;
   final int? viewCount;
 
+  List<int> followingIdList = [];
+
   get image => _image;
   _setImage(String? image) {
     if (image != null) {

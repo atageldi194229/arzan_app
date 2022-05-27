@@ -1,5 +1,6 @@
 enum UserActionType { view, like, share, favorite, follow }
-enum UserActionModel { post, banner }
+
+enum UserActionModel { post, banner, user }
 
 class UserAction {
   final UserActionType action;

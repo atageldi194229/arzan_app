@@ -26,7 +26,10 @@ class _BodyState extends State<Body> {
   List<XFile> images = [];
   String title = '';
   String content = '';
+  String contact = '';
   List<int> regionIds = [];
+
+  bool isSending = false;
 
   _showSuccessToast() {
     showToast(context, "Congratulations, you could create your post!!!");
@@ -40,17 +43,26 @@ class _BodyState extends State<Body> {
   }
 
   _createPost() async {
+    setState(() {
+      isSending = true;
+    });
+
     bool result = await PostService().create(
       images: images,
       title: title,
       content: content,
       regionIds: regionIds,
+      contact: contact,
     );
 
     if (result) {
       _showSuccessToast();
     } else {
       _showFailureToast();
+
+      setState(() {
+        isSending = false;
+      });
     }
   }
 
@@ -64,77 +76,113 @@ class _BodyState extends State<Body> {
     List<String> regionNames =
         regions.map((e) => e.name ?? "regionyn name yok").toList();
 
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: getProportionateScreenWidth(2),
-          horizontal: getProportionateScreenWidth(2),
-        ),
-        child: Container(
-          width: size.width,
-          height: SizeConfig.screenHeight * 0.85,
-          margin: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            boxShadow: kBoxShadow,
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(15),
-          ),
+    return Stack(
+      children: [
+        SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Regions(
-                    items: regionNames,
-                    onChanged: (index) {
-                      context
-                          .read<RegionStatusProvidor>()
-                          .setSelectedRegion(regions[index]);
-                    },
-                  ),
-                  SizedBox(height: getProportionateScreenWidth(20)),
-                  ImagePickingRow(
-                    onChange: (values) => images = values,
-                  ),
-                  const Divider(),
-                  SizedBox(height: getProportionateScreenWidth(40)),
-                  TextFormField(
-                    onChanged: ((value) => title = value),
-                    // keyboardType: TextInputType.phone,
-                    decoration: InputDecoration(
-                      fillColor: Colors.grey.shade100,
-                      filled: true,
-                      contentPadding: const EdgeInsets.all(15),
-                      hintText: 'Title',
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: const BorderSide(
-                          color: Colors.transparent,
+            padding: EdgeInsets.symmetric(
+              vertical: getProportionateScreenWidth(2),
+              horizontal: getProportionateScreenWidth(2),
+            ),
+            child: Container(
+              width: size.width,
+              height: SizeConfig.screenHeight * 0.85,
+              margin: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                boxShadow: kBoxShadow,
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Regions(
+                        items: regionNames,
+                        onChanged: (index) {
+                          context
+                              .read<RegionStatusProvidor>()
+                              .setSelectedRegion(regions[index]);
+                        },
+                      ),
+                      SizedBox(height: getProportionateScreenWidth(20)),
+                      ImagePickingRow(
+                        onChange: (values) => images = values,
+                      ),
+                      const Divider(),
+                      SizedBox(height: getProportionateScreenWidth(40)),
+                      TextFormField(
+                        onChanged: ((value) => title = value),
+                        // keyboardType: TextInputType.phone,
+                        decoration: InputDecoration(
+                          fillColor: Colors.grey.shade100,
+                          filled: true,
+                          contentPadding: const EdgeInsets.all(15),
+                          hintText: 'Title',
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: const BorderSide(
+                              color: Colors.transparent,
+                            ),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: const BorderSide(
+                              color: Colors.transparent,
+                            ),
+                          ),
                         ),
                       ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: const BorderSide(
-                          color: Colors.transparent,
+                      SizedBox(height: getProportionateScreenWidth(40)),
+                      TextFormFielTextarea(
+                        onChanged: (value) => content = value,
+                      ),
+                      SizedBox(height: getProportionateScreenWidth(40)),
+                      TextFormField(
+                        onChanged: ((value) => contact = value),
+                        // keyboardType: TextInputType.phone,
+                        decoration: InputDecoration(
+                          fillColor: Colors.grey.shade100,
+                          filled: true,
+                          contentPadding: const EdgeInsets.all(15),
+                          hintText: '+9936...',
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: const BorderSide(
+                              color: Colors.transparent,
+                            ),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: const BorderSide(
+                              color: Colors.transparent,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                      SizedBox(height: getProportionateScreenWidth(20)),
+                      DefaultButtonGreenBack(
+                        text: "SEND",
+                        onPress: () => _createPost(),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: getProportionateScreenWidth(40)),
-                  TextFormFielTextarea(
-                    onChanged: (value) => content = value,
-                  ),
-                  SizedBox(height: getProportionateScreenWidth(20)),
-                  DefaultButtonGreenBack(
-                    text: "SEND",
-                    onPress: () => _createPost(),
-                  ),
-                ],
+                ),
               ),
             ),
           ),
         ),
-      ),
+        if (isSending)
+          Container(
+            height: double.infinity,
+            width: double.infinity,
+            color: Colors.black.withOpacity(0.2),
+            child: const Center(
+              child: CircularProgressIndicator(),
+            ),
+          ),
+      ],
     );
   }
 }

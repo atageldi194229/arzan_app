@@ -67,7 +67,6 @@ class PostModel {
     var images = tryCatch<List<String>>(
         () => List<String>.from(jsonDecode(json['images'])), []);
 
-    debugPrint('isLike: ${json["isLike"]}');
     bool isLike = getBoolValue('isLike', json);
     bool isFavorite = getBoolValue('isFavorite', json);
 

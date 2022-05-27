@@ -90,6 +90,7 @@ class PostService {
     required String title,
     required String content,
     required List<int> regionIds,
+    required String contact,
   }) async {
     String token = ApiPath.userToken;
 
@@ -98,6 +99,7 @@ class PostService {
     Uri uri = Uri.http(ApiPath.host, ApiPath.createPost);
 
     var request = http.MultipartRequest('POST', uri)
+      ..fields['contacts'] = contact
       ..fields['title'] = title
       ..fields['content'] = content;
 

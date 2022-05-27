@@ -1,7 +1,7 @@
 import 'package:tm/core/providers/auth_provider.dart';
 import 'package:tm/ui/constants.dart';
+import 'package:tm/ui/helper/show_dialog_on_development.dart';
 import 'package:tm/ui/screens/login/login_screen.dart';
-import 'package:tm/ui/screens/payment/payment_screen.dart';
 import 'package:tm/ui/screens/profile/profile_screen.dart';
 import 'package:tm/ui/screens/search/search_screen.dart';
 import 'package:flutter/material.dart';
@@ -109,8 +109,10 @@ class CustomBottomNavBar extends StatelessWidget {
                   Icons.payment_outlined,
                   color: _getIconColor(MenuState.payment),
                 ),
-                onTap: () =>
-                    Navigator.pushNamed(context, PaymentScreen.routeName),
+                onTap: () {
+                  showDialogOnDevelopment(context);
+                  // Navigator.pushNamed(context, PaymentScreen.routeName);
+                },
               ),
             ),
             const Spacer(flex: 7),

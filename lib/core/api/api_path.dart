@@ -21,18 +21,23 @@ class ApiPath {
   static String authGetSmsData = "/api/v1/sms-data";
   static String authRecoverPassword = "/api/v1/recover-password";
 
+  static String getMainData = "/api/v1/main/web";
+
   static String getAccount = "/api/v1/users/";
 
   static String getPosts = "/api/v1/posts";
   static String createPost = "/api/v1/posts";
 
   static String getUsers = "/api/v1/users";
+  static String followUser = "/api/v1/users/:userId/follow";
+  static String unfollowUser = "/api/v1/users/:userId/unfollow";
 
   static String getBanners = "/api/v1/banners";
 
   static String getNotifications = "/api/v1/notifications";
 
   static String userActions = "/api/v1/user-actions";
+  static String userFollowings = "/api/v1/user-actions/followings";
 
   static String regionStatus = '/api/v1/main/region-stat';
 

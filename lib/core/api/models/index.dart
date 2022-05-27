@@ -4,3 +4,4 @@ export './user_action.dart';
 export './user.dart';
 export './notification.dart';
 export './region_status.dart';
+export './region_model.dart';

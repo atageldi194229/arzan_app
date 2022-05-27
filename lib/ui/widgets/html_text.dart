@@ -72,6 +72,8 @@ class HtmlTextWidget extends StatelessWidget {
     //open URL in webview, or launch URL in browser, or any other logic here
     try {
       if (url != null) {
+        debugPrint("clicked url: $url");
+        url = url.split(' ').join('');
         launchUrl(Uri.parse(url));
       }
     } on Exception {

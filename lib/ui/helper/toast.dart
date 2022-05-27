@@ -6,7 +6,9 @@ void showToast(BuildContext context, String message) {
     SnackBar(
       content: Text(message),
       action: SnackBarAction(
-          label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
+        label: '',
+        onPressed: scaffold.hideCurrentSnackBar,
+      ),
     ),
   );
 }

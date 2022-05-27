@@ -1,3 +1,5 @@
+import 'package:provider/provider.dart';
+import 'package:tm/core/providers/region_provider.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/screens/home/home_screen.dart';
 import 'package:tm/ui/screens/select_region/components/city_button.dart';
@@ -18,6 +20,8 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var regions = context.watch<RegionProvider>().regions;
+
     return SafeArea(
       child: SizedBox(
         width: double.infinity,
@@ -66,9 +70,12 @@ class Body extends StatelessWidget {
                             bottom: getProportionateScreenHeight(10),
                           ),
                           child: CityButton(
-                            text: cities[index]['name'],
-                            press: () => {
-                              Navigator.pushNamed(context, HomeScreen.routeName)
+                            text: regions[index].name,
+                            press: () {
+                              context.read<RegionProvider>().currentRegionId =
+                                  regions[index].id;
+                              Navigator.pushNamed(
+                                  context, HomeScreen.routeName);
                             },
                           ),
                         ),

@@ -1,6 +1,10 @@
 import 'package:tm/core/api/api_path.dart';
+import 'package:tm/core/api/models/region_model.dart';
+import 'package:tm/core/api/services/main_service.dart';
+import 'package:tm/core/providers/account_provider.dart';
 import 'package:tm/core/providers/auth_provider.dart';
 import 'package:tm/core/providers/banner_provider.dart';
+import 'package:tm/core/providers/region_provider.dart';
 import 'package:tm/ui/helper/flutter_3_ambiguate.dart';
 import 'package:tm/ui/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +33,16 @@ class _BodyState extends State<Body> {
     _onDone(context.read<AuthProvider>().initData, onDone);
   }
 
+  _initRegions() {
+    MainService().fetchData().then((data) {
+      context.read<RegionProvider>().regions = List.from(data['regions'])
+          .map<RegionModel>((e) => RegionModel.fromMap(e))
+          .toList();
+    }).catchError((error) {
+      debugPrint(error.toString());
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -41,6 +55,13 @@ class _BodyState extends State<Body> {
             });
 
             await _initAllData(() {
+              AuthProvider auth = context.read<AuthProvider>();
+              context.read<AccountProvider>().initUser(
+                    userId: auth.userId,
+                  );
+
+              _initRegions();
+
               Navigator.pop(context);
               Navigator.pushNamed(context, HomeScreen.routeName);
             });
