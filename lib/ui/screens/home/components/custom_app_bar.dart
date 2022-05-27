@@ -1,6 +1,7 @@
 import 'package:tm/core/providers/home_screen_provider.dart';
 import 'package:tm/core/providers/region_provider.dart';
 import 'package:tm/ui/constants.dart';
+import 'package:tm/ui/helper/show_dialog_on_development.dart';
 import 'package:tm/ui/screens/home/components/app_bar_button.dart';
 import 'package:tm/ui/screens/notifications/notifications_screen.dart';
 import 'package:tm/ui/screens/official_users/official_users_screen.dart';
@@ -136,7 +137,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
                         Icons.grid_view_rounded,
                         color: kSoftGreen,
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        showDialogOnDevelopment(context);
+                      },
                     ),
                   ),
                 ],

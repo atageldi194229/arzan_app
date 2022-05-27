@@ -55,10 +55,10 @@ class _BodyState extends State<Body> {
           pinned: true,
           flexibleSpace: FlexibleSpaceBar(
             collapseMode: CollapseMode.pin,
-            background: const DefaultAppBar(
+            background: DefaultAppBar(
               title: 'Official users',
               count: true,
-              countAppBar: 33,
+              countAppBar: officials.length,
             ),
             centerTitle: true,
             titlePadding: const EdgeInsets.symmetric(horizontal: 10),

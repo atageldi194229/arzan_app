@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:flutter/services.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:tm/core/localization/index.dart';
 import 'package:tm/core/providers/auth_provider.dart';
 import 'package:tm/ui/helper/toast.dart';
@@ -6,9 +10,33 @@ import 'package:tm/ui/screens/contact_us/contact_us_screen.dart';
 import 'package:tm/ui/screens/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+const String appPackageName = 'afisha.arzan.tm';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({Key? key}) : super(key: key);
+
+  _onShareTap() {
+    if (Platform.isIOS) {
+      Share.share("market://details?id=$appPackageName");
+    } else {
+      Share.share(
+          "https://play.google.com/store/apps/details?id=$appPackageName");
+    }
+  }
+
+  _onRateUsTap() {
+    try {
+      launchUrl(Uri.parse("market://details?id=$appPackageName"));
+    } on PlatformException {
+      launchUrl(Uri.parse(
+          "https://play.google.com/store/apps/details?id=$appPackageName"));
+    } finally {
+      launchUrl(Uri.parse(
+          "https://play.google.com/store/apps/details?id=$appPackageName"));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,17 +62,19 @@ class CustomDrawer extends StatelessWidget {
                   },
                   // onTap: () => MyRouter().route(context, const AboutPage()),
                 ),
-                DrawerItem(
-                  title: context.tt('navPayment'),
-                  icon: Icons.credit_card_rounded,
-                  onTap: () {},
-                  //     .route(context, const PaymentPage(content: FirstStep())),
-                  // onTap: () => MyRouter()
-                ),
+                // DrawerItem(
+                //   title: context.tt('navPayment'),
+                //   icon: Icons.credit_card_rounded,
+                //   onTap: () {},
+                //   //     .route(context, const PaymentPage(content: FirstStep())),
+                //   // onTap: () => MyRouter()
+                // ),
                 DrawerItem(
                   title: context.tt('navShare'),
                   icon: Icons.share_outlined,
-                  onTap: () {},
+                  onTap: () {
+                    _onShareTap();
+                  },
                 ),
                 DrawerItem(
                   title: context.tt('navContactUs'),
@@ -56,7 +86,9 @@ class CustomDrawer extends StatelessWidget {
                 DrawerItem(
                   title: context.tt('navRateUs'),
                   icon: Icons.star_border_rounded,
-                  onTap: () {},
+                  onTap: () {
+                    _onRateUsTap();
+                  },
                 ),
                 DrawerItem(
                   title: context.tt('navSettings'),
