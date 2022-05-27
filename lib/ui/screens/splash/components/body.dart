@@ -9,6 +9,7 @@ import 'package:tm/ui/helper/flutter_3_ambiguate.dart';
 import 'package:tm/ui/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:tm/ui/constants.dart';
+import 'package:tm/ui/screens/select_region/select_region_screen.dart';
 import 'package:tm/ui/size_config.dart';
 import 'package:provider/provider.dart';
 
@@ -33,14 +34,33 @@ class _BodyState extends State<Body> {
     _onDone(context.read<AuthProvider>().initData, onDone);
   }
 
-  _initRegions() {
-    MainService().fetchData().then((data) {
+  _initRegions() async {
+    return MainService().fetchData().then((data) {
       context.read<RegionProvider>().regions = List.from(data['regions'])
           .map<RegionModel>((e) => RegionModel.fromMap(e))
           .toList();
     }).catchError((error) {
       debugPrint(error.toString());
     });
+  }
+
+  _initUser() {
+    AuthProvider auth = context.read<AuthProvider>();
+    return context.read<AccountProvider>().initUser(userId: auth.userId);
+  }
+
+  _handleNextPage() {
+    if (context.read<RegionProvider>().isCurrentRegionSelected) {
+      Navigator.pop(context);
+      Navigator.pushNamed(context, HomeScreen.routeName);
+    } else {
+      Navigator.pop(context);
+      Navigator.pushNamed(context, SelectRegion.routeName);
+    }
+  }
+
+  _initDefaultRegion() {
+    context.read<RegionProvider>().addListenerToPref(_handleNextPage);
   }
 
   @override
@@ -54,16 +74,12 @@ class _BodyState extends State<Body> {
               _progressText = "Progress done.";
             });
 
-            await _initAllData(() {
-              AuthProvider auth = context.read<AuthProvider>();
-              context.read<AccountProvider>().initUser(
-                    userId: auth.userId,
-                  );
+            await _initAllData(() async {
+              _initUser();
+              await _initRegions();
 
-              _initRegions();
-
-              Navigator.pop(context);
-              Navigator.pushNamed(context, HomeScreen.routeName);
+              _initDefaultRegion();
+              // _handleNextPage();
             });
             // Timer(
             //   const Duration(milliseconds: 300),

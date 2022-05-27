@@ -1,4 +1,5 @@
 import 'package:provider/provider.dart';
+import 'package:tm/core/api/models/index.dart';
 import 'package:tm/core/providers/region_provider.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/screens/home/home_screen.dart';
@@ -6,21 +7,35 @@ import 'package:tm/ui/screens/select_region/components/city_button.dart';
 import 'package:tm/ui/size_config.dart';
 import 'package:flutter/material.dart';
 
-List<Map<String, dynamic>> cities = [
-  {"id": 1, "name": "Ashgabat"},
-  {"id": 2, "name": "Balkan"},
-  {"id": 3, "name": "Ahal"},
-  {"id": 4, "name": "Lebap"},
-  {"id": 5, "name": "Dashoguz"},
-  {"id": 6, "name": "Mary"},
-];
+// List<Map<String, dynamic>> cities = [
+//   {"id": 1, "name": "Ashgabat"},
+//   {"id": 2, "name": "Balkan"},
+//   {"id": 3, "name": "Ahal"},
+//   {"id": 4, "name": "Lebap"},
+//   {"id": 5, "name": "Dashoguz"},
+//   {"id": 6, "name": "Mary"},
+// ];
 
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);
 
+  _goToNextPage(BuildContext context) {
+    Navigator.pop(context);
+    Navigator.pushNamed(
+      context,
+      HomeScreen.routeName,
+    );
+  }
+
+  _onRegionTap(BuildContext context, RegionModel region) {
+    context.read<RegionProvider>().currentRegionId = region.id;
+    _goToNextPage(context);
+  }
+
   @override
   Widget build(BuildContext context) {
-    var regions = context.watch<RegionProvider>().regions;
+    var provider = context.watch<RegionProvider>();
+    var regions = provider.regions;
 
     return SafeArea(
       child: SizedBox(
@@ -64,19 +79,14 @@ class Body extends StatelessWidget {
                     SizedBox(height: getProportionateScreenHeight(20)),
                     Column(
                       children: List.generate(
-                        cities.length,
+                        regions.length,
                         (index) => Container(
                           margin: EdgeInsets.only(
                             bottom: getProportionateScreenHeight(10),
                           ),
                           child: CityButton(
                             text: regions[index].name,
-                            press: () {
-                              context.read<RegionProvider>().currentRegionId =
-                                  regions[index].id;
-                              Navigator.pushNamed(
-                                  context, HomeScreen.routeName);
-                            },
+                            press: () => _onRegionTap(context, regions[index]),
                           ),
                         ),
                       ),
@@ -84,31 +94,6 @@ class Body extends StatelessWidget {
                   ],
                 ),
               ),
-              // Image.asset(
-              //   'assets/images/logo_ticket.png',
-              //   width: getProportionateScreenWidth(200),
-              // ),
-              // Text(
-              //   "Arzan",
-              //   style: TextStyle(
-              //     fontSize: getProportionateScreenWidth(70),
-              //     color: Colors.white, // aPrimaryColor,
-              //     fontWeight: FontWeight.bold,
-              //   ),
-              // ),
-              // Text(
-              //   "ÝURDUMYZYŇ ÄHLI KÜNJEGINDE",
-              //   style: TextStyle(
-              //     fontSize: getProportionateScreenWidth(15),
-              //     color: Colors.white,
-              //     // fontWeight: FontWeight.bold
-              //   ),
-              // ),
-              // // const AutoSizeText(
-              // //   'ÝURDUMYZYŇ ÄHLI KÜNJEGINDE',
-              // //   style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              // // ),
-              // const Spacer(flex: 5),
             ],
           ),
         ),

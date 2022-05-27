@@ -1,8 +1,10 @@
 import 'package:tm/core/providers/home_screen_provider.dart';
+import 'package:tm/core/providers/region_provider.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/screens/home/components/app_bar_button.dart';
 import 'package:tm/ui/screens/notifications/notifications_screen.dart';
 import 'package:tm/ui/screens/official_users/official_users_screen.dart';
+import 'package:tm/ui/screens/select_region/select_region_screen.dart';
 import 'package:tm/ui/screens/statistics/statistics_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -39,6 +41,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
+    String currentRegionName =
+        context.watch<RegionProvider>().currentRegion.name;
 
     return CustomScrollView(
       controller: _controller,
@@ -106,11 +111,13 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   Expanded(
                     flex: 2,
                     child: AppBarButton(
-                      child: const Text(
-                        "Ashgabat",
-                        style: TextStyle(color: kSoftGreen),
+                      child: Text(
+                        currentRegionName,
+                        style: const TextStyle(color: kSoftGreen),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(context, SelectRegion.routeName);
+                      },
                     ),
                   ),
                   Expanded(

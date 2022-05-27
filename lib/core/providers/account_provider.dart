@@ -15,7 +15,11 @@ class AccountProvider with ChangeNotifier {
   }
 
   _fetchData() async {
-    user = await AccountService().fetchData(userId: _userId);
+    try {
+      user = await AccountService().fetchData(userId: _userId);
+    } catch (err) {
+      debugPrint(err.toString());
+    }
   }
 
   _initFollowingIdList() async {
