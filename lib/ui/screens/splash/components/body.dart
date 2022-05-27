@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:tm/core/api/api_path.dart';
 import 'package:tm/core/providers/auth_provider.dart';
 import 'package:tm/core/providers/banner_provider.dart';
@@ -21,33 +19,36 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   String _progressText = "Initialization";
 
-  void _initAllData() {
-    context.read<AuthProvider>().initData();
+  _onDone(Function() fn, Function callback) async {
+    await fn();
+    callback();
+  }
+
+  _initAllData(Function onDone) {
     context.read<BannerProvider>().initData();
+    _onDone(context.read<AuthProvider>().initData, onDone);
   }
 
   @override
   void initState() {
     super.initState();
     ambiguate(WidgetsBinding.instance)!.addPostFrameCallback((_) {
-      ApiPath.searchForConnection().then((dynamic result) {
+      ApiPath.searchForConnection().then((dynamic result) async {
         if (result is bool) {
           if (result == true) {
             setState(() {
               _progressText = "Progress done.";
             });
 
-            _initAllData();
-
-            Timer(
-              const Duration(milliseconds: 300),
-              () {
-                Navigator.pop(context);
-                // Navigator.pushNamed(context, ProfileScreen.routeName);
-
-                Navigator.pushNamed(context, HomeScreen.routeName);
-              },
-            );
+            await _initAllData(() {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, HomeScreen.routeName);
+            });
+            // Timer(
+            //   const Duration(milliseconds: 300),
+            //   () {
+            //   },
+            // );
           } else {
             setState(() {
               _progressText = "Internet connection problem";

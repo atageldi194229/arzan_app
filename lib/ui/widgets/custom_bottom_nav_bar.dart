@@ -46,6 +46,7 @@ class CustomBottomNavBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
+              flex: 5,
               child: _NavbarItem(
                 child: SvgPicture.asset(
                   'assets/icons/fi-rr-drawer.svg',
@@ -58,6 +59,7 @@ class CustomBottomNavBar extends StatelessWidget {
               ),
             ),
             Expanded(
+              flex: 5,
               child: _NavbarItem(
                 child: SvgPicture.asset(
                   'assets/icons/fi-rr-search.svg',
@@ -71,6 +73,7 @@ class CustomBottomNavBar extends StatelessWidget {
               ),
             ),
             Expanded(
+              flex: 5,
               child: _NavbarItem(
                 child: SvgPicture.asset(
                   'assets/icons/fi-rr-home.svg',
@@ -83,6 +86,7 @@ class CustomBottomNavBar extends StatelessWidget {
               ),
             ),
             Expanded(
+              flex: 5,
               child: _NavbarItem(
                 child: SvgPicture.asset(
                   'assets/icons/fi-rr-user.svg',
@@ -99,13 +103,17 @@ class CustomBottomNavBar extends StatelessWidget {
               ),
             ),
             Expanded(
+              flex: 5,
               child: _NavbarItem(
-                child: const Icon(Icons.payment_outlined, color: Colors.green),
+                child: Icon(
+                  Icons.payment_outlined,
+                  color: _getIconColor(MenuState.payment),
+                ),
                 onTap: () =>
                     Navigator.pushNamed(context, PaymentScreen.routeName),
               ),
             ),
-            const Spacer(),
+            const Spacer(flex: 7),
           ],
         ),
       ),

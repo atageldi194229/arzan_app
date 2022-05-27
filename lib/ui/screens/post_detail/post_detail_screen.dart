@@ -6,7 +6,7 @@ import 'package:tm/ui/helper/flutter_3_ambiguate.dart';
 import 'package:tm/ui/widgets/default_appbar.dart';
 import 'package:provider/provider.dart';
 
-import 'components/body.dart';
+import './components/body.dart';
 
 import 'package:flutter/physics.dart';
 
@@ -50,8 +50,20 @@ class _PostDetailScreenState<T extends PostListProvider>
     });
   }
 
-  void _viewPost(post) async {
+  void _viewPost(post) {
     context.read<T>().viewPost(post);
+  }
+
+  void _sharePost(post) {
+    context.read<T>().sharePost(post);
+  }
+
+  void _likePost(post) {
+    context.read<T>().likePost(post);
+  }
+
+  void _favoritePost(post) {
+    context.read<T>().favoritePost(post);
   }
 
   void _loadPosts() {
@@ -120,6 +132,9 @@ class _PostDetailScreenState<T extends PostListProvider>
           (index) => Body(
             post: posts[index],
             controller: controller,
+            onLike: _likePost,
+            onShare: _sharePost,
+            onFavorite: _favoritePost,
           ),
         ),
       ),

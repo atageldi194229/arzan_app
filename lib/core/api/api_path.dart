@@ -4,9 +4,9 @@ import 'dart:io';
 class ApiPath {
   // static String host = "192.168.110.215:8788";
   static List<String> availableHosts = [
-    "https://arzan.info",
+    // "https://arzan.info",
     "http://217.174.238.236:3020",
-    "https://217.174.238.236:3021",
+    // "https://217.174.238.236:3021",
   ];
 
   static String userToken = "";

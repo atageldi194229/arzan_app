@@ -6,12 +6,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider with ChangeNotifier {
   initData() {
-    _prefs.then((prefs) {
+    return _prefs.then((prefs) async {
       _username = prefs.getString("USER_USERNAME") ?? "";
       _password = prefs.getString("USER_PASSWORD") ?? "";
 
       if (_username.isNotEmpty && _password.isNotEmpty) {
-        login(username: _username, password: _password);
+        return login(username: _username, password: _password);
       }
     });
   }
@@ -98,7 +98,7 @@ class AuthProvider with ChangeNotifier {
     required String password,
     VoidCallback? onLogin,
   }) {
-    AuthService()
+    return AuthService()
         .login(
       username: username,
       password: password,

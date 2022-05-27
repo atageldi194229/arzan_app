@@ -28,7 +28,8 @@ class BannerService {
           .map<BannerModel>((e) => BannerModel.fromMap(e))
           .toList();
     } else {
-      throw Exception("Unable to fetch data");
+      return [];
+      // throw Exception("Unable to fetch data");
     }
   }
 

@@ -4,9 +4,14 @@ import 'package:tm/ui/widgets/image_view.dart';
 
 class ImageBox extends StatelessWidget {
   final PostModel post;
+  final bool isFavorite;
+  final void Function()? onFavorite;
+
   const ImageBox({
     Key? key,
     required this.post,
+    this.onFavorite,
+    this.isFavorite = false,
   }) : super(key: key);
 
   @override
@@ -33,9 +38,13 @@ class ImageBox extends StatelessWidget {
                 ),
               ],
             ),
-            child: const Icon(
-              Icons.bookmark_border_outlined,
-              size: 30,
+            child: InkWell(
+              onTap: onFavorite,
+              child: Icon(
+                isFavorite ? Icons.bookmark : Icons.bookmark_border_outlined,
+                color: const Color(0xff4eb75a),
+                size: 30,
+              ),
             ),
           ),
         )

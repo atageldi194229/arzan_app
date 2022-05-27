@@ -33,40 +33,68 @@ abstract class PostListProvider extends ItemListProvider<PostModel> {
   }
 
   void likePost(PostModel post, {bool listen = true}) {
+    bool isLike = post.isLike;
     post.likeCount++;
+    post.isLike = true;
+    if (listen) notifyListeners();
 
     UserActionService()
         .createUserAction(
-          UserAction(
-            id: post.id,
-            count: 1,
-            type: UserActionModel.post,
-            action: UserActionType.like,
-          ),
-        )
-        .catchError(
-          (error) => Future.value(false),
-        );
-
-    if (listen) notifyListeners();
+      UserAction(
+        id: post.id,
+        count: 1,
+        type: UserActionModel.post,
+        action: UserActionType.like,
+      ),
+    )
+        .catchError((error) {
+      post.likeCount--;
+      post.isLike = isLike;
+      if (listen) notifyListeners();
+      return Future.value(false);
+    });
   }
 
   void sharePost(PostModel post, {bool listen = true}) {
     post.shareCount++;
+    if (listen) notifyListeners();
 
     UserActionService()
         .createUserAction(
-          UserAction(
-            id: post.id,
-            count: 1,
-            type: UserActionModel.post,
-            action: UserActionType.share,
-          ),
-        )
-        .catchError(
-          (error) => Future.value(false),
-        );
+      UserAction(
+        id: post.id,
+        count: 1,
+        type: UserActionModel.post,
+        action: UserActionType.share,
+      ),
+    )
+        .catchError((error) {
+      post.shareCount--;
+      if (listen) notifyListeners();
+      return Future.value(false);
+    });
+  }
 
+  void favoritePost(PostModel post, {bool listen = true}) {
+    bool isFavorite = post.isFavorite;
+    // post.favoriteCount++;
+    post.isFavorite = !isFavorite;
     if (listen) notifyListeners();
+
+    UserActionService()
+        .createUserAction(
+      UserAction(
+        id: post.id,
+        count: isFavorite ? -1 : 1,
+        type: UserActionModel.post,
+        action: UserActionType.favorite,
+      ),
+    )
+        .catchError((error) {
+      // post.likeCount--;
+      post.isFavorite = isFavorite;
+      if (listen) notifyListeners();
+      return Future.value(false);
+    });
   }
 }
