@@ -24,17 +24,12 @@ class PostService {
 
     Uri uri = Uri.http(ApiPath.host, ApiPath.getPosts, query);
 
-    debugPrint('TOKEN POST: ${ApiPath.userToken}');
     var response = await http.get(
       uri,
       headers: <String, String>{
         "Authorization": "Bearer: ${ApiPath.userToken}",
       },
     );
-
-    debugPrint(response.headers.entries
-        .map<String>((MapEntry e) => '${e.key}:${e.value}')
-        .join('\n'));
 
     if (response.statusCode == 200) {
       var parsed = jsonDecode(response.body);

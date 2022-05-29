@@ -16,8 +16,6 @@ class ApiService {
       ).query;
     }
 
-    debugPrint(queryString);
-
     return Uri.parse('$authority$unencodedPath?$queryString');
   }
 }

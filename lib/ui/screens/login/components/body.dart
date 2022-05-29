@@ -22,6 +22,7 @@ class _BodyState extends State<Body> {
 
   _onLogin() {
     // String username = context.read<AuthProvider>().username;
+
     Navigator.pop(context);
     Navigator.pushNamed(context, HomeScreen.routeName);
     showDialogSuccess(context);
@@ -31,7 +32,7 @@ class _BodyState extends State<Body> {
     KeyboardUtil.hideKeyboard(context);
     String username = phoneInputController.text;
     String password = passwordInputController.text;
-    debugPrint("try login: $username $password");
+
     context.read<AuthProvider>().login(
           username: username,
           password: password,

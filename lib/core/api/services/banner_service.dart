@@ -40,8 +40,6 @@ class BannerService {
         queryParameters: {"search": "app_banner_page%"},
       );
 
-      debugPrint("ddd: ${response.data}");
-
       var parsed = json.decode(response.data);
 
       return parsed["banners"]
