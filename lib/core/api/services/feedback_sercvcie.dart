@@ -24,13 +24,7 @@ class FeedbackService {
 
       debugPrint("response status code: ${response.statusCode}");
 
-      if (response.statusCode == 200) {
-        var parsed = jsonDecode(response.body);
-        debugPrint("successflully added");
-        return true;
-      } else {
-        return false;
-      }
+      return response.statusCode == 200;
     } catch (e) {
       return false;
     }
