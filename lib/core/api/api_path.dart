@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
+
 class ApiPath {
   // static String host = "192.168.110.215:8788";
   static List<String> availableHosts = [
@@ -39,9 +41,10 @@ class ApiPath {
   static String userActions = "/api/v1/user-actions";
   static String userFollowings = "/api/v1/user-actions/followings";
 
-  static String regionStatus = '/api/v1/main/region-stat';
-
   static String getSearchSuggestion = "/api/v1/search/suggestions";
+
+  static String regionStatus = '/api/v1/main/region-stat';
+  static String createFeedback = "/api/v1/feedbacks";
 
   static _pingOneTime(String host, int port,
       {Duration timeout = const Duration(seconds: 5)}) {

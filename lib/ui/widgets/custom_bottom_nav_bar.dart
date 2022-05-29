@@ -1,6 +1,6 @@
 import 'package:tm/core/providers/auth_provider.dart';
 import 'package:tm/ui/constants.dart';
-import 'package:tm/ui/helper/show_dialog_on_development.dart';
+import 'package:tm/ui/helper/arzan_show_dialogs.dart';
 import 'package:tm/ui/screens/login/login_screen.dart';
 import 'package:tm/ui/screens/profile/profile_screen.dart';
 import 'package:tm/ui/screens/search/search_screen.dart';

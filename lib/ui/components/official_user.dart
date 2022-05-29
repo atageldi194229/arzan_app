@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tm/core/api/models/index.dart';
 import 'package:tm/core/providers/account_provider.dart';
-import 'package:tm/ui/helper/show_dialog_on_development.dart';
+import 'package:tm/core/providers/auth_provider.dart';
+import 'package:tm/ui/helper/arzan_show_dialogs.dart';
 
 import '../constants.dart';
 
@@ -132,11 +133,18 @@ class FollowStatusWidget extends StatelessWidget {
     String buttonText = 'Follow';
     if (isFollowing) buttonText = 'Unfollow';
 
+    bool isUserLoggedIn = context.watch<AuthProvider>().isLoggedIn;
+
     return DefaultButtonGreen(
         text: buttonText,
         active: !isFollowing,
         press: () {
-          context.read<AccountProvider>().follow(userId, !isFollowing);
+          // debugPrint('follow $userId $isFollowing');
+          if (isUserLoggedIn) {
+            context.read<AccountProvider>().follow(userId, !isFollowing);
+          } else {
+            showDialogToLogin(context);
+          }
         });
   }
 }
@@ -150,27 +158,9 @@ class DefaultOfficalUserIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(6),
-      decoration: const BoxDecoration(
-        color: Colors.green,
-        shape: BoxShape.circle,
-      ),
-      child: Container(
-        padding: const EdgeInsets.all(6),
-        decoration: const BoxDecoration(
-          // color: Colors.white,
-          shape: BoxShape.circle,
-        ),
-        child: Container(
-          padding: const EdgeInsets.all(6),
-          decoration: const BoxDecoration(
-            color: Colors.green,
-            shape: BoxShape.circle,
-          ),
-          child: Image.asset(
-            'assets/images/logo_ticket.png',
-            width: MediaQuery.of(context).size.width / 4,
-          ),
-        ),
+      child: Image.asset(
+        'assets/images/user_icon.png',
+        width: MediaQuery.of(context).size.width / 4,
       ),
     );
   }

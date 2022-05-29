@@ -1,7 +1,10 @@
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:tm/core/api/models/index.dart';
+import 'package:tm/core/providers/auth_provider.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:tm/ui/helper/arzan_show_dialogs.dart';
 import 'package:tm/ui/widgets/html_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -39,6 +42,8 @@ class Body extends StatelessWidget {
       fontWeight: FontWeight.w500,
       color: kTextColor,
     );
+
+    bool isUserLoggedIn = context.watch<AuthProvider>().isLoggedIn;
 
     return NotificationListener<OverscrollNotification>(
       onNotification: (OverscrollNotification value) {
@@ -148,7 +153,11 @@ class Body extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        if (onLike != null) onLike!(post);
+                        if (isUserLoggedIn) {
+                          if (onLike != null) onLike!(post);
+                        } else {
+                          showDialogToLogin(context);
+                        }
                       },
                       child: Row(
                         children: [

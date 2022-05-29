@@ -112,24 +112,67 @@ class _BodyState extends State<Body> {
                       ),
                       const Divider(),
                       SizedBox(height: getProportionateScreenWidth(40)),
-                      TextFormField(
-                        onChanged: ((value) => title = value),
-                        // keyboardType: TextInputType.phone,
-                        decoration: InputDecoration(
-                          fillColor: Colors.grey.shade100,
-                          filled: true,
-                          contentPadding: const EdgeInsets.all(15),
-                          hintText: 'Title',
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: const BorderSide(
-                              color: Colors.transparent,
+                      Material(
+                        elevation: 5.0,
+                        shadowColor: Colors.grey,
+                        borderRadius: BorderRadius.circular(10),
+                        child: TextFormField(
+                          onChanged: ((value) => title = value),
+                          maxLines: 4,
+                          // keyboardType: TextInputType.phone,
+                          decoration: InputDecoration(
+                            fillColor: Colors.grey.shade100,
+                            filled: true,
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: getProportionateScreenHeight(20),
+                              vertical: getProportionateScreenWidth(15),
+                            ),
+                            hintText: 'Enter Title...',
+                            hintStyle: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: const BorderSide(
+                                color: Colors.transparent,
+                              ),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: const BorderSide(
+                                color: Colors.transparent,
+                              ),
                             ),
                           ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: const BorderSide(
-                              color: Colors.transparent,
+                        ),
+                      ),
+                      SizedBox(height: getProportionateScreenWidth(20)),
+                      Material(
+                        elevation: 5.0,
+                        shadowColor: Colors.grey,
+                        borderRadius: BorderRadius.circular(10),
+                        child: TextFormField(
+                          onChanged: ((value) => contact = value),
+                          // keyboardType: TextInputType.phone,
+                          decoration: InputDecoration(
+                            fillColor: Colors.grey.shade100,
+                            filled: true,
+                            contentPadding: const EdgeInsets.all(15),
+                            hintText: 'Enter your phone number...',
+                            hintStyle: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: const BorderSide(
+                                color: Colors.transparent,
+                              ),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: const BorderSide(
+                                color: Colors.transparent,
+                              ),
                             ),
                           ),
                         ),
@@ -137,29 +180,6 @@ class _BodyState extends State<Body> {
                       SizedBox(height: getProportionateScreenWidth(40)),
                       TextFormFielTextarea(
                         onChanged: (value) => content = value,
-                      ),
-                      SizedBox(height: getProportionateScreenWidth(40)),
-                      TextFormField(
-                        onChanged: ((value) => contact = value),
-                        // keyboardType: TextInputType.phone,
-                        decoration: InputDecoration(
-                          fillColor: Colors.grey.shade100,
-                          filled: true,
-                          contentPadding: const EdgeInsets.all(15),
-                          hintText: '+9936...',
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: const BorderSide(
-                              color: Colors.transparent,
-                            ),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: const BorderSide(
-                              color: Colors.transparent,
-                            ),
-                          ),
-                        ),
                       ),
                       SizedBox(height: getProportionateScreenWidth(20)),
                       DefaultButtonGreenBack(
