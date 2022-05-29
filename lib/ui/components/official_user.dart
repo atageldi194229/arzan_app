@@ -136,7 +136,6 @@ class FollowStatusWidget extends StatelessWidget {
         text: buttonText,
         active: !isFollowing,
         press: () {
-          debugPrint('follow $userId $isFollowing');
           context.read<AccountProvider>().follow(userId, !isFollowing);
         });
   }

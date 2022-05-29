@@ -24,8 +24,6 @@ class AuthService {
       body: jsonEncode(body),
     );
 
-    debugPrint("response status code: ${response.statusCode}");
-
     if ([200, 500].contains(response.statusCode)) {
       var parsed = jsonDecode(response.body);
       return parsed;
@@ -101,8 +99,6 @@ class AuthService {
       body: jsonEncode(body),
     );
 
-    debugPrint("response status code: ${response.statusCode}");
-
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else if (response.statusCode == 401) {
@@ -131,8 +127,6 @@ class AuthService {
       },
       body: jsonEncode(body),
     );
-
-    debugPrint("response status code: ${response.statusCode}");
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body);

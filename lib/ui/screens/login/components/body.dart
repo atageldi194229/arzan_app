@@ -21,8 +21,6 @@ class _BodyState extends State<Body> {
   TextEditingController passwordInputController = TextEditingController();
 
   _onLogin() {
-    debugPrint("I MA HERE BROROOROOROROOO");
-
     String username = context.read<AuthProvider>().username;
 
     showToast(context, "$username successfully logged in.");
@@ -36,8 +34,6 @@ class _BodyState extends State<Body> {
 
     String username = phoneInputController.text;
     String password = passwordInputController.text;
-
-    debugPrint("try login: $username $password");
 
     context.read<AuthProvider>().login(
           username: username,
