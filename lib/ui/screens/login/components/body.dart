@@ -1,8 +1,8 @@
 import 'package:tm/core/localization/index.dart';
 import 'package:tm/core/providers/auth_provider.dart';
 import 'package:tm/ui/constants.dart';
+import 'package:tm/ui/helper/arzan_show_dialogs.dart';
 import 'package:tm/ui/helper/keyboard.dart';
-import 'package:tm/ui/helper/toast.dart';
 import 'package:tm/ui/screens/home/home_screen.dart';
 import 'package:tm/ui/screens/register/register_screen.dart';
 import 'package:flutter/material.dart';
@@ -21,24 +21,17 @@ class _BodyState extends State<Body> {
   TextEditingController passwordInputController = TextEditingController();
 
   _onLogin() {
-    debugPrint("I MA HERE BROROOROOROROOO");
-
-    String username = context.read<AuthProvider>().username;
-
-    showToast(context, "$username successfully logged in.");
-
+    // String username = context.read<AuthProvider>().username;
     Navigator.pop(context);
     Navigator.pushNamed(context, HomeScreen.routeName);
+    showDialogSuccess(context);
   }
 
   void _tryLogin() async {
     KeyboardUtil.hideKeyboard(context);
-
     String username = phoneInputController.text;
     String password = passwordInputController.text;
-
     debugPrint("try login: $username $password");
-
     context.read<AuthProvider>().login(
           username: username,
           password: password,
@@ -155,23 +148,26 @@ class _BodyState extends State<Body> {
             ),
             Expanded(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   InkWell(
                     onTap: () => _tryLogin(),
                     child: Container(
-                      padding: const EdgeInsets.all(10),
-                      margin: const EdgeInsets.only(bottom: 15),
+                      padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                           color: kSoftGreen,
                           borderRadius: BorderRadius.circular(10)),
                       child: Text(
                         context.tt('login'),
                         style: const TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22,
+                          letterSpacing: 0.4,
+                        ),
                       ),
                     ),
                   ),
+                  const Spacer(),
                   InkWell(
                     onTap: () =>
                         Navigator.pushNamed(context, RegisterScreen.routeName),

@@ -10,6 +10,7 @@ import 'package:tm/ui/screens/payment/components/payment_screen/success_screen.d
 import 'package:tm/ui/screens/payment/components/payment_screen/third_payment_step.dart';
 import 'package:tm/ui/screens/payment/payment_screen.dart';
 import 'package:tm/ui/screens/profile/profile_screen.dart';
+import 'package:tm/ui/screens/profile_setting/profile_setting_screen.dart';
 import 'package:tm/ui/screens/register/register_screen.dart';
 import 'package:tm/ui/screens/search/search_screen.dart';
 import 'package:tm/ui/screens/settings/settings_screen.dart';
@@ -48,10 +49,12 @@ final Map<String, WidgetBuilder> routes = {
   NotificationDetailScreen.routeName: ((context) =>
       const NotificationDetailScreen()),
 
-  //payment screen
+  //payment screen non use I gonna delete
   PaymentScreen.routeName: ((context) => const PaymentScreen()),
   SecondPaymentScreen.routeName: ((context) => const SecondPaymentScreen()),
   ThirdPaymentScreen.routeName: (context) => const ThirdPaymentScreen(),
   FourthPaymentScreen.routeName: (context) => const FourthPaymentScreen(),
-  SuccessPaymentScreen.routeName: (context) => const SuccessPaymentScreen()
+  SuccessPaymentScreen.routeName: (context) => const SuccessPaymentScreen(),
+
+  ProfileSettingScreen.routeName: (context) => const ProfileSettingScreen()
 };

@@ -63,8 +63,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '140590274669',
     projectId: 'arzan-app',
     storageBucket: 'arzan-app.appspot.com',
-    androidClientId: '140590274669-53hlokfdu84ffh2f085bc18h4dkkuc14.apps.googleusercontent.com',
-    iosClientId: '140590274669-m12f35mpcsg6055rmp2qh2tarnv94m63.apps.googleusercontent.com',
+    androidClientId:
+        '140590274669-53hlokfdu84ffh2f085bc18h4dkkuc14.apps.googleusercontent.com',
+    iosClientId:
+        '140590274669-m12f35mpcsg6055rmp2qh2tarnv94m63.apps.googleusercontent.com',
     iosBundleId: 'afisha.arzan.tm',
   );
 }

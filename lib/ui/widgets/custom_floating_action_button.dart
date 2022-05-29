@@ -1,12 +1,17 @@
+import 'package:provider/provider.dart';
+import 'package:tm/core/providers/auth_provider.dart';
 import 'package:tm/ui/constants.dart';
+import 'package:tm/ui/helper/arzan_show_dialogs.dart';
 import 'package:tm/ui/screens/add_post/add_post_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:tm/ui/screens/profile_setting/profile_setting_screen.dart';
 
 class CustomFloatingActionButton extends StatelessWidget {
   const CustomFloatingActionButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    bool isUserLoggedIn = context.watch<AuthProvider>().isLoggedIn;
     return Container(
       height: 70,
       width: 70,
@@ -16,8 +21,12 @@ class CustomFloatingActionButton extends StatelessWidget {
           // showDialog(
           //     context: context,
           //     builder: (context) => const InternetErrorDialog());
-
-          Navigator.pushNamed(context, AddPostScreen.routeName);
+          if (isUserLoggedIn) {
+            Navigator.pushNamed(context, AddPostScreen.routeName);
+            // Navigator.pushNamed(context, ProfileSettingScreen.routeName);
+          } else {
+            showDialogToLogin(context);
+          }
         },
         child: Container(
           width: double.infinity,
