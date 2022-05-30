@@ -108,8 +108,8 @@ class DefaultButtonGreen extends StatelessWidget {
       onTap: () => press(),
       child: Container(
         padding: const EdgeInsets.symmetric(
-          horizontal: 20.0,
-          vertical: 10.0,
+          horizontal: 8.0,
+          vertical: 4.0,
         ),
         decoration: BoxDecoration(
           boxShadow: kBoxShadow,

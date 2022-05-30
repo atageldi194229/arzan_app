@@ -7,6 +7,7 @@ import 'package:tm/ui/components/official_user.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tm/ui/screens/post_detail/post_detail_screen.dart';
 import 'package:tm/ui/screens/profile/profile_screen.dart';
 import 'package:tm/ui/widgets/post_card.dart';
 
@@ -35,6 +36,46 @@ class _BodyState extends State<Body> {
   ];
 
   int selectedCountButtonIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Setup the listener.
+    controller.addListener(() {
+      if (controller.position.atEdge) {
+        bool isTop = controller.position.pixels == 0;
+        if (!isTop) {
+          switch (selectedCountButton.type) {
+            case _CountButtonType.followings:
+              widget.parentState.loadFollowings();
+              break;
+
+            case _CountButtonType.followers:
+              widget.parentState.loadFollowers();
+              break;
+
+            case _CountButtonType.confirmed:
+              widget.parentState.loadConfirmed();
+              break;
+
+            case _CountButtonType.pending:
+              widget.parentState.loadPending();
+              break;
+
+            case _CountButtonType.favorites:
+              widget.parentState.loadFavorites();
+              break;
+
+            case _CountButtonType.liked:
+              widget.parentState.loadLiked();
+              break;
+            default:
+          }
+        }
+      }
+    });
+  }
 
   _CountButton get selectedCountButton =>
       countButtons[selectedCountButtonIndex];
@@ -67,19 +108,35 @@ class _BodyState extends State<Body> {
         break;
 
       case _CountButtonType.confirmed:
-        itemListWidget = _buildPostList(context, posts: confirmedList.list);
+        itemListWidget = _buildPostList(
+          context,
+          posts: confirmedList.list,
+          loadPosts: widget.parentState.loadConfirmed,
+        );
         break;
 
       case _CountButtonType.pending:
-        itemListWidget = _buildPostList(context, posts: pendingList.list);
+        itemListWidget = _buildPostList(
+          context,
+          posts: pendingList.list,
+          loadPosts: widget.parentState.loadPending,
+        );
         break;
 
       case _CountButtonType.favorites:
-        itemListWidget = _buildPostList(context, posts: favoriteList.list);
+        itemListWidget = _buildPostList(
+          context,
+          posts: favoriteList.list,
+          loadPosts: widget.parentState.loadFavorites,
+        );
         break;
 
       case _CountButtonType.liked:
-        itemListWidget = _buildPostList(context, posts: likedList.list);
+        itemListWidget = _buildPostList(
+          context,
+          posts: likedList.list,
+          loadPosts: widget.parentState.loadLiked,
+        );
         break;
       default:
         itemListWidget = Container();
@@ -102,143 +159,145 @@ class _BodyState extends State<Body> {
     double avatarLogoSize = size.width * 0.3;
     double starIconSize = avatarLogoSize * 0.2;
 
-    return SingleChildScrollView(
-      controller: controller,
-      child: Column(
-        children: [
-          Stack(
-            children: [
-              Column(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    height: bannerHeight,
-                    color: kSoftGreen,
-                    // child: FadeInImage.assetNetwork(
-                    //   placeholder: imagePlaceholder,
-                    //   image:
-                    //       "https://arzan.info:3021/api/uploads/banners/131/d60667cc-860b-4f01-889c-a33aa5deeb56.jpg",
-                    //   fit: BoxFit.fill,
-                    //   // height: carouselHeight / 3,
-                    // ),
-                    child: CachedNetworkImage(
-                      imageUrl:
-                          "https://arzan.info:3021/api/uploads/banners/131/d60667cc-860b-4f01-889c-a33aa5deeb56.jpg",
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.fill,
+    return SafeArea(
+      child: SingleChildScrollView(
+        controller: controller,
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                Column(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: bannerHeight,
+                      color: kSoftGreen,
+                      // child: FadeInImage.assetNetwork(
+                      //   placeholder: imagePlaceholder,
+                      //   image:
+                      //       "https://arzan.info:3021/api/uploads/banners/131/d60667cc-860b-4f01-889c-a33aa5deeb56.jpg",
+                      //   fit: BoxFit.fill,
+                      //   // height: carouselHeight / 3,
+                      // ),
+                      child: CachedNetworkImage(
+                        imageUrl:
+                            "https://arzan.info:3021/api/uploads/banners/131/d60667cc-860b-4f01-889c-a33aa5deeb56.jpg",
+                        imageBuilder: (context, imageProvider) => Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.fill,
+                            ),
                           ),
                         ),
+                        placeholder: (context, url) =>
+                            const Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
                       ),
-                      placeholder: (context, url) =>
-                          const Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Container(
-                          height: avatarLogoSize / 2,
-                          margin: const EdgeInsets.only(bottom: 8.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              SizedBox(
-                                // color: kSoftGreen,
-                                width: 40,
-                                height: 40,
-                              ),
-                              Spacer(),
-                              SizedBox(
-                                // color: kSoftGreen,
-                                width: 40,
-                                height: 40,
-                              ),
-                            ],
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: avatarLogoSize / 2,
+                            margin: const EdgeInsets.only(bottom: 8.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: const [
+                                SizedBox(
+                                  // color: kSoftGreen,
+                                  width: 40,
+                                  height: 40,
+                                ),
+                                Spacer(),
+                                SizedBox(
+                                  // color: kSoftGreen,
+                                  width: 40,
+                                  height: 40,
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsets.symmetric(horizontal: 8.0 * 2),
-                          child: Column(
-                            children: [
-                              Container(
-                                margin:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
-                                child: Center(
-                                  child: Text(
-                                    user.username,
-                                    style:
-                                        Theme.of(context).textTheme.headline5,
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0 * 2),
+                            child: Column(
+                              children: [
+                                Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 8.0),
+                                  child: Center(
+                                    child: Text(
+                                      user.username,
+                                      style:
+                                          Theme.of(context).textTheme.headline5,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Container(
-                                margin:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.location_on_outlined,
-                                      color: kTextColor,
-                                    ),
-                                    Text(
-                                      "Ahal, Ashgabat",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline6!
-                                          .copyWith(color: kTextColor),
-                                    ),
-                                  ],
+                                Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Icon(
+                                        Icons.location_on_outlined,
+                                        color: kTextColor,
+                                      ),
+                                      Text(
+                                        "Ahal, Ashgabat",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline6!
+                                            .copyWith(color: kTextColor),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 8.0),
-                                child: Text(
-                                  user.about ??
-                                      """Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatum sed, autem voluptas assumenda dolorum tempore in quae impedit quod! Dolore rerum quam tempora corporis tenetur dicta aperiam perspiciatis, laborum magni?
-Eius eligendi at temporibus accusamus odio ducimus? Est accusantium expedita fugit tenetur provident, nesciunt amet quam. Sint, facere architecto voluptas adipisci dolorum, corrupti provident nostrum dolorem possimus temporibus saepe quis.""",
-                                  style: const TextStyle(color: kTextColor),
-                                  textAlign: TextAlign.center,
+                                Container(
+                                  margin: const EdgeInsets.only(top: 8.0),
+                                  child: Text(
+                                    user.about ??
+                                        """Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatum sed, autem voluptas assumenda dolorum tempore in quae impedit quod! Dolore rerum quam tempora corporis tenetur dicta aperiam perspiciatis, laborum magni?
+    Eius eligendi at temporibus accusamus odio ducimus? Est accusantium expedita fugit tenetur provident, nesciunt amet quam. Sint, facere architecto voluptas adipisci dolorum, corrupti provident nostrum dolorem possimus temporibus saepe quis.""",
+                                    style: const TextStyle(color: kTextColor),
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                        _buildCountButtons(context),
-                        itemListWidget,
-                        const SizedBox(height: 100),
-                      ],
+                          _buildCountButtons(context),
+                          itemListWidget,
+                          const SizedBox(height: 100),
+                        ],
+                      ),
                     ),
+                  ],
+                ),
+                Positioned(
+                  top: bannerHeight - avatarLogoSize / 2,
+                  left: size.width / 2 - avatarLogoSize / 2,
+                  child: _AvatarLogo(
+                    user.image,
+                    size: avatarLogoSize,
                   ),
-                ],
-              ),
-              Positioned(
-                top: bannerHeight - avatarLogoSize / 2,
-                left: size.width / 2 - avatarLogoSize / 2,
-                child: _AvatarLogo(
-                  user.image,
-                  size: avatarLogoSize,
                 ),
-              ),
-              Positioned(
-                top: bannerHeight + avatarLogoSize / 2 - starIconSize / 2,
-                left: size.width / 2 - starIconSize / 2,
-                child: Image.asset(
-                  'assets/images/official_icon.png',
-                  width: starIconSize,
-                  height: starIconSize,
+                Positioned(
+                  top: bannerHeight + avatarLogoSize / 2 - starIconSize / 2,
+                  left: size.width / 2 - starIconSize / 2,
+                  child: Image.asset(
+                    'assets/images/official_icon.png',
+                    width: starIconSize,
+                    height: starIconSize,
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -364,7 +423,7 @@ Eius eligendi at temporibus accusamus odio ducimus? Est accusantium expedita fug
   _buildPostList(
     BuildContext context, {
     required List<PostModel> posts,
-    Function? onLoadMore,
+    Function? loadPosts,
   }) {
     // return ListView.builder(
     //   controller: controller,
@@ -378,7 +437,17 @@ Eius eligendi at temporibus accusamus odio ducimus? Est accusantium expedita fug
         posts.length,
         (index) => PostCard(
           post: posts[index],
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              PostDetailScreen.routeName,
+              arguments: PostDetailScreenArguments(
+                posts: posts,
+                defaultIndex: index,
+                loadPosts: loadPosts,
+              ),
+            );
+          },
         ),
       ),
     );

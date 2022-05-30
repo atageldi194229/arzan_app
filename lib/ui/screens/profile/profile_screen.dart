@@ -78,9 +78,14 @@ class ProfileScreenState extends State<ProfileScreen> {
         filter: "liked",
       );
 
+      var list = result.list.map((e) {
+        e.isLike = true;
+        return e;
+      }).toList();
+
       likedList
         ..setCount(result.count)
-        ..addAll(result.list);
+        ..addAll(list);
     } catch (error) {
       debugPrint(error.toString());
     }
@@ -135,9 +140,14 @@ class ProfileScreenState extends State<ProfileScreen> {
         filter: "favorites",
       );
 
+      var list = result.list.map((e) {
+        e.isFavorite = true;
+        return e;
+      }).toList();
+
       favoriteList
         ..setCount(result.count)
-        ..addAll(result.list);
+        ..addAll(list);
     } catch (error) {
       debugPrint(error.toString());
     }
