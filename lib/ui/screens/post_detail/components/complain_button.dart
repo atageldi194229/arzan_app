@@ -18,7 +18,7 @@ class _ComplainButtonState extends State<ComplainButton> {
   bool _value = false;
   int? val = -1;
   bool statusTextArea = false;
-  TextEditingController complain_feedback = TextEditingController();
+  TextEditingController complainFeedback = TextEditingController();
 
   handleTap(BuildContext context) {
     bool isUserLoggedIn = context.read<AuthProvider>().isLoggedIn;
@@ -64,7 +64,7 @@ class _ComplainButtonState extends State<ComplainButton> {
                             val = value as int?;
                             _value = true;
                             statusTextArea = false;
-                            complain_feedback.text = 'Illegal content';
+                            complainFeedback.text = 'Illegal content';
                           });
                         },
                         title: Text(
@@ -85,7 +85,7 @@ class _ComplainButtonState extends State<ComplainButton> {
                             val = value as int?;
                             _value = true;
                             statusTextArea = false;
-                            complain_feedback.text = 'Inappropriate image';
+                            complainFeedback.text = 'Inappropriate image';
                           });
                         },
                         title: Text(context.tt('inappropriate_image'),
@@ -105,8 +105,7 @@ class _ComplainButtonState extends State<ComplainButton> {
                             val = value as int?;
                             _value = true;
                             statusTextArea = false;
-                            complain_feedback.text =
-                                'unrealiable of_informtion';
+                            complainFeedback.text = 'unrealiable of_informtion';
                           });
                         },
                         title: Text(context.tt('unrealiable_of_informtion'),
@@ -147,7 +146,7 @@ class _ComplainButtonState extends State<ComplainButton> {
                           color: const Color.fromARGB(255, 197, 196, 196),
                           borderRadius: BorderRadius.circular(10)),
                       child: TextField(
-                        controller: complain_feedback,
+                        controller: complainFeedback,
                         maxLines: 10,
                         maxLength: 1000,
                         decoration: InputDecoration(
@@ -175,12 +174,14 @@ class _ComplainButtonState extends State<ComplainButton> {
                 child: InkWell(
                   onTap: () {
                     FeedbackService()
-                        .userFeedback(complain_feedback.text)
+                        .userFeedback(complainFeedback.text)
                         .then((value) {
                       if (value) {
                         Navigator.of(context).pop();
                         showDialogSuccess(context);
-                      } else {}
+                      } else {
+                        debugPrint('server error');
+                      }
                     });
                   },
                   child: Container(

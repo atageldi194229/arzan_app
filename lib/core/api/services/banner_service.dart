@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../models/index.dart';
@@ -39,8 +38,6 @@ class BannerService {
         ApiPath.getBanners,
         queryParameters: {"search": "app_banner_page%"},
       );
-
-      debugPrint("ddd: ${response.data}");
 
       var parsed = json.decode(response.data);
 

@@ -73,15 +73,11 @@ class AuthProvider with ChangeNotifier {
 
       token = responseData["token"].toString();
 
-      debugPrint(token);
-      debugPrint("LOGIN DONE");
-
       _saveInCache();
 
       if (onDone != null) onDone();
 
       notifyListeners();
-      debugPrint("user: ${responseData['user']['username']}");
     } else {
       debugPrint("error message: ${responseData['error']}");
 

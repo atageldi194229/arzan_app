@@ -30,8 +30,6 @@ class CustomBottomNavBar extends StatelessWidget {
     Radius radius = const Radius.circular(25);
     bool isUserLoggedIn = context.watch<AuthProvider>().isLoggedIn;
 
-    debugPrint("usUserLoggedIn: $isUserLoggedIn");
-
     return BottomAppBar(
       shape: const CircularNotchedRectangle(),
       child: Container(

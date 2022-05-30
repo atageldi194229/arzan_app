@@ -1,300 +1,290 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:tm/core/api/models/user.dart';
 import 'package:tm/core/providers/account_provider.dart';
-import 'package:tm/ui/components/avatar_logo.dart';
+import 'package:tm/core/providers/auth_provider.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tm/ui/size_config.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
+
+  @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  final List<_CountButton> countButtons = <_CountButton>[
+    _CountButton("Liked", 748),
+    _CountButton("Followers", 654),
+    _CountButton("Followings", 599),
+    _CountButton("Confirmed", 782),
+    _CountButton("Favorites", 135),
+    _CountButton("Pending", 456),
+  ];
+
+  int selectedCountButtonIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    UserModel? user = context.watch<AccountProvider>().user;
+    var authProvider = context.watch<AuthProvider>();
+    var accountProvider = context.watch<AccountProvider>();
 
-    if (user == null) {
+    UserModel? user = accountProvider.user;
+
+    debugPrint("PROFILE: ${authProvider.isLoggedIn} ${user == null}");
+
+    if (!authProvider.isLoggedIn || user == null) {
       return const Center(child: CircularProgressIndicator());
     }
 
-    debugPrint("User fetched userId: ${user.id}");
+    double bannerHeight = size.width * 0.7;
+    double avatarLogoSize = size.width * 0.3;
+    double starIconSize = avatarLogoSize * 0.2;
 
     return SingleChildScrollView(
-      child: Stack(
+      child: Column(
         children: [
-          Positioned(
-            top: 0,
-            child: Stack(
-              children: [
-                Container(
-                  padding:
-                      EdgeInsets.only(top: getProportionateScreenWidth(20)),
-                  width: size.width,
-                  height: size.height / 3,
-                  color: Colors.green,
-                  child: Column(
-                    children: [
-                      Image.asset(
-                        'assets/images/logo_ticket.png',
-                        width: getProportionateScreenWidth(100),
-                      ),
-                      Text(
-                        "Arzan",
-                        style: TextStyle(
-                          fontFamily: 'Arista',
-                          fontSize: getProportionateScreenWidth(40),
-                          color: Colors.white, // aPrimaryColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        "ÝURDUMYZYŇ ÄHLI KÜNJEGINDE",
-                        style: TextStyle(
-                          fontSize: getProportionateScreenWidth(15),
-                          color: Colors.white,
-                          // fontWeight: FontWeight.bold
-                        ),
-                      ),
-                      const Spacer(flex: 5),
-                    ],
+          Stack(
+            children: [
+              Column(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: bannerHeight,
+                    color: kSoftGreen,
+                    child: FadeInImage.assetNetwork(
+                      placeholder: imagePlaceholder,
+                      image:
+                          "https://arzan.info:3021/api/uploads/banners/131/d60667cc-860b-4f01-889c-a33aa5deeb56.jpg",
+                      fit: BoxFit.fill,
+                      // height: carouselHeight / 3,
+                    ),
+                    // child: CachedNetworkImage(
+                    //   imageUrl:
+                    //       "https://arzan.info:3021/api/uploads/banners/131/d60667cc-860b-4f01-889c-a33aa5deeb56.jpg",
+                    //   imageBuilder: (context, imageProvider) => Container(
+                    //     decoration: BoxDecoration(
+                    //       image: DecorationImage(
+                    //         image: imageProvider,
+                    //         fit: BoxFit.fill,
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   placeholder: (context, url) =>
+                    //       const Center(child: CircularProgressIndicator()),
+                    //   errorWidget: (context, url, error) => const Icon(Icons.error),
+                    // ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            width: size.width,
-            height: size.height * 1.2,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: getProportionateScreenWidth(100),
-                    horizontal: getProportionateScreenHeight(40),
-                  ),
-                  child: Stack(
-                    children: [
-                      Container(
-                        width: size.width,
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 5, vertical: 90),
-                        padding: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height / 12,
-                          left: 10,
-                          right: 10,
-                          bottom: 10,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: kBoxShadow,
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(height: getProportionateScreenHeight(30)),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  user.username,
-                                  // "user.username",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline6!
-                                      .copyWith(fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(
-                                  Icons.location_on,
-                                  color: kSoftGreen,
-                                ),
-                                Text(
-                                  'Asgabat',
-                                  style: Theme.of(context).textTheme.subtitle1,
-                                )
-                              ],
-                            ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(vertical: 20),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    user.followerCount.toString(), // '291',
-                                    style: const TextStyle(
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 27,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Followers',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1!
-                                        .copyWith(color: Colors.grey),
-                                  )
-                                ],
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: avatarLogoSize / 2,
+                          margin: const EdgeInsets.only(bottom: 8.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                color: kSoftGreen,
+                                width: 40,
+                                height: 40,
                               ),
-                            ),
-                            Visibility(
-                              visible:
-                                  !(user.about == null || user.about!.isEmpty),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    user.about.toString(),
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      color: Color.fromARGB(255, 80, 78, 78),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(height: kDilegSizedBox),
-                                ],
+                              const Spacer(),
+                              Container(
+                                color: kSoftGreen,
+                                width: 40,
+                                height: 40,
                               ),
-                            ),
-
-                            Column(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: getProportionateScreenWidth(13),
-                                    vertical: getProportionateScreenHeight(12),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      ProfileSteps(
-                                        text: 'Favorite',
-                                        count: 64,
-                                        icon: Icons.bookmark_border_outlined,
-                                        press: () {},
-                                      ),
-                                      ProfileSteps(
-                                        text: 'Likeded',
-                                        count: 43,
-                                        icon: Icons.favorite_border,
-                                        press: () {},
-                                      ),
-                                      ProfileSteps(
-                                        text: 'Pending',
-                                        count: 23,
-                                        icon: Icons.timelapse,
-                                        press: () {},
-                                      ),
-                                    ],
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding:
+                              const EdgeInsets.symmetric(horizontal: 8.0 * 3),
+                          child: Column(
+                            children: [
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                child: Center(
+                                  child: Text(
+                                    user.username,
+                                    style:
+                                        Theme.of(context).textTheme.headline5,
                                   ),
                                 ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
+                              ),
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    ProfileSteps(
-                                      text: 'Confirmed',
-                                      count: 21,
-                                      icon: Icons.confirmation_num,
-                                      press: () {},
+                                    const Icon(
+                                      Icons.location_on_outlined,
+                                      color: kTextColor,
                                     ),
-                                    ProfileSteps(
-                                      text: 'Followings',
-                                      count: 34,
-                                      icon: Icons.person,
-                                      press: () {},
+                                    Text(
+                                      "Ahal, Ashgabat",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline6!
+                                          .copyWith(color: kTextColor),
                                     ),
                                   ],
-                                )
-                              ],
-                            ),
-
-                            const SizedBox(height: 25),
-                            // const SubscribeButton()
-                          ],
+                                ),
+                              ),
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                child: Text(
+                                  user.about ??
+                                      """Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatum sed, autem voluptas assumenda dolorum tempore in quae impedit quod! Dolore rerum quam tempora corporis tenetur dicta aperiam perspiciatis, laborum magni?
+Eius eligendi at temporibus accusamus odio ducimus? Est accusantium expedita fugit tenetur provident, nesciunt amet quam. Sint, facere architecto voluptas adipisci dolorum, corrupti provident nostrum dolorem possimus temporibus saepe quis.""",
+                                  style: const TextStyle(color: kTextColor),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          Positioned(
-                            top: SizeConfig.screenWidth * 0.12,
-                            left: 10,
-                            child: const Icon(
-                              Icons.add_box,
-                              color: Colors.green,
-                            ),
-                          ),
-                          Positioned(
-                            left: SizeConfig.screenWidth * 0.3,
-                            top: SizeConfig.screenWidth * 0.1,
-                            child: SizedBox(
-                              height: size.width / 4,
-                              child: AvatarLogo(user.image),
-                            ),
-                          ),
-                          Container()
-                        ],
-                      ),
-                    ],
+                        _buildCountButtons(context),
+                        const SizedBox(height: 100),
+                      ],
+                    ),
                   ),
+                ],
+              ),
+              Positioned(
+                top: bannerHeight - avatarLogoSize / 2,
+                left: size.width / 2 - avatarLogoSize / 2,
+                child: _AvatarLogo(
+                  user.image,
+                  size: avatarLogoSize,
                 ),
-              ],
-            ),
-          )
+              ),
+              Positioned(
+                top: bannerHeight + avatarLogoSize / 2 - starIconSize / 2,
+                left: size.width / 2 - starIconSize / 2,
+                child: Image.asset(
+                  'assets/images/official_icon.png',
+                  width: starIconSize,
+                  height: starIconSize,
+                ),
+              ),
+            ],
+          ),
         ],
+      ),
+    );
+  }
+
+  _buildCountButtons(BuildContext context) {
+    return LayoutBuilder(builder: ((context, constraints) {
+      double childWidth = constraints.maxWidth / 3;
+
+      return Wrap(
+        children: [
+          ...List.generate(
+            countButtons.length,
+            (i) => SizedBox(
+              width: childWidth,
+              child: _buildCountButton(
+                context,
+                text: countButtons[i].text,
+                count: countButtons[i].count,
+                active: selectedCountButtonIndex == i,
+                onTap: () {
+                  setState(() {
+                    selectedCountButtonIndex = i;
+                  });
+                },
+              ),
+            ),
+          ),
+        ],
+      );
+    }));
+  }
+
+  _buildCountButton(
+    BuildContext context, {
+    void Function()? onTap,
+    int count = 0,
+    required String text,
+    bool active = false,
+  }) {
+    return Center(
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                count.toString(),
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              Text(
+                text,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6!
+                    .copyWith(color: kTextColor),
+              ),
+              Center(
+                child: LayoutBuilder(builder: (context, constraints) {
+                  return AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    width: active ? constraints.maxWidth : 0,
+                    height: 1,
+                    color: Colors.black,
+                  );
+                }),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
 }
 
-class ProfileSteps extends StatelessWidget {
-  final String text;
-  final int? count;
-  final IconData icon;
-  final Function? press;
-  const ProfileSteps(
-      {Key? key,
-      required this.text,
-      required this.icon,
-      this.press,
-      this.count})
-      : super(key: key);
+class _AvatarLogo extends StatelessWidget {
+  final String image;
+  final double size;
+  const _AvatarLogo(
+    this.image, {
+    Key? key,
+    required this.size,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => press,
-      child: Column(
-        children: [
-          Icon(icon, color: Colors.green),
-          Text(
-            text,
-            style: const TextStyle(
-                color: Color.fromARGB(255, 112, 111, 111),
-                fontWeight: FontWeight.bold,
-                letterSpacing: 0.3,
-                fontSize: 17),
-          ),
-          Text(count.toString(),
-              style: const TextStyle(
-                color: Color.fromARGB(255, 78, 76, 76),
-                fontWeight: FontWeight.w900,
-                fontSize: 19,
-              ))
-        ],
+    return Container(
+      width: size,
+      height: size,
+      clipBehavior: Clip.hardEdge,
+      decoration: const BoxDecoration(
+        color: kSoftGreen,
+        shape: BoxShape.circle,
+      ),
+      child: CachedNetworkImage(
+        imageUrl: image,
+        fit: BoxFit.cover,
       ),
     );
   }
+}
+
+class _CountButton {
+  final int count;
+  final String text;
+
+  _CountButton(this.text, this.count);
 }

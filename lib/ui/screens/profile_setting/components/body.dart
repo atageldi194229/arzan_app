@@ -23,38 +23,36 @@ class _BodyState extends State<Body> {
           double iconSize = constraints.maxWidth * 0.09;
           return Column(
             children: [
-              Container(
-                child: Center(
-                  child: Stack(
-                    children: [
-                      const DefaultOfficalUserIcon(),
-                      Positioned(
-                        bottom: 0,
-                        right: iconSize + 0.5,
+              Center(
+                child: Stack(
+                  children: [
+                    const DefaultOfficalUserIcon(),
+                    Positioned(
+                      bottom: 0,
+                      right: iconSize + 0.5,
+                      child: Image.asset(
+                        'assets/images/official_icon.png',
+                        width: iconSize,
+                        height: iconSize,
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 5,
+                      right: 0,
+                      child: Container(
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 30, 128, 33),
+                            borderRadius: BorderRadius.circular(10)),
                         child: Image.asset(
-                          'assets/images/official_icon.png',
-                          width: iconSize,
-                          height: iconSize,
+                          'assets/images/edit_1.png',
+                          width: iconSize / 2,
+                          height: iconSize / 2,
+                          color: Colors.white,
                         ),
                       ),
-                      Positioned(
-                        bottom: 5,
-                        right: 0,
-                        child: Container(
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 30, 128, 33),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Image.asset(
-                            'assets/images/edit_1.png',
-                            width: iconSize / 2,
-                            height: iconSize / 2,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 5),
@@ -232,7 +230,7 @@ class RegionsProfileSetting extends StatelessWidget {
       child: InkWell(
         onTap: () => press!(),
         child: Container(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             height: iconSize,
             decoration: BoxDecoration(
               color: Colors.white,
