@@ -12,9 +12,10 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  bool colorChange = false;
+
   @override
   Widget build(BuildContext context) {
-    bool colorChange = false;
     List regions = ["Balkan", "Ahal", "Lebap", "Dasoguz", "Asgabat", "Mary"];
     return SingleChildScrollView(
       child: LayoutBuilder(
@@ -117,7 +118,8 @@ class _BodyState extends State<Body> {
                         changeColor: colorChange,
                         press: () {
                           setState(() {
-                            colorChange = true;
+                            colorChange = !colorChange;
+                            print(colorChange);
                           });
                         },
                       ),
@@ -224,9 +226,9 @@ class RegionsProfileSetting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      elevation: 6,
-      shadowColor: changeColor ? Colors.green : Colors.grey,
-      borderRadius: BorderRadius.circular(10),
+      elevation: 10,
+      shadowColor: changeColor ? Color.fromARGB(255, 36, 173, 40) : Colors.grey,
+      borderRadius: BorderRadius.circular(80),
       child: InkWell(
         onTap: () => press!(),
         child: Container(
@@ -239,8 +241,9 @@ class RegionsProfileSetting extends StatelessWidget {
             child: Center(
               child: Text(
                 text,
-                style: const TextStyle(
-                  color: kTextColor,
+                style: TextStyle(
+                  color: changeColor ? Colors.green : kTextColor,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             )),

@@ -180,9 +180,7 @@ class _ComplainButtonState extends State<ComplainButton> {
                       if (value) {
                         Navigator.of(context).pop();
                         showDialogSuccess(context);
-                      } else {
-                        print('server error');
-                      }
+                      } else {}
                     });
                   },
                   child: Container(
