@@ -1,7 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:tm/core/api/models/count_and_list_model.dart';
 import 'package:tm/core/api/models/index.dart';
-import 'package:tm/core/api/models/user.dart';
 import 'package:tm/core/api/services/account_service.dart';
 import 'package:tm/core/api/services/post_service.dart';
 import 'package:tm/core/providers/account_provider.dart';

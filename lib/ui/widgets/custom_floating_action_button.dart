@@ -4,7 +4,6 @@ import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/helper/arzan_show_dialogs.dart';
 import 'package:tm/ui/screens/add_post/add_post_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:tm/ui/screens/profile_setting/profile_setting_screen.dart';
 
 class CustomFloatingActionButton extends StatelessWidget {
   const CustomFloatingActionButton({Key? key}) : super(key: key);

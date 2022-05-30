@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:tm/core/api/models/user_action.dart';
+import 'package:tm/core/api/services/user_action_service.dart';
 
 import '../api_path.dart';
 
@@ -103,5 +105,82 @@ class PostModel {
       shareCount: 0,
       createdAt: DateTime.now(),
     );
+  }
+
+  favoriteIt({
+    Function? notify,
+  }) {
+    bool isFavorite = this.isFavorite;
+    this.isFavorite = !isFavorite;
+
+    if (notify != null) notify();
+
+    var userAction = UserAction(
+      id: id,
+      count: isFavorite ? -1 : 1,
+      type: UserActionModel.post,
+      action: UserActionType.favorite,
+    );
+
+    UserActionService().createUserAction(userAction).catchError((_) {
+      this.isFavorite = isFavorite;
+      if (notify != null) notify();
+    });
+  }
+
+  shareIt({Function? notify}) {
+    shareCount++;
+    if (notify != null) notify();
+
+    var userAction = UserAction(
+      id: id,
+      count: 1,
+      type: UserActionModel.post,
+      action: UserActionType.share,
+    );
+
+    UserActionService().createUserAction(userAction).catchError((_) {
+      shareCount--;
+      if (notify != null) notify();
+    });
+  }
+
+  likeIt({Function? notify}) {
+    bool isLike = this.isLike;
+    likeCount++;
+    this.isLike = true;
+
+    if (notify != null) notify();
+
+    var userAction = UserAction(
+      id: id,
+      count: 1,
+      type: UserActionModel.post,
+      action: UserActionType.like,
+    );
+
+    UserActionService().createUserAction(userAction).catchError((_) {
+      likeCount--;
+      this.isLike = isLike;
+
+      if (notify != null) notify();
+    });
+  }
+
+  viewIt({Function? notify}) {
+    viewCount++;
+    if (notify != null) notify();
+
+    var userAction = UserAction(
+      id: id,
+      count: 1,
+      type: UserActionModel.post,
+      action: UserActionType.view,
+    );
+
+    UserActionService().createUserAction(userAction).catchError((_) {
+      viewCount--;
+      if (notify != null) notify();
+    });
   }
 }

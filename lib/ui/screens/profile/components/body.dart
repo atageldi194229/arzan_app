@@ -85,14 +85,6 @@ class _BodyState extends State<Body> {
         itemListWidget = Container();
     }
 
-    // if (selectedCountButton.type == _CountButtonType.followings) {
-    //   itemListWidget = _buildFollowingList(context);
-    // }
-
-    // if (selectedCountButton.type == _CountButtonType.followers) {
-    //   itemListWidget = _buildFollowerList(context);
-    // }
-
     Size size = MediaQuery.of(context).size;
 
     var authProvider = context.watch<AuthProvider>();
@@ -155,15 +147,15 @@ class _BodyState extends State<Body> {
                           margin: const EdgeInsets.only(bottom: 8.0),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                color: kSoftGreen,
+                            children: const [
+                              SizedBox(
+                                // color: kSoftGreen,
                                 width: 40,
                                 height: 40,
                               ),
-                              const Spacer(),
-                              Container(
-                                color: kSoftGreen,
+                              Spacer(),
+                              SizedBox(
+                                // color: kSoftGreen,
                                 width: 40,
                                 height: 40,
                               ),
@@ -172,7 +164,7 @@ class _BodyState extends State<Body> {
                         ),
                         Padding(
                           padding:
-                              const EdgeInsets.symmetric(horizontal: 8.0 * 3),
+                              const EdgeInsets.symmetric(horizontal: 8.0 * 2),
                           child: Column(
                             children: [
                               Container(
@@ -207,8 +199,7 @@ class _BodyState extends State<Body> {
                                 ),
                               ),
                               Container(
-                                margin:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                margin: const EdgeInsets.only(top: 8.0),
                                 child: Text(
                                   user.about ??
                                       """Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatum sed, autem voluptas assumenda dolorum tempore in quae impedit quod! Dolore rerum quam tempora corporis tenetur dicta aperiam perspiciatis, laborum magni?
@@ -253,31 +244,34 @@ Eius eligendi at temporibus accusamus odio ducimus? Est accusantium expedita fug
   }
 
   _buildCountButtons(BuildContext context) {
-    return LayoutBuilder(builder: ((context, constraints) {
-      double childWidth = constraints.maxWidth / 3;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0 * 2),
+      child: LayoutBuilder(builder: ((context, constraints) {
+        double childWidth = constraints.maxWidth / 3;
 
-      return Wrap(
-        children: [
-          ...List.generate(
-            countButtons.length,
-            (i) => SizedBox(
-              width: childWidth,
-              child: _buildCountButton(
-                context,
-                text: countButtons[i].text,
-                count: countButtons[i].count,
-                active: selectedCountButtonIndex == i,
-                onTap: () {
-                  setState(() {
-                    selectedCountButtonIndex = i;
-                  });
-                },
+        return Wrap(
+          children: [
+            ...List.generate(
+              countButtons.length,
+              (index) => SizedBox(
+                width: childWidth,
+                child: _buildCountButton(
+                  context,
+                  text: countButtons[index].text,
+                  count: countButtons[index].count,
+                  active: selectedCountButtonIndex == index,
+                  onTap: () {
+                    setState(() {
+                      selectedCountButtonIndex = index;
+                    });
+                  },
+                ),
               ),
             ),
-          ),
-        ],
-      );
-    }));
+          ],
+        );
+      })),
+    );
   }
 
   _buildCountButton(
@@ -407,7 +401,7 @@ class _AvatarLogo extends StatelessWidget {
       height: size,
       clipBehavior: Clip.hardEdge,
       decoration: const BoxDecoration(
-        color: kSoftGreen,
+        // color: kSoftGreen,
         shape: BoxShape.circle,
       ),
       child: CachedNetworkImage(

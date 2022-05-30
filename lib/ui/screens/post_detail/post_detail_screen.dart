@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tm/core/api/models/post_model.dart';
 import 'package:tm/core/localization/index.dart';
 import 'package:tm/core/providers/abstract/post_list_provider.dart';
 import 'package:tm/ui/constants.dart';
@@ -7,25 +8,6 @@ import 'package:tm/ui/widgets/default_appbar.dart';
 import 'package:provider/provider.dart';
 
 import './components/body.dart';
-
-import 'package:flutter/physics.dart';
-
-class CustomPageViewScrollPhysics extends ScrollPhysics {
-  const CustomPageViewScrollPhysics({ScrollPhysics? parent})
-      : super(parent: parent);
-
-  @override
-  CustomPageViewScrollPhysics applyTo(ScrollPhysics? ancestor) {
-    return CustomPageViewScrollPhysics(parent: buildParent(ancestor));
-  }
-
-  @override
-  SpringDescription get spring => const SpringDescription(
-        mass: 50,
-        stiffness: 1000,
-        damping: 0.2,
-      );
-}
 
 class PostDetailScreen<T extends PostListProvider> extends StatefulWidget {
   static String routeName = '/post_detail';
@@ -50,20 +32,12 @@ class _PostDetailScreenState<T extends PostListProvider>
     });
   }
 
-  void _viewPost(post) {
-    context.read<T>().viewPost(post);
+  void _viewPost(PostModel post) {
+    post.viewIt(notify: () => setState(() {}));
   }
 
-  void _sharePost(post) {
-    context.read<T>().sharePost(post);
-  }
-
-  void _likePost(post) {
-    context.read<T>().likePost(post);
-  }
-
-  void _favoritePost(post) {
-    context.read<T>().favoritePost(post);
+  void _favoritePost(PostModel post) {
+    post.viewIt(notify: () => setState(() {}));
   }
 
   void _loadPosts() {
@@ -112,14 +86,13 @@ class _PostDetailScreenState<T extends PostListProvider>
       initialPage: currentIndex,
     );
 
-    firstTimeCall(controller);
+    // firstTimeCall(controller);
 
     return Scaffold(
       backgroundColor: kScaffoldColor,
       appBar: DefaultAppBar(title: context.tt('post_detail')),
       body: PageView(
-        physics: const CustomPageViewScrollPhysics(),
-        scrollDirection: Axis.vertical,
+        scrollDirection: Axis.horizontal,
         controller: controller,
         onPageChanged: (index) {
           _viewPost(posts[index]);
@@ -131,44 +104,8 @@ class _PostDetailScreenState<T extends PostListProvider>
           posts.length,
           (index) => Body(
             post: posts[index],
-            controller: controller,
-            onLike: _likePost,
-            onShare: _sharePost,
             onFavorite: _favoritePost,
           ),
-        ),
-      ),
-    );
-  }
-
-  alertDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        contentPadding: const EdgeInsets.all(10),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text('data', style: TextStyle(fontWeight: FontWeight.bold)),
-            Text('data' * 10),
-            TextField(
-              maxLines: 4,
-              decoration: InputDecoration(
-                fillColor: Colors.grey.shade200,
-                filled: true,
-                hintText: 'Description',
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.transparent),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                border: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.transparent),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-              ),
-            )
-          ],
         ),
       ),
     );
