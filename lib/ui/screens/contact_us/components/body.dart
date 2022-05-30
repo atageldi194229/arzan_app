@@ -1,6 +1,7 @@
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:tm/ui/widgets/form_field.dart';
 
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);
@@ -33,42 +34,37 @@ class Body extends StatelessWidget {
                 color: Colors.grey.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  hintText: "+993",
-                  prefixIcon: const Icon(
-                    Icons.phone_callback,
-                    color: Colors.green,
-                  ),
-                  contentPadding: EdgeInsets.symmetric(
-                    horizontal: getProportionateScreenHeight(50),
-                    vertical: getProportionateScreenWidth(15),
+              child: Material(
+                elevation: 5.0,
+                shadowColor: Colors.grey,
+                borderRadius: BorderRadius.circular(10),
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    hintText: "+993",
+                    prefixIcon: const Icon(
+                      Icons.phone_callback,
+                      color: Colors.green,
+                    ),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: getProportionateScreenHeight(50),
+                      vertical: getProportionateScreenWidth(15),
+                    ),
                   ),
                 ),
               ),
             ),
-            SizedBox(height: getProportionateScreenHeight(10)),
+            SizedBox(height: getProportionateScreenHeight(30)),
             Container(
               width: SizeConfig.screenWidth * 0.8,
               decoration: BoxDecoration(
                 color: Colors.grey.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: TextField(
-                maxLines: 15,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  hintText: "Your message",
-                  contentPadding: EdgeInsets.symmetric(
-                    horizontal: getProportionateScreenHeight(20),
-                    vertical: getProportionateScreenWidth(15),
-                  ),
-                ),
+              child: TextFormFielTextarea(
+                onChanged: (value) {},
               ),
             ),
             const SizedBox(height: 10),

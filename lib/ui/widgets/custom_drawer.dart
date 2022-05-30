@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:tm/core/localization/index.dart';
 import 'package:tm/core/providers/auth_provider.dart';
+import 'package:tm/ui/helper/arzan_show_dialogs.dart';
 import 'package:tm/ui/helper/toast.dart';
 import 'package:tm/ui/screens/about_us/about_us_screen.dart';
 import 'package:tm/ui/screens/contact_us/contact_us_screen.dart';
@@ -106,7 +107,8 @@ class CustomDrawer extends StatelessWidget {
                   onTap: () {
                     Navigator.pop(context);
                     context.read<AuthProvider>().logout();
-                    showToast(context, "User successfully logged out");
+                    showDialogSuccess(context);
+                    // showToast(context, "User successfully logged out");
                   },
                 ),
               ],
