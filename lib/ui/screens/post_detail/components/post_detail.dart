@@ -12,14 +12,12 @@ import 'indicators/like_indicator.dart';
 import 'indicators/share_indicator.dart';
 import 'indicators/view_indicator.dart';
 
-class Body extends StatelessWidget {
+class PostDetail extends StatelessWidget {
   final PostModel post;
-  final Function? onFavorite;
 
-  const Body({
+  const PostDetail(
+    this.post, {
     Key? key,
-    required this.post,
-    this.onFavorite,
   }) : super(key: key);
 
   @override

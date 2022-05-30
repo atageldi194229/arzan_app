@@ -7,7 +7,7 @@ import 'package:tm/ui/helper/flutter_3_ambiguate.dart';
 import 'package:tm/ui/widgets/default_appbar.dart';
 import 'package:provider/provider.dart';
 
-import './components/body.dart';
+import 'components/post_detail.dart';
 
 class PostDetailScreen<T extends PostListProvider> extends StatefulWidget {
   static String routeName = '/post_detail';
@@ -36,43 +36,8 @@ class _PostDetailScreenState<T extends PostListProvider>
     post.viewIt(notify: () => setState(() {}));
   }
 
-  void _favoritePost(PostModel post) {
-    post.viewIt(notify: () => setState(() {}));
-  }
-
   void _loadPosts() {
     context.read<T>().loadPosts();
-  }
-
-  bool _firstTime = false;
-  firstTimeCall(PageController controller) {
-    if (_firstTime) return;
-    _firstTime = true;
-
-    controller.addListener(() {
-      if (controller.page != null) {
-        double next = controller.page!.ceilToDouble() - controller.page!;
-        double prev = controller.page! - controller.page!.floorToDouble();
-
-        const double startScrollPage = 0.2;
-        const Duration duration = Duration(milliseconds: 300);
-        const Curve curve = Curves.easeInOut;
-
-        if (startScrollPage > prev) {
-          controller.nextPage(
-            duration: duration,
-            curve: curve,
-          );
-        }
-
-        if (startScrollPage > next) {
-          controller.previousPage(
-            duration: duration,
-            curve: curve,
-          );
-        }
-      }
-    });
   }
 
   @override
@@ -85,8 +50,6 @@ class _PostDetailScreenState<T extends PostListProvider>
     final controller = PageController(
       initialPage: currentIndex,
     );
-
-    // firstTimeCall(controller);
 
     return Scaffold(
       backgroundColor: kScaffoldColor,
@@ -102,10 +65,7 @@ class _PostDetailScreenState<T extends PostListProvider>
         },
         children: List.generate(
           posts.length,
-          (index) => Body(
-            post: posts[index],
-            onFavorite: _favoritePost,
-          ),
+          (index) => PostDetail(posts[index]),
         ),
       ),
     );
