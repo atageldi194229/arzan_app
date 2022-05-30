@@ -42,8 +42,9 @@ class RegionProvider extends ChangeNotifier {
 
   List<RegionModel> get regions => _regions;
 
-  set regions(value) {
-    _regions = value;
+  set regions(List<RegionModel> list) {
+    list.sort((b, a) => a.order.compareTo(b.order));
+    _regions = list;
     notifyListeners();
   }
 

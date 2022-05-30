@@ -6,7 +6,7 @@ import 'package:tm/core/api/models/banner_model.dart';
 class BannerProvider with ChangeNotifier {
   late List<BannerModel> _banners = <BannerModel>[];
 
-  get banners => _banners;
+  List<BannerModel> get banners => _banners;
 
   set banners(value) {
     _banners = value;

@@ -3,6 +3,7 @@ import 'package:tm/core/api/models/post_model.dart';
 import 'package:tm/core/api/models/user.dart';
 import 'package:tm/core/providers/account_provider.dart';
 import 'package:tm/core/providers/auth_provider.dart';
+import 'package:tm/core/providers/banner_provider.dart';
 import 'package:tm/ui/components/official_user.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +44,8 @@ class _BodyState extends State<Body> {
 
     // Setup the listener.
     controller.addListener(() {
+      if (!controller.hasClients) return;
+
       if (controller.position.atEdge) {
         bool isTop = controller.position.pixels == 0;
         if (!isTop) {
@@ -82,6 +85,11 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
+    var banners = context.watch<BannerProvider>().banners;
+    String bannerImage =
+        "https://arzan.info:3021/api/uploads/banners/131/d60667cc-860b-4f01-889c-a33aa5deeb56.jpg";
+    if (banners.isNotEmpty) bannerImage = banners[0].image;
+
     var followerList = widget.parentState.followerList;
     var followingList = widget.parentState.followingList;
     var likedList = widget.parentState.likedList;
@@ -100,11 +108,17 @@ class _BodyState extends State<Body> {
 
     switch (selectedCountButton.type) {
       case _CountButtonType.followings:
-        itemListWidget = _buildFollowingList(context);
+        itemListWidget = _buildUserList(
+          context,
+          users: widget.parentState.followingList.list,
+        );
         break;
 
       case _CountButtonType.followers:
-        itemListWidget = _buildFollowerList(context);
+        itemListWidget = _buildUserList(
+          context,
+          users: widget.parentState.followerList.list,
+        );
         break;
 
       case _CountButtonType.confirmed:
@@ -172,16 +186,8 @@ class _BodyState extends State<Body> {
                       width: double.infinity,
                       height: bannerHeight,
                       color: kSoftGreen,
-                      // child: FadeInImage.assetNetwork(
-                      //   placeholder: imagePlaceholder,
-                      //   image:
-                      //       "https://arzan.info:3021/api/uploads/banners/131/d60667cc-860b-4f01-889c-a33aa5deeb56.jpg",
-                      //   fit: BoxFit.fill,
-                      //   // height: carouselHeight / 3,
-                      // ),
                       child: CachedNetworkImage(
-                        imageUrl:
-                            "https://arzan.info:3021/api/uploads/banners/131/d60667cc-860b-4f01-889c-a33aa5deeb56.jpg",
+                        imageUrl: bannerImage,
                         imageBuilder: (context, imageProvider) => Container(
                           decoration: BoxDecoration(
                             image: DecorationImage(
@@ -256,16 +262,17 @@ class _BodyState extends State<Body> {
                                     ],
                                   ),
                                 ),
-                                Container(
-                                  margin: const EdgeInsets.only(top: 8.0),
-                                  child: Text(
-                                    user.about ??
-                                        """Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatum sed, autem voluptas assumenda dolorum tempore in quae impedit quod! Dolore rerum quam tempora corporis tenetur dicta aperiam perspiciatis, laborum magni?
-    Eius eligendi at temporibus accusamus odio ducimus? Est accusantium expedita fugit tenetur provident, nesciunt amet quam. Sint, facere architecto voluptas adipisci dolorum, corrupti provident nostrum dolorem possimus temporibus saepe quis.""",
-                                    style: const TextStyle(color: kTextColor),
-                                    textAlign: TextAlign.center,
+                                if (user.about != null)
+                                  Container(
+                                    margin: const EdgeInsets.only(top: 8.0),
+                                    child: Text(
+                                      user.about ?? "",
+                                      //                                     """Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatum sed, autem voluptas assumenda dolorum tempore in quae impedit quod! Dolore rerum quam tempora corporis tenetur dicta aperiam perspiciatis, laborum magni?
+                                      // Eius eligendi at temporibus accusamus odio ducimus? Est accusantium expedita fugit tenetur provident, nesciunt amet quam. Sint, facere architecto voluptas adipisci dolorum, corrupti provident nostrum dolorem possimus temporibus saepe quis.""",
+                                      style: const TextStyle(color: kTextColor),
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
-                                ),
                               ],
                             ),
                           ),
@@ -376,15 +383,15 @@ class _BodyState extends State<Body> {
     );
   }
 
-  _buildFollowingList(BuildContext context) {
-    var followingList = widget.parentState.followingList;
-
+  _buildUserList(
+    BuildContext context, {
+    required List<UserModel> users,
+  }) {
     return GridView.builder(
-      controller: controller,
-      itemCount: followingList.list.length,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.all(8.0),
+      itemCount: users.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         childAspectRatio: 0.65,
@@ -392,29 +399,7 @@ class _BodyState extends State<Body> {
         crossAxisSpacing: 8.0,
       ),
       itemBuilder: (context, index) => OfficialUser(
-        followingList.list[index],
-        iconShow: false,
-      ),
-    );
-  }
-
-  _buildFollowerList(BuildContext context) {
-    var followerList = widget.parentState.followerList;
-
-    return GridView.builder(
-      controller: controller,
-      itemCount: followerList.list.length,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.all(8.0),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        childAspectRatio: 0.65,
-        mainAxisSpacing: 8.0,
-        crossAxisSpacing: 8.0,
-      ),
-      itemBuilder: (context, index) => OfficialUser(
-        followerList.list[index],
+        users[index],
         iconShow: false,
       ),
     );
@@ -425,12 +410,25 @@ class _BodyState extends State<Body> {
     required List<PostModel> posts,
     Function? loadPosts,
   }) {
-    // return ListView.builder(
-    //   controller: controller,
-    //   itemCount: posts.length,
-    //   itemBuilder: (context, index) =>
-    //       PostCard(post: posts[index], onTap: () {},),
-    // );
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: posts.length,
+      itemBuilder: (context, index) => PostCard(
+        post: posts[index],
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            PostDetailScreen.routeName,
+            arguments: PostDetailScreenArguments(
+              posts: posts,
+              defaultIndex: index,
+              loadPosts: loadPosts,
+            ),
+          );
+        },
+      ),
+    );
 
     return Column(
       children: List.generate(
