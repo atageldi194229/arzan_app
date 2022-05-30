@@ -2,8 +2,8 @@ import 'package:tm/core/api/models/index.dart';
 import 'package:tm/core/providers/abstract/item_list_provider.dart';
 
 abstract class PostListProvider extends ItemListProvider<PostModel> {
-  get posts => items;
-  get currentPost => currentItem;
+  List<PostModel> get posts => items;
+  PostModel get currentPost => currentItem;
 
   loadPosts() => load();
 

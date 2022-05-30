@@ -9,6 +9,7 @@ import 'package:tm/ui/screens/payment/components/payment_screen/second_payment_s
 import 'package:tm/ui/screens/payment/components/payment_screen/success_screen.dart';
 import 'package:tm/ui/screens/payment/components/payment_screen/third_payment_step.dart';
 import 'package:tm/ui/screens/payment/payment_screen.dart';
+import 'package:tm/ui/screens/post_detail/post_detail_screen.dart';
 import 'package:tm/ui/screens/profile/profile_screen.dart';
 import 'package:tm/ui/screens/profile_setting/profile_setting_screen.dart';
 import 'package:tm/ui/screens/register/register_screen.dart';
@@ -35,7 +36,7 @@ final Map<String, WidgetBuilder> routes = {
   HomeScreen.routeName: (context) => const HomeScreen(),
   SelectRegion.routeName: (context) => const SelectRegion(),
   SettingsScreen.routeName: (context) => const SettingsScreen(),
-  // PostDetailScreen.routeName: (context) => const PostDetailScreen(),
+  PostDetailScreen.routeName: (context) => const PostDetailScreen(),
   ProfileScreen.routeName: ((context) => const ProfileScreen()),
   SearchScreen.routeName: (context) => const SearchScreen(),
   LoginScreen.routeName: (context) => const LoginScreen(),

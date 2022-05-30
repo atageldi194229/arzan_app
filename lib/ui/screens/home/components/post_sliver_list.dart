@@ -36,12 +36,13 @@ class _PostSliverListState extends State<PostSliverList> {
               post: posts[index],
               onTap: () {
                 context.read<HomeScreenProvider>().setCurrentIndex(index);
-                // Navigator.pushNamed(context, PostDetailScreen.routeName);
-                Navigator.push(
+                Navigator.pushNamed(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        const PostDetailScreen<HomeScreenProvider>(),
+                  PostDetailScreen.routeName,
+                  arguments: PostDetailScreenArguments(
+                    posts: posts,
+                    defaultIndex: index,
+                    loadPosts: context.read<HomeScreenProvider>().loadPosts,
                   ),
                 );
               });

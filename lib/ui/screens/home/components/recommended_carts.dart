@@ -66,11 +66,14 @@ class _RecommendedCartsState extends State<RecommendedCarts> {
               post: posts[index],
               onTap: () {
                 context.read<RecommendedPostProvider>().setCurrentIndex(index);
-                Navigator.push(
+                Navigator.pushNamed(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        const PostDetailScreen<RecommendedPostProvider>(),
+                  PostDetailScreen.routeName,
+                  arguments: PostDetailScreenArguments(
+                    posts: posts,
+                    defaultIndex: index,
+                    loadPosts:
+                        context.read<RecommendedPostProvider>().loadPosts,
                   ),
                 );
               },

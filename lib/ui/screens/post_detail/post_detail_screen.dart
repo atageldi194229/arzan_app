@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 import 'components/post_detail.dart';
 
-class PostDetailScreen<T extends PostListProvider> extends StatefulWidget {
+class PostDetailScreen extends StatefulWidget {
   static String routeName = '/post_detail';
 
   const PostDetailScreen({
@@ -17,18 +17,22 @@ class PostDetailScreen<T extends PostListProvider> extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<PostDetailScreen<T>> createState() => _PostDetailScreenState<T>();
+  State<PostDetailScreen> createState() => _PostDetailScreenState();
 }
 
-class _PostDetailScreenState<T extends PostListProvider>
-    extends State<PostDetailScreen<T>> {
+class _PostDetailScreenState extends State<PostDetailScreen> {
   @override
   void initState() {
     super.initState();
 
     ambiguate(WidgetsBinding.instance)!.addPostFrameCallback((_) {
-      var post = context.read<T>().currentPost;
-      _viewPost(post);
+      final args = ModalRoute.of(context)!.settings.arguments
+          as PostDetailScreenArguments;
+
+      // var post = context.read<T>().currentPost;
+      // _viewPost(post);
+
+      _viewPost(args.posts[args.defaultIndex]);
     });
   }
 
@@ -36,19 +40,22 @@ class _PostDetailScreenState<T extends PostListProvider>
     post.viewIt(notify: () => setState(() {}));
   }
 
-  void _loadPosts() {
-    context.read<T>().loadPosts();
-  }
+  // void _loadPosts() {
+  // context.read<T>().loadPosts();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    var postListProvider = context.watch<T>();
+    final args =
+        ModalRoute.of(context)!.settings.arguments as PostDetailScreenArguments;
 
-    List posts = postListProvider.posts;
-    int currentIndex = postListProvider.currentIndex;
+    // var postListProvider = context.watch<T>();
+
+    List posts = args.posts;
+    // int currentIndex = postListProvider.currentIndex;
 
     final controller = PageController(
-      initialPage: currentIndex,
+      initialPage: args.defaultIndex,
     );
 
     return Scaffold(
@@ -60,7 +67,8 @@ class _PostDetailScreenState<T extends PostListProvider>
         onPageChanged: (index) {
           _viewPost(posts[index]);
           if (posts.length - 5 < index) {
-            _loadPosts();
+            // _loadPosts();
+            if (args.loadPosts != null) args.loadPosts!();
           }
         },
         children: List.generate(
@@ -70,4 +78,16 @@ class _PostDetailScreenState<T extends PostListProvider>
       ),
     );
   }
+}
+
+class PostDetailScreenArguments {
+  final List<PostModel> posts;
+  final int defaultIndex;
+  final Function? loadPosts;
+
+  PostDetailScreenArguments({
+    required this.posts,
+    this.defaultIndex = 0,
+    this.loadPosts,
+  });
 }

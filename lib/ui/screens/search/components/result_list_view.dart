@@ -34,7 +34,7 @@ class _ResultListViewState extends State<ResultListView> {
   Widget build(BuildContext context) {
     PostSearchProvider searchProvider = context.watch<PostSearchProvider>();
 
-    List posts = searchProvider.posts;
+    var posts = searchProvider.posts;
 
     Iterable<Widget> items = posts.map(
       (post) => PostCard(
@@ -44,12 +44,14 @@ class _ResultListViewState extends State<ResultListView> {
           int index = posts.indexOf(post);
 
           context.read<PostSearchProvider>().setCurrentIndex(index);
-
-          Navigator.push(
+          Navigator.pushNamed(
             context,
-            MaterialPageRoute(builder: (context) {
-              return const PostDetailScreen<PostSearchProvider>();
-            }),
+            PostDetailScreen.routeName,
+            arguments: PostDetailScreenArguments(
+              posts: posts,
+              defaultIndex: index,
+              loadPosts: context.read<PostSearchProvider>().loadPosts,
+            ),
           );
         },
       ),
