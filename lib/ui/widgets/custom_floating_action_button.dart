@@ -22,8 +22,8 @@ class CustomFloatingActionButton extends StatelessWidget {
           //     context: context,
           //     builder: (context) => const InternetErrorDialog());
           if (isUserLoggedIn) {
-            // Navigator.pushNamed(context, AddPostScreen.routeName);
-            Navigator.pushNamed(context, ProfileSettingScreen.routeName);
+            Navigator.pushNamed(context, AddPostScreen.routeName);
+            // Navigator.pushNamed(context, ProfileSettingScreen.routeName);
           } else {
             showDialogToLogin(context);
           }
