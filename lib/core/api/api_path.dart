@@ -43,6 +43,7 @@ class ApiPath {
 
   static String regionStatus = '/api/v1/main/region-stat';
   static String createFeedback = "/api/v1/feedbacks";
+  static String contactUs = '/api/v1/';
 
   static _pingOneTime(
     String host,

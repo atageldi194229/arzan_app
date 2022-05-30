@@ -6,9 +6,11 @@ import 'package:image_picker/image_picker.dart';
 
 class ImagePickingRow extends StatefulWidget {
   final Function onChange;
+  final int countImage;
   const ImagePickingRow({
     Key? key,
     required this.onChange,
+    required this.countImage,
   }) : super(key: key);
 
   @override
@@ -42,7 +44,7 @@ class _ImagePickingRowState extends State<ImagePickingRow> {
 
       // some magic to limit image pick
 
-      int length = 5 - this.images.length - images.length;
+      int length = widget.countImage - this.images.length - images.length;
       length = length < 0 ? 0 : length;
 
       _addImages(images.take(length).toList());
@@ -60,7 +62,7 @@ class _ImagePickingRowState extends State<ImagePickingRow> {
       children: [
         InkWell(
           onTap: () {
-            if (images.length >= 5) {
+            if (images.length >= widget.countImage) {
               _removeAllImages();
             } else {
               _pickImages();
@@ -72,12 +74,12 @@ class _ImagePickingRowState extends State<ImagePickingRow> {
             padding: const EdgeInsets.all(10),
             margin: const EdgeInsets.symmetric(horizontal: 5),
             decoration: BoxDecoration(
-              border: images.length >= 5
+              border: images.length >= widget.countImage
                   ? Border.all(color: Colors.grey)
                   : Border.all(color: Colors.green),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: images.length >= 5
+            child: images.length >= widget.countImage
                 ? const Icon(Icons.delete_forever_rounded, color: Colors.grey)
                 : const Icon(Icons.image, color: Colors.green),
           ),

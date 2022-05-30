@@ -1,6 +1,15 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:tm/core/api/models/user.dart';
+import 'package:tm/core/providers/account_provider.dart';
+import 'package:tm/core/providers/auth_provider.dart';
 import 'package:tm/ui/components/official_user.dart';
 import 'package:tm/ui/constants.dart';
+import 'package:tm/ui/helper/keyboard.dart';
 import 'package:tm/ui/size_config.dart';
 import 'package:tm/ui/widgets/form_field.dart';
 
@@ -12,11 +21,68 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  bool colorChange = false;
+  List regions = ["Balkan", "Ahal", "Lebap", "Dasoguz", "Asgabat", "Mary"];
+  int isActiveColor = 0;
+
+  TextEditingController usernameInputController = TextEditingController();
+  TextEditingController descriptionInputController = TextEditingController();
+  TextEditingController phoneNumberInputController = TextEditingController();
+  //  List<XFile> images = [];
+  XFile? image;
 
   @override
   Widget build(BuildContext context) {
-    List regions = ["Balkan", "Ahal", "Lebap", "Dasoguz", "Asgabat", "Mary"];
+    var authProvider = context.watch<AuthProvider>();
+    var accountProvider = context.watch<AccountProvider>();
+
+    UserModel? user = accountProvider.user;
+
+    debugPrint("PROFILE: ${authProvider.isLoggedIn} ${user == null}");
+
+    if (!authProvider.isLoggedIn || user == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    usernameInputController.text = user.username;
+    descriptionInputController.text = user.about ?? "";
+    phoneNumberInputController.text = user.phoneNumber;
+
+    void _submit() async {
+      KeyboardUtil.hideKeyboard(context);
+      String username = usernameInputController.text;
+      String about = descriptionInputController.text;
+      String phoneNumber = phoneNumberInputController.text;
+
+      // context.read<AuthProvider>().login(
+      //       username: username,
+      //       about: about,
+      //       onLogin: _onLogin,
+      //     );
+    }
+
+    Size size = MediaQuery.of(context).size;
+    double avatarLogoSize = size.width * 0.3;
+
+    Widget userImageWidget = const DefaultOfficalUserIcon();
+
+    if (image != null) {
+      userImageWidget = Container(
+        width: avatarLogoSize,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(40),
+        ),
+        child: Image.file(
+          File(image!.path),
+        ),
+      );
+    } else if (user.image != null) {
+      userImageWidget = CachedNetworkImage(
+        imageUrl: user.image,
+        fit: BoxFit.cover,
+        width: avatarLogoSize,
+      );
+    }
+
     return SingleChildScrollView(
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -26,29 +92,50 @@ class _BodyState extends State<Body> {
               Center(
                 child: Stack(
                   children: [
-                    const DefaultOfficalUserIcon(),
+                    Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40)),
+                        child: userImageWidget),
+                    // user.image == null
+                    //     ? const DefaultOfficalUserIcon()
+                    //     : CachedNetworkImage(
+                    //         imageUrl: user.image,
+                    //         fit: BoxFit.cover,
+                    //         width: avatarLogoSize,
+                    //       ),
                     Positioned(
                       bottom: 0,
                       right: iconSize + 0.5,
                       child: Image.asset(
                         'assets/images/official_icon.png',
-                        width: iconSize,
+                        width: iconSize - 7,
                         height: iconSize,
                       ),
                     ),
                     Positioned(
                       bottom: 5,
                       right: 0,
-                      child: Container(
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 30, 128, 33),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Image.asset(
-                          'assets/images/edit_1.png',
-                          width: iconSize / 2,
-                          height: iconSize / 2,
-                          color: Colors.white,
+                      // child: ImagePickingRow(
+                      //   countImage: 2,
+                      //   onChange: (values) => images,
+                      // )
+                      child: InkWell(
+                        onTap: () async {
+                          XFile? tempImage = await ImagePicker()
+                              .pickImage(source: ImageSource.gallery);
+                          setState(() => image = tempImage);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 30, 128, 33),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Image.asset(
+                            'assets/images/edit_1.png',
+                            width: iconSize / 2.2,
+                            height: iconSize / 2,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
@@ -87,15 +174,16 @@ class _BodyState extends State<Body> {
                 child: Column(
                   children: [
                     const NameContent(text: "Username: "),
-                    profileSettingUsername(),
+                    profileSettingUsername(user),
                     const SizedBox(height: 10),
                     const NameContent(text: "About:"),
                     TextFormFielTextarea(
+                      text: descriptionInputController.text,
                       onChanged: (value) {},
                     ),
                     const SizedBox(height: 50),
                     const NameContent(text: "Phone number:"),
-                    profileSettingPhoneNumber(),
+                    profileSettingPhoneNumber(user),
                     const SizedBox(height: 50),
                     const NameContent(text: "Regions:"),
                     GridView.builder(
@@ -113,11 +201,10 @@ class _BodyState extends State<Body> {
                       itemBuilder: (context, index) => RegionsProfileSetting(
                         iconSize: iconSize,
                         text: regions[index],
-                        changeColor: colorChange,
+                        changeColor: isActiveColor == index,
                         press: () {
                           setState(() {
-                            colorChange = !colorChange;
-                            print(colorChange);
+                            isActiveColor = index;
                           });
                         },
                       ),
@@ -126,7 +213,8 @@ class _BodyState extends State<Body> {
                     DefaultButtonGreen(
                       text: "sumbit",
                       press: () {},
-                    )
+                    ),
+                    const SizedBox(height: 10),
                   ],
                 ),
               )
@@ -137,12 +225,14 @@ class _BodyState extends State<Body> {
     );
   }
 
-  Material profileSettingUsername() {
+  Material profileSettingUsername(user) {
+    user = user;
     return Material(
       elevation: 5.0,
       shadowColor: Colors.grey,
       borderRadius: BorderRadius.circular(10),
       child: TextFormField(
+        controller: usernameInputController,
         onChanged: ((value) {}),
         decoration: InputDecoration(
           fillColor: Colors.grey.shade100,
@@ -150,7 +240,7 @@ class _BodyState extends State<Body> {
           contentPadding: EdgeInsets.symmetric(
             horizontal: getProportionateScreenHeight(15),
           ),
-          hintText: 'username',
+          hintText: user.username,
           hintStyle: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -160,23 +250,22 @@ class _BodyState extends State<Body> {
               color: Colors.transparent,
             ),
           ),
-          border: OutlineInputBorder(
+          focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
-            borderSide: const BorderSide(
-              color: Colors.transparent,
-            ),
+            borderSide: const BorderSide(color: Colors.transparent),
           ),
         ),
       ),
     );
   }
 
-  Material profileSettingPhoneNumber() {
+  Material profileSettingPhoneNumber(user) {
     return Material(
       elevation: 5.0,
       shadowColor: Colors.grey,
       borderRadius: BorderRadius.circular(10),
       child: TextFormField(
+        controller: phoneNumberInputController,
         onChanged: ((value) {}),
         decoration: InputDecoration(
           fillColor: Colors.grey.shade100,
@@ -184,7 +273,7 @@ class _BodyState extends State<Body> {
           contentPadding: EdgeInsets.symmetric(
             horizontal: getProportionateScreenHeight(15),
           ),
-          hintText: 'username',
+          hintText: 'phone number',
           hintStyle: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -194,11 +283,9 @@ class _BodyState extends State<Body> {
               color: Colors.transparent,
             ),
           ),
-          border: OutlineInputBorder(
+          focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
-            borderSide: const BorderSide(
-              color: Colors.transparent,
-            ),
+            borderSide: const BorderSide(color: Colors.transparent),
           ),
         ),
       ),

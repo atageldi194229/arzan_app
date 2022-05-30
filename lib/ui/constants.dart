@@ -108,8 +108,8 @@ class DefaultButtonGreen extends StatelessWidget {
       onTap: () => press(),
       child: Container(
         padding: const EdgeInsets.symmetric(
-          horizontal: 8.0,
-          vertical: 4.0,
+          horizontal: 20.0,
+          vertical: 10.0,
         ),
         decoration: BoxDecoration(
           boxShadow: kBoxShadow,
@@ -117,7 +117,7 @@ class DefaultButtonGreen extends StatelessWidget {
           borderRadius: kBorderRadius,
         ),
         child: Text(
-          text,
+          text.toUpperCase(),
           style: TextStyle(
             color: active ? Colors.white : null,
             fontWeight: FontWeight.bold,
