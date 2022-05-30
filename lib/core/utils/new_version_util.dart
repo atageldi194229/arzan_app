@@ -1,37 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:new_version/new_version.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:tm/core/api/services/global_var_service.dart';
+import 'package:tm/ui/helper/arzan_show_dialogs.dart';
 
 void newVersionCheck(BuildContext context) async {
-  /*
-    TODO: remove new_version package then use Firebase Remote Config
-    https://stackoverflow.com/questions/58057555/flutter-how-to-check-is-the-app-has-a-new-version
-  */
   try {
-    final newVersion = NewVersion(
-        // androidId: "com.snapchat.android",
-        );
-    final status = await newVersion.getVersionStatus();
+    // custom new version checker
 
-    if (status != null) {
-      debugPrint("Current local version ${status.localVersion}");
-      debugPrint(
-          "Can update to the new version: ${status.canUpdate == true ? 'true' : 'false'}");
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
-      if (!status.canUpdate) return;
+    // String appName = packageInfo.appName;
+    // String packageName = packageInfo.packageName;
+    // String version = packageInfo.version;
+    String buildNumberAsString = packageInfo.buildNumber;
 
-      newVersion.showUpdateDialog(
-        context: context,
-        versionStatus: status,
-        dialogTitle: "UPDATE!!!",
-        dismissButtonText: "Skip",
-        dialogText: "Please update the app from "
-            "${status.localVersion} to ${status.storeVersion}",
-        updateButtonText: "Update",
-        // allowDismissal: false,
-      );
-    }
+    String? storeBuildNumberAsString = await GlobalVarService()
+        .getValue(GlobalVarKeys.storeAppBuildVersion.name);
 
-    // newVersion.showAlertIfNecessary(context: context);
+    if (storeBuildNumberAsString == null) return;
+
+    int? storeBuildNumber = int.tryParse(storeBuildNumberAsString);
+    int? buildNumber = int.tryParse(buildNumberAsString);
+
+    if (storeBuildNumber == null || buildNumber == null) return;
+
+    if (storeBuildNumber <= buildNumber) return;
+
+    // ignore: use_build_context_synchronously
+    showDialogNewVersionAvailable(context);
   } catch (error) {
     debugPrint("Error checking new version of app");
     debugPrint(error.toString());

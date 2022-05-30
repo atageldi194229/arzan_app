@@ -1,32 +1,98 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:tm/core/api/models/post_model.dart';
 import 'package:tm/core/api/models/user.dart';
 import 'package:tm/core/providers/account_provider.dart';
 import 'package:tm/core/providers/auth_provider.dart';
+import 'package:tm/ui/components/official_user.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tm/ui/screens/profile/profile_screen.dart';
+import 'package:tm/ui/widgets/post_card.dart';
 
 class Body extends StatefulWidget {
-  const Body({Key? key}) : super(key: key);
+  final ProfileScreenState parentState;
+
+  const Body({
+    Key? key,
+    required this.parentState,
+  }) : super(key: key);
 
   @override
   State<Body> createState() => _BodyState();
 }
 
 class _BodyState extends State<Body> {
+  final ScrollController controller = ScrollController();
+
   final List<_CountButton> countButtons = <_CountButton>[
-    _CountButton("Liked", 748),
-    _CountButton("Followers", 654),
-    _CountButton("Followings", 599),
-    _CountButton("Confirmed", 782),
-    _CountButton("Favorites", 135),
-    _CountButton("Pending", 456),
+    _CountButton(_CountButtonType.liked, "Liked", 748),
+    _CountButton(_CountButtonType.followers, "Followers", 654),
+    _CountButton(_CountButtonType.followings, "Followings", 599),
+    _CountButton(_CountButtonType.confirmed, "Confirmed", 782),
+    _CountButton(_CountButtonType.favorites, "Favorites", 135),
+    _CountButton(_CountButtonType.pending, "Pending", 456),
   ];
 
   int selectedCountButtonIndex = 0;
 
+  _CountButton get selectedCountButton =>
+      countButtons[selectedCountButtonIndex];
+
   @override
   Widget build(BuildContext context) {
+    var followerList = widget.parentState.followerList;
+    var followingList = widget.parentState.followingList;
+    var likedList = widget.parentState.likedList;
+    var confirmedList = widget.parentState.confirmedList;
+    var favoriteList = widget.parentState.favoriteList;
+    var pendingList = widget.parentState.pendingList;
+
+    countButtons[1].count = followerList.count;
+    countButtons[2].count = followingList.count;
+    countButtons[0].count = likedList.count;
+    countButtons[3].count = confirmedList.count;
+    countButtons[4].count = favoriteList.count;
+    countButtons[5].count = pendingList.count;
+
+    late Widget itemListWidget;
+
+    switch (selectedCountButton.type) {
+      case _CountButtonType.followings:
+        itemListWidget = _buildFollowingList(context);
+        break;
+
+      case _CountButtonType.followers:
+        itemListWidget = _buildFollowerList(context);
+        break;
+
+      case _CountButtonType.confirmed:
+        itemListWidget = _buildPostList(context, posts: confirmedList.list);
+        break;
+
+      case _CountButtonType.pending:
+        itemListWidget = _buildPostList(context, posts: pendingList.list);
+        break;
+
+      case _CountButtonType.favorites:
+        itemListWidget = _buildPostList(context, posts: favoriteList.list);
+        break;
+
+      case _CountButtonType.liked:
+        itemListWidget = _buildPostList(context, posts: likedList.list);
+        break;
+      default:
+        itemListWidget = Container();
+    }
+
+    // if (selectedCountButton.type == _CountButtonType.followings) {
+    //   itemListWidget = _buildFollowingList(context);
+    // }
+
+    // if (selectedCountButton.type == _CountButtonType.followers) {
+    //   itemListWidget = _buildFollowerList(context);
+    // }
+
     Size size = MediaQuery.of(context).size;
 
     var authProvider = context.watch<AuthProvider>();
@@ -45,6 +111,7 @@ class _BodyState extends State<Body> {
     double starIconSize = avatarLogoSize * 0.2;
 
     return SingleChildScrollView(
+      controller: controller,
       child: Column(
         children: [
           Stack(
@@ -55,28 +122,29 @@ class _BodyState extends State<Body> {
                     width: double.infinity,
                     height: bannerHeight,
                     color: kSoftGreen,
-                    child: FadeInImage.assetNetwork(
-                      placeholder: imagePlaceholder,
-                      image:
-                          "https://arzan.info:3021/api/uploads/banners/131/d60667cc-860b-4f01-889c-a33aa5deeb56.jpg",
-                      fit: BoxFit.fill,
-                      // height: carouselHeight / 3,
-                    ),
-                    // child: CachedNetworkImage(
-                    //   imageUrl:
+                    // child: FadeInImage.assetNetwork(
+                    //   placeholder: imagePlaceholder,
+                    //   image:
                     //       "https://arzan.info:3021/api/uploads/banners/131/d60667cc-860b-4f01-889c-a33aa5deeb56.jpg",
-                    //   imageBuilder: (context, imageProvider) => Container(
-                    //     decoration: BoxDecoration(
-                    //       image: DecorationImage(
-                    //         image: imageProvider,
-                    //         fit: BoxFit.fill,
-                    //       ),
-                    //     ),
-                    //   ),
-                    //   placeholder: (context, url) =>
-                    //       const Center(child: CircularProgressIndicator()),
-                    //   errorWidget: (context, url, error) => const Icon(Icons.error),
+                    //   fit: BoxFit.fill,
+                    //   // height: carouselHeight / 3,
                     // ),
+                    child: CachedNetworkImage(
+                      imageUrl:
+                          "https://arzan.info:3021/api/uploads/banners/131/d60667cc-860b-4f01-889c-a33aa5deeb56.jpg",
+                      imageBuilder: (context, imageProvider) => Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                      placeholder: (context, url) =>
+                          const Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -153,6 +221,7 @@ Eius eligendi at temporibus accusamus odio ducimus? Est accusantium expedita fug
                           ),
                         ),
                         _buildCountButtons(context),
+                        itemListWidget,
                         const SizedBox(height: 100),
                       ],
                     ),
@@ -253,6 +322,73 @@ Eius eligendi at temporibus accusamus odio ducimus? Est accusantium expedita fug
       ),
     );
   }
+
+  _buildFollowingList(BuildContext context) {
+    var followingList = widget.parentState.followingList;
+
+    return GridView.builder(
+      controller: controller,
+      itemCount: followingList.list.length,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.all(8.0),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        childAspectRatio: 0.65,
+        mainAxisSpacing: 8.0,
+        crossAxisSpacing: 8.0,
+      ),
+      itemBuilder: (context, index) => OfficialUser(
+        followingList.list[index],
+        iconShow: false,
+      ),
+    );
+  }
+
+  _buildFollowerList(BuildContext context) {
+    var followerList = widget.parentState.followerList;
+
+    return GridView.builder(
+      controller: controller,
+      itemCount: followerList.list.length,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.all(8.0),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        childAspectRatio: 0.65,
+        mainAxisSpacing: 8.0,
+        crossAxisSpacing: 8.0,
+      ),
+      itemBuilder: (context, index) => OfficialUser(
+        followerList.list[index],
+        iconShow: false,
+      ),
+    );
+  }
+
+  _buildPostList(
+    BuildContext context, {
+    required List<PostModel> posts,
+    Function? onLoadMore,
+  }) {
+    // return ListView.builder(
+    //   controller: controller,
+    //   itemCount: posts.length,
+    //   itemBuilder: (context, index) =>
+    //       PostCard(post: posts[index], onTap: () {},),
+    // );
+
+    return Column(
+      children: List.generate(
+        posts.length,
+        (index) => PostCard(
+          post: posts[index],
+          onTap: () {},
+        ),
+      ),
+    );
+  }
 }
 
 class _AvatarLogo extends StatelessWidget {
@@ -282,9 +418,19 @@ class _AvatarLogo extends StatelessWidget {
   }
 }
 
-class _CountButton {
-  final int count;
-  final String text;
+enum _CountButtonType {
+  liked,
+  followers,
+  followings,
+  confirmed,
+  favorites,
+  pending
+}
 
-  _CountButton(this.text, this.count);
+class _CountButton {
+  int count;
+  String text;
+  final _CountButtonType type;
+
+  _CountButton(this.type, this.text, this.count);
 }

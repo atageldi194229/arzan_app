@@ -26,9 +26,12 @@ class ApiPath {
   static String getAccount = "/api/v1/users/";
 
   static String getPosts = "/api/v1/posts";
+  static String getUserPosts = "/api/v1//users/:userId/posts";
   static String createPost = "/api/v1/posts";
 
   static String getUsers = "/api/v1/users";
+  static String getFollowers = "/api/v1/users/:userId/followers";
+  static String getFollowings = "/api/v1/users/:userId/followings";
   static String followUser = "/api/v1/users/:userId/follow";
   static String unfollowUser = "/api/v1/users/:userId/unfollow";
 
@@ -44,6 +47,8 @@ class ApiPath {
   static String regionStatus = '/api/v1/main/region-stat';
   static String createFeedback = "/api/v1/feedbacks";
   static String contactUs = '/api/v1/';
+
+  static String getGlobalVar = "/api/v1/global-vars/";
 
   static _pingOneTime(
     String host,

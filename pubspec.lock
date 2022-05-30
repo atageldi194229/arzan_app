@@ -394,13 +394,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
-  new_version:
-    dependency: "direct main"
-    description:
-      name: new_version
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.3.0"
   numerus:
     dependency: transitive
     description:
@@ -416,7 +409,7 @@ packages:
     source: hosted
     version: "1.0.2"
   package_info_plus:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: package_info_plus
       url: "https://pub.dartlang.org"

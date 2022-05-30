@@ -43,6 +43,11 @@ class PostModel {
     return defaultValue;
   }
 
+  static ifExists(Map map, String key, dynamic defaultValue) {
+    if (map.containsKey(key)) return map[key];
+    return defaultValue;
+  }
+
   PostModel({
     required this.id,
     required List<String> images,
@@ -75,9 +80,9 @@ class PostModel {
       images: images,
       title: json['title'],
       content: json['content'],
-      viewCount: json['viewCount'],
-      likeCount: json['likeCount'],
-      shareCount: json['shareCount'],
+      viewCount: ifExists(json, 'viewCount', 0),
+      likeCount: ifExists(json, 'likeCount', 0),
+      shareCount: ifExists(json, 'shareCount', 0),
       createdAt: DateTime.parse(
         json['createdAt'],
       ),

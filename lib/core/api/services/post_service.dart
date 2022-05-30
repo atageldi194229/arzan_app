@@ -1,5 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:tm/core/api/models/count_and_list_model.dart';
 import 'dart:convert';
 import '../models/index.dart';
 import '../api_path.dart';
@@ -101,5 +102,52 @@ class PostService {
     }
 
     throw Exception('Something went wrong');
+  }
+
+  Future<CountAndListModel<PostModel>> getUserPosts({
+    required int userId,
+    int limit = 15,
+    int offset = 0,
+    String? search,
+    String sort = "createdAt-desc",
+    String filter = "confirmed",
+  }) async {
+    var query = <String, String>{
+      "sort": sort,
+      "filter": filter,
+      "limit": "$limit",
+      "offset": "$offset",
+      if (search != null) "search": search,
+    };
+
+    Uri uri = Uri.http(
+      ApiPath.host,
+      ApiPath.getUserPosts.replaceAll(":userId", "$userId"),
+      query,
+    );
+
+    var response = await http.get(
+      uri,
+      headers: <String, String>{
+        "Authorization": "Bearer: ${ApiPath.userToken}",
+      },
+    );
+
+    if (response.statusCode == 200) {
+      var parsed = jsonDecode(response.body);
+
+      int count = 0;
+      if (parsed['count'] is String) count = int.tryParse(parsed['count']) ?? 0;
+      if (parsed['count'] is int) count = parsed['count'];
+
+      return CountAndListModel(
+        count: count,
+        list: List.from(parsed["posts"])
+            .map<PostModel>((e) => PostModel.fromMap(e))
+            .toList(),
+      );
+    }
+
+    throw Exception("Unable to fetch data");
   }
 }

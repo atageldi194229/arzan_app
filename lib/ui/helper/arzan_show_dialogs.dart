@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/screens/login/login_screen.dart';
 import 'package:tm/ui/size_config.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void showDialogOnDevelopment(BuildContext context) {
   showDialog<void>(
@@ -107,6 +109,59 @@ void showDialogSuccess(BuildContext context) {
                 ),
               ],
             ),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void showDialogNewVersionAvailable(BuildContext context) {
+  showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Row(
+          children: const [
+            Text(
+              'Update!!!',
+              style: TextStyle(
+                color: kSoftGreen,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Spacer(),
+            Icon(
+              Icons.update_rounded,
+              color: kSoftGreen,
+              size: 40,
+            ),
+          ],
+        ),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: const <Widget>[
+              Text(' - Please update the app from '),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Update'),
+            onPressed: () {
+              const String appPackageName = 'afisha.arzan.tm';
+
+              try {
+                launchUrl(Uri.parse("market://details?id=$appPackageName"));
+              } on PlatformException {
+                launchUrl(Uri.parse(
+                    "https://play.google.com/store/apps/details?id=$appPackageName"));
+              } finally {
+                launchUrl(Uri.parse(
+                    "https://play.google.com/store/apps/details?id=$appPackageName"));
+              }
+            },
           ),
         ],
       );
