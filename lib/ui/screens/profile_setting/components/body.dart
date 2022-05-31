@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:tm/core/api/models/user.dart';
+import 'package:tm/core/api/services/account_service.dart';
 import 'package:tm/core/providers/account_provider.dart';
 import 'package:tm/core/providers/auth_provider.dart';
+import 'package:tm/core/providers/region_provider.dart';
 import 'package:tm/ui/components/official_user.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/helper/keyboard.dart';
@@ -21,23 +23,24 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  List regions = ["Balkan", "Ahal", "Lebap", "Dasoguz", "Asgabat", "Mary"];
   int isActiveColor = 0;
 
   TextEditingController usernameInputController = TextEditingController();
   TextEditingController descriptionInputController = TextEditingController();
   TextEditingController phoneNumberInputController = TextEditingController();
-  //  List<XFile> images = [];
+
   XFile? image;
 
   @override
   Widget build(BuildContext context) {
+    var regionProvidor = context.watch<RegionProvider>();
     var authProvider = context.watch<AuthProvider>();
     var accountProvider = context.watch<AccountProvider>();
 
     UserModel? user = accountProvider.user;
+    var regions = regionProvidor.regions;
 
-    debugPrint("PROFILE: ${authProvider.isLoggedIn} ${user == null}");
+    // debugPrint("PROFILE: ${authProvider.isLoggedIn} ${user == null}");
 
     if (!authProvider.isLoggedIn || user == null) {
       return const Center(child: CircularProgressIndicator());
@@ -46,18 +49,20 @@ class _BodyState extends State<Body> {
     usernameInputController.text = user.username;
     descriptionInputController.text = user.about ?? "";
     phoneNumberInputController.text = user.phoneNumber;
+    int regionId = user.regions[0].id;
 
     void _submit() async {
       KeyboardUtil.hideKeyboard(context);
       String username = usernameInputController.text;
       String about = descriptionInputController.text;
       String phoneNumber = phoneNumberInputController.text;
-
-      // context.read<AuthProvider>().login(
-      //       username: username,
-      //       about: about,
-      //       onLogin: _onLogin,
-      //     );
+      await AccountService().update(
+        about: about,
+        image: image,
+        phoneNumber: phoneNumber,
+        username: username,
+        regionIds: regionId,
+      );
     }
 
     Size size = MediaQuery.of(context).size;
@@ -92,17 +97,7 @@ class _BodyState extends State<Body> {
               Center(
                 child: Stack(
                   children: [
-                    Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(40)),
-                        child: userImageWidget),
-                    // user.image == null
-                    //     ? const DefaultOfficalUserIcon()
-                    //     : CachedNetworkImage(
-                    //         imageUrl: user.image,
-                    //         fit: BoxFit.cover,
-                    //         width: avatarLogoSize,
-                    //       ),
+                    userImageWidget,
                     Positioned(
                       bottom: 0,
                       right: iconSize + 0.5,
@@ -200,11 +195,12 @@ class _BodyState extends State<Body> {
                       ),
                       itemBuilder: (context, index) => RegionsProfileSetting(
                         iconSize: iconSize,
-                        text: regions[index],
+                        text: regions[index].name,
                         changeColor: isActiveColor == index,
                         press: () {
                           setState(() {
                             isActiveColor = index;
+                            regionId = index;
                           });
                         },
                       ),
@@ -212,7 +208,9 @@ class _BodyState extends State<Body> {
                     const SizedBox(height: 10),
                     DefaultButtonGreen(
                       text: "sumbit",
-                      press: () {},
+                      press: () {
+                        _submit();
+                      },
                     ),
                     const SizedBox(height: 10),
                   ],
