@@ -161,6 +161,7 @@ class AccountService {
   }
 
   Future<bool> update({
+    required int id,
     XFile? image,
     String? username,
     String? about,
@@ -171,9 +172,12 @@ class AccountService {
 
     if (token.isEmpty) throw Exception("User not logged in");
 
-    Uri uri = Uri.http(ApiPath.host, ApiPath.createPost);
+    Uri uri = Uri.http(
+      ApiPath.host,
+      '${ApiPath.getAccount}/$id',
+    );
 
-    var request = http.MultipartRequest('POST', uri);
+    var request = http.MultipartRequest('PUT', uri);
 
     if (username != null) request.fields['username'] = username;
     if (regionIds != null) request.fields['regionIds'] = regionIds as String;
@@ -190,6 +194,8 @@ class AccountService {
 
     if (response.statusCode == 200) {
       return true;
+    } else {
+      return false;
     }
 
     throw Exception('Something went wrong');

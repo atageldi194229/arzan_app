@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:tm/core/api/models/region_model.dart';
 import 'package:tm/core/api/models/user.dart';
 import 'package:tm/core/api/services/account_service.dart';
 import 'package:tm/core/providers/account_provider.dart';
@@ -11,9 +12,9 @@ import 'package:tm/core/providers/auth_provider.dart';
 import 'package:tm/core/providers/region_provider.dart';
 import 'package:tm/ui/components/official_user.dart';
 import 'package:tm/ui/constants.dart';
+import 'package:tm/ui/helper/arzan_show_dialogs.dart';
 import 'package:tm/ui/helper/keyboard.dart';
 import 'package:tm/ui/size_config.dart';
-import 'package:tm/ui/widgets/form_field.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -39,9 +40,6 @@ class _BodyState extends State<Body> {
 
     UserModel? user = accountProvider.user;
     var regions = regionProvidor.regions;
-
-    // debugPrint("PROFILE: ${authProvider.isLoggedIn} ${user == null}");
-
     if (!authProvider.isLoggedIn || user == null) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -49,20 +47,30 @@ class _BodyState extends State<Body> {
     usernameInputController.text = user.username;
     descriptionInputController.text = user.about ?? "";
     phoneNumberInputController.text = user.phoneNumber;
-    int regionId = user.regions[0].id;
+    // int regionId = user.regions![0].id;
 
     void _submit() async {
       KeyboardUtil.hideKeyboard(context);
       String username = usernameInputController.text;
       String about = descriptionInputController.text;
       String phoneNumber = phoneNumberInputController.text;
-      await AccountService().update(
+      int id = user.id;
+      await AccountService()
+          .update(
+        id: id,
         about: about,
         image: image,
         phoneNumber: phoneNumber,
         username: username,
-        regionIds: regionId,
-      );
+        // regionIds: regionId,
+      )
+          .then((value) {
+        if (value) {
+          // Navigator.of(context).pop();
+
+          showDialogSuccess(context);
+        }
+      });
     }
 
     Size size = MediaQuery.of(context).size;
@@ -72,19 +80,32 @@ class _BodyState extends State<Body> {
 
     if (image != null) {
       userImageWidget = Container(
-        width: avatarLogoSize,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(40),
-        ),
-        child: Image.file(
-          File(image!.path),
+        // height: SizeConfig.screenWidth * 2,
+        width: SizeConfig.screenWidth * 0.25,
+        child: ClipOval(
+          child: Image.file(
+            File(image!.path),
+          ),
         ),
       );
     } else if (user.image != null) {
-      userImageWidget = CachedNetworkImage(
-        imageUrl: user.image,
-        fit: BoxFit.cover,
-        width: avatarLogoSize,
+      userImageWidget = Container(
+        child: CachedNetworkImage(
+          imageUrl: user.image,
+          fit: BoxFit.cover,
+          width: avatarLogoSize,
+          imageBuilder: (context, imageProvider) => Container(
+            height: SizeConfig.screenWidth * 0.30,
+            width: SizeConfig.screenWidth * 0.09,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(60)),
+              image: DecorationImage(
+                image: imageProvider,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
       );
     }
 
@@ -100,7 +121,7 @@ class _BodyState extends State<Body> {
                     userImageWidget,
                     Positioned(
                       bottom: 0,
-                      right: iconSize + 0.5,
+                      right: image == null ? iconSize + 8 : iconSize + 0.5,
                       child: Image.asset(
                         'assets/images/official_icon.png',
                         width: iconSize - 7,
@@ -172,10 +193,7 @@ class _BodyState extends State<Body> {
                     profileSettingUsername(user),
                     const SizedBox(height: 10),
                     const NameContent(text: "About:"),
-                    TextFormFielTextarea(
-                      text: descriptionInputController.text,
-                      onChanged: (value) {},
-                    ),
+                    profileSettingAbout(),
                     const SizedBox(height: 50),
                     const NameContent(text: "Phone number:"),
                     profileSettingPhoneNumber(user),
@@ -200,7 +218,7 @@ class _BodyState extends State<Body> {
                         press: () {
                           setState(() {
                             isActiveColor = index;
-                            regionId = index;
+                            // regionId = index;
                           });
                         },
                       ),
@@ -219,6 +237,38 @@ class _BodyState extends State<Body> {
             ],
           );
         },
+      ),
+    );
+  }
+
+  Material profileSettingAbout() {
+    return Material(
+      elevation: 5.0,
+      shadowColor: Colors.grey,
+      borderRadius: BorderRadius.circular(10),
+      child: Container(
+        width: SizeConfig.screenWidth * 0.90,
+        decoration: BoxDecoration(
+          color: Colors.grey.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: TextField(
+          controller: descriptionInputController,
+          maxLines: 12,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            enabledBorder: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            hintText: "Description...",
+            hintStyle: const TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: getProportionateScreenHeight(20),
+              vertical: getProportionateScreenWidth(15),
+            ),
+          ),
+        ),
       ),
     );
   }
