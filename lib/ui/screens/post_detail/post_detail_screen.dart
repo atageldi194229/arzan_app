@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tm/core/api/models/post_model.dart';
 import 'package:tm/core/localization/index.dart';
-import 'package:tm/core/providers/abstract/post_list_provider.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/helper/flutter_3_ambiguate.dart';
 import 'package:tm/ui/widgets/default_appbar.dart';
-import 'package:provider/provider.dart';
 
 import 'components/post_detail.dart';
 
@@ -29,9 +27,6 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
       final args = ModalRoute.of(context)!.settings.arguments
           as PostDetailScreenArguments;
 
-      // var post = context.read<T>().currentPost;
-      // _viewPost(post);
-
       _viewPost(args.posts[args.defaultIndex]);
     });
   }
@@ -40,19 +35,12 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
     post.viewIt(notify: () => setState(() {}));
   }
 
-  // void _loadPosts() {
-  // context.read<T>().loadPosts();
-  // }
-
   @override
   Widget build(BuildContext context) {
     final args =
         ModalRoute.of(context)!.settings.arguments as PostDetailScreenArguments;
 
-    // var postListProvider = context.watch<T>();
-
     List posts = args.posts;
-    // int currentIndex = postListProvider.currentIndex;
 
     final controller = PageController(
       initialPage: args.defaultIndex,
@@ -66,10 +54,11 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
         controller: controller,
         onPageChanged: (index) {
           _viewPost(posts[index]);
-          if (posts.length - 5 < index) {
-            // _loadPosts();
-            if (args.loadPosts != null) args.loadPosts!();
-          }
+
+          if (posts.length - 5 >= index) return;
+          if (args.loadPosts == null) return;
+
+          args.loadPosts!();
         },
         children: List.generate(
           posts.length,

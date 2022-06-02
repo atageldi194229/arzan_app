@@ -18,7 +18,6 @@ import 'core/providers/index.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // TT.init();
-//afisha.arzan.tm
 
   // await Firebase.initializeApp();
   await Firebase.initializeApp(
