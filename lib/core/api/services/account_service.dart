@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:tm/core/api/models/count_and_list_model.dart';
 import 'dart:convert';
 import '../models/index.dart';
@@ -157,5 +158,46 @@ class AccountService {
 
     // other way
     throw Exception("Unable to fetch data");
+  }
+
+  Future<bool> update({
+    required int id,
+    XFile? image,
+    String? username,
+    String? about,
+    int? regionIds,
+    String? phoneNumber,
+  }) async {
+    String token = ApiPath.userToken;
+
+    if (token.isEmpty) throw Exception("User not logged in");
+
+    Uri uri = Uri.http(
+      ApiPath.host,
+      '${ApiPath.getAccount}/$id',
+    );
+
+    var request = http.MultipartRequest('PUT', uri);
+
+    if (username != null) request.fields['username'] = username;
+    if (regionIds != null) request.fields['regionIds'] = regionIds as String;
+    if (about != null) request.fields['about'] = about;
+    if (phoneNumber != null) request.fields['phoneNumber'] = phoneNumber;
+    if (image != null) {
+      var imageAsBytes = await image.readAsBytes();
+      request.files.add(http.MultipartFile.fromBytes('image', imageAsBytes));
+    }
+
+    request.headers['Authorization'] = "Bearer: $token";
+
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+
+    throw Exception('Something went wrong');
   }
 }
