@@ -1,5 +1,3 @@
-import 'package:tm/core/api/models/index.dart';
-
 import '../api_path.dart';
 
 class UserModel {

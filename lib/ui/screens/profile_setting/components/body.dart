@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:tm/core/api/models/region_model.dart';
 import 'package:tm/core/api/models/user.dart';
 import 'package:tm/core/api/services/account_service.dart';
 import 'package:tm/core/providers/account_provider.dart';
@@ -79,7 +78,7 @@ class _BodyState extends State<Body> {
     Widget userImageWidget = const DefaultOfficalUserIcon();
 
     if (image != null) {
-      userImageWidget = Container(
+      userImageWidget = SizedBox(
         // height: SizeConfig.screenWidth * 2,
         width: SizeConfig.screenWidth * 0.25,
         child: ClipOval(
@@ -89,20 +88,18 @@ class _BodyState extends State<Body> {
         ),
       );
     } else if (user.image != null) {
-      userImageWidget = Container(
-        child: CachedNetworkImage(
-          imageUrl: user.image,
-          fit: BoxFit.cover,
-          width: avatarLogoSize,
-          imageBuilder: (context, imageProvider) => Container(
-            height: SizeConfig.screenWidth * 0.30,
-            width: SizeConfig.screenWidth * 0.09,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(60)),
-              image: DecorationImage(
-                image: imageProvider,
-                fit: BoxFit.cover,
-              ),
+      userImageWidget = CachedNetworkImage(
+        imageUrl: user.image,
+        fit: BoxFit.cover,
+        width: avatarLogoSize,
+        imageBuilder: (context, imageProvider) => Container(
+          height: SizeConfig.screenWidth * 0.30,
+          width: SizeConfig.screenWidth * 0.09,
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(60)),
+            image: DecorationImage(
+              image: imageProvider,
+              fit: BoxFit.cover,
             ),
           ),
         ),
@@ -360,7 +357,8 @@ class RegionsProfileSetting extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       elevation: 10,
-      shadowColor: changeColor ? Color.fromARGB(255, 36, 173, 40) : Colors.grey,
+      shadowColor:
+          changeColor ? const Color.fromARGB(255, 36, 173, 40) : Colors.grey,
       borderRadius: BorderRadius.circular(80),
       child: InkWell(
         onTap: () => press!(),

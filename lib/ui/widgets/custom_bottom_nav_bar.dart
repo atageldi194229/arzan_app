@@ -101,20 +101,20 @@ class CustomBottomNavBar extends StatelessWidget {
                 },
               ),
             ),
-            Expanded(
-              flex: 5,
-              child: _NavbarItem(
-                child: Icon(
-                  Icons.payment_outlined,
-                  color: _getIconColor(MenuState.payment),
-                ),
-                onTap: () {
-                  showDialogOnDevelopment(context);
-                  Navigator.pushNamed(context, PaymentScreen.routeName);
-                },
-              ),
-            ),
-            const Spacer(flex: 7),
+            // Expanded(
+            //   flex: 5,
+            //   child: _NavbarItem(
+            //     child: Icon(
+            //       Icons.payment_outlined,
+            //       color: _getIconColor(MenuState.payment),
+            //     ),
+            //     onTap: () {
+            //       showDialogOnDevelopment(context);
+            //       Navigator.pushNamed(context, PaymentScreen.routeName);
+            //     },
+            //   ),
+            // ),
+            const Spacer(flex: 6),
           ],
         ),
       ),

@@ -197,7 +197,5 @@ class AccountService {
     } else {
       return false;
     }
-
-    throw Exception('Something went wrong');
   }
 }

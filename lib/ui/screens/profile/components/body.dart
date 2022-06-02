@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:tm/core/api/models/post_model.dart';
 import 'package:tm/core/api/models/user.dart';
 import 'package:tm/core/providers/account_provider.dart';
@@ -8,8 +9,10 @@ import 'package:tm/ui/components/official_user.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tm/ui/screens/post_detail/components/constants.dart';
 import 'package:tm/ui/screens/post_detail/post_detail_screen.dart';
 import 'package:tm/ui/screens/profile/profile_screen.dart';
+import 'package:tm/ui/screens/profile_setting/profile_setting_screen.dart';
 import 'package:tm/ui/widgets/post_card.dart';
 
 class Body extends StatefulWidget {
@@ -285,6 +288,58 @@ class _BodyState extends State<Body> {
                   ],
                 ),
                 Positioned(
+                  child: Row(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                blurRadius: 30,
+                                spreadRadius: 5,
+                              ),
+                            ],
+                          ),
+                          padding: const EdgeInsets.all(8.0),
+                          child: const Icon(
+                            Icons.arrow_back,
+                            size: iconSize * 1.5,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      const Spacer(),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushNamed(ProfileSettingScreen.routeName);
+                        },
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: kSoftGreen,
+                                blurRadius: 30,
+                                spreadRadius: 5,
+                              ),
+                            ],
+                          ),
+                          padding: const EdgeInsets.all(8.0),
+                          child: const Icon(
+                            Icons.settings,
+                            size: iconSize * 1.5,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Positioned(
                   top: bannerHeight - avatarLogoSize / 2,
                   left: size.width / 2 - avatarLogoSize / 2,
                   child: _AvatarLogo(
@@ -427,26 +482,6 @@ class _BodyState extends State<Body> {
             ),
           );
         },
-      ),
-    );
-
-    return Column(
-      children: List.generate(
-        posts.length,
-        (index) => PostCard(
-          post: posts[index],
-          onTap: () {
-            Navigator.pushNamed(
-              context,
-              PostDetailScreen.routeName,
-              arguments: PostDetailScreenArguments(
-                posts: posts,
-                defaultIndex: index,
-                loadPosts: loadPosts,
-              ),
-            );
-          },
-        ),
       ),
     );
   }
