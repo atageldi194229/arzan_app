@@ -1,8 +1,7 @@
+import 'package:tm/core/api/services/account_service.dart';
 import 'package:tm/core/providers/auth_provider.dart';
 import 'package:tm/ui/constants.dart';
-import 'package:tm/ui/helper/arzan_show_dialogs.dart';
 import 'package:tm/ui/screens/login/login_screen.dart';
-import 'package:tm/ui/screens/payment/payment_screen.dart';
 import 'package:tm/ui/screens/profile/profile_screen.dart';
 import 'package:tm/ui/screens/search/search_screen.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +28,6 @@ class CustomBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Radius radius = const Radius.circular(25);
-    bool isUserLoggedIn = context.watch<AuthProvider>().isLoggedIn;
 
     return BottomAppBar(
       shape: const CircularNotchedRectangle(),
@@ -86,20 +84,37 @@ class CustomBottomNavBar extends StatelessWidget {
             ),
             Expanded(
               flex: 5,
-              child: _NavbarItem(
-                child: SvgPicture.asset(
-                  'assets/icons/fi-rr-user.svg',
-                  width: MediaQuery.of(context).size.width / 25,
-                  color: _getIconColor(MenuState.profile),
-                ),
-                onTap: () {
-                  if (isUserLoggedIn) {
-                    Navigator.pushNamed(context, ProfileScreen.routeName);
-                  } else {
-                    Navigator.pushNamed(context, LoginScreen.routeName);
-                  }
-                },
-              ),
+              child: Builder(builder: (context) {
+                var authProvider = context.watch<AuthProvider>();
+
+                return _NavbarItem(
+                  child: SvgPicture.asset(
+                    'assets/icons/fi-rr-user.svg',
+                    width: MediaQuery.of(context).size.width / 25,
+                    color: _getIconColor(MenuState.profile),
+                  ),
+                  onTap: () {
+                    if (authProvider.isLoggedIn) {
+                      // var userId = context.read<AuthProvider>().userId;
+                      // context.read<AccountProvider>().initUser(
+                      //       userId: auth.userId,
+                      //     );
+                      Navigator.of(context).popUntil((route) => route.isFirst);
+                      Navigator.pushNamed(
+                        context,
+                        ProfileScreen.routeName,
+                        arguments: ProfileScreenArguments(
+                          mode: ProfileScreenMode.profile,
+                          loadUser: () => AccountService()
+                              .fetchData(userId: authProvider.userId),
+                        ),
+                      );
+                    } else {
+                      Navigator.pushNamed(context, LoginScreen.routeName);
+                    }
+                  },
+                );
+              }),
             ),
             // Expanded(
             //   flex: 5,

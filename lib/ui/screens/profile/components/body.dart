@@ -1,14 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:tm/core/api/models/post_model.dart';
 import 'package:tm/core/api/models/user.dart';
-import 'package:tm/core/providers/account_provider.dart';
-import 'package:tm/core/providers/auth_provider.dart';
 import 'package:tm/core/providers/banner_provider.dart';
 import 'package:tm/ui/components/official_user.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tm/ui/enums.dart';
 import 'package:tm/ui/screens/post_detail/components/constants.dart';
 import 'package:tm/ui/screens/post_detail/post_detail_screen.dart';
 import 'package:tm/ui/screens/profile/profile_screen.dart';
@@ -17,10 +15,14 @@ import 'package:tm/ui/widgets/post_card.dart';
 
 class Body extends StatefulWidget {
   final ProfileScreenState parentState;
+  final UserModel user;
+  final ProfileScreenMode mode;
 
   const Body({
     Key? key,
     required this.parentState,
+    required this.user,
+    required this.mode,
   }) : super(key: key);
 
   @override
@@ -31,15 +33,18 @@ class _BodyState extends State<Body> {
   final ScrollController controller = ScrollController();
 
   final List<_CountButton> countButtons = <_CountButton>[
-    _CountButton(_CountButtonType.liked, "Liked", 748),
-    _CountButton(_CountButtonType.followers, "Followers", 654),
-    _CountButton(_CountButtonType.followings, "Followings", 599),
-    _CountButton(_CountButtonType.confirmed, "Confirmed", 782),
-    _CountButton(_CountButtonType.favorites, "Favorites", 135),
-    _CountButton(_CountButtonType.pending, "Pending", 456),
+    _CountButton(_CountButtonType.confirmed, "Confirmed", 0),
+    _CountButton(_CountButtonType.pending, "Pending", 0),
+    _CountButton(_CountButtonType.liked, "Liked", 0),
+    _CountButton(_CountButtonType.followers, "Followers", 0),
+    _CountButton(_CountButtonType.followings, "Followings", 0),
+    _CountButton(_CountButtonType.favorites, "Favorites", 0),
   ];
 
   int selectedCountButtonIndex = 0;
+
+  _CountButton get selectedCountButton =>
+      countButtons[selectedCountButtonIndex];
 
   @override
   void initState() {
@@ -83,8 +88,15 @@ class _BodyState extends State<Body> {
     });
   }
 
-  _CountButton get selectedCountButton =>
-      countButtons[selectedCountButtonIndex];
+  _setCountToButton(_CountButtonType type, int count) {
+    var trash = _CountButton(type, "trash", 0);
+    countButtons.firstWhere((e) => e.type == type, orElse: () => trash).count =
+        count;
+  }
+
+  _removeCountButton(_CountButtonType type) {
+    countButtons.removeWhere((e) => e.type == type);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,12 +112,18 @@ class _BodyState extends State<Body> {
     var favoriteList = widget.parentState.favoriteList;
     var pendingList = widget.parentState.pendingList;
 
-    countButtons[1].count = followerList.count;
-    countButtons[2].count = followingList.count;
-    countButtons[0].count = likedList.count;
-    countButtons[3].count = confirmedList.count;
-    countButtons[4].count = favoriteList.count;
-    countButtons[5].count = pendingList.count;
+    _setCountToButton(_CountButtonType.confirmed, confirmedList.count);
+    _setCountToButton(_CountButtonType.favorites, favoriteList.count);
+    _setCountToButton(_CountButtonType.followers, followerList.count);
+    _setCountToButton(_CountButtonType.followings, followingList.count);
+    _setCountToButton(_CountButtonType.liked, likedList.count);
+    _setCountToButton(_CountButtonType.pending, pendingList.count);
+
+    if (widget.mode == ProfileScreenMode.official) {
+      _removeCountButton(_CountButtonType.followings);
+      _removeCountButton(_CountButtonType.pending);
+      _removeCountButton(_CountButtonType.favorites);
+    }
 
     late Widget itemListWidget;
 
@@ -159,18 +177,9 @@ class _BodyState extends State<Body> {
         itemListWidget = Container();
     }
 
+    UserModel user = widget.user;
+
     Size size = MediaQuery.of(context).size;
-
-    var authProvider = context.watch<AuthProvider>();
-    var accountProvider = context.watch<AccountProvider>();
-
-    UserModel? user = accountProvider.user;
-
-    debugPrint("PROFILE: ${authProvider.isLoggedIn} ${user == null}");
-
-    if (!authProvider.isLoggedIn || user == null) {
-      return const Center(child: CircularProgressIndicator());
-    }
 
     double bannerHeight = size.width * 0.7;
     double avatarLogoSize = size.width * 0.3;
@@ -251,16 +260,31 @@ class _BodyState extends State<Body> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      const Icon(
-                                        Icons.location_on_outlined,
-                                        color: kTextColor,
-                                      ),
-                                      Text(
-                                        "Ahal, Ashgabat",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline6!
-                                            .copyWith(color: kTextColor),
+                                      Expanded(
+                                        child: RichText(
+                                          textAlign: TextAlign.center,
+                                          softWrap: true,
+                                          text: TextSpan(
+                                            children: [
+                                              const WidgetSpan(
+                                                child: Icon(
+                                                  Icons.location_on_outlined,
+                                                  color: kTextColor,
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                text: user.regions
+                                                    .map<String>((e) => e.name)
+                                                    .join(', '),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headline6!
+                                                    .copyWith(
+                                                        color: kTextColor),
+                                              )
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -313,26 +337,29 @@ class _BodyState extends State<Body> {
                         ),
                       ),
                       const Spacer(),
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context)
-                              .pushNamed(ProfileSettingScreen.routeName);
-                        },
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: kSoftGreen,
-                                blurRadius: 30,
-                                spreadRadius: 5,
-                              ),
-                            ],
-                          ),
-                          padding: const EdgeInsets.all(8.0),
-                          child: const Icon(
-                            Icons.settings,
-                            size: iconSize * 1.5,
-                            color: Colors.white,
+                      Visibility(
+                        visible: widget.mode == ProfileScreenMode.profile,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context)
+                                .pushNamed(ProfileSettingScreen.routeName);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  blurRadius: 30,
+                                  spreadRadius: 5,
+                                ),
+                              ],
+                            ),
+                            padding: const EdgeInsets.all(8.0),
+                            child: const Icon(
+                              Icons.settings,
+                              size: iconSize * 1.5,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),

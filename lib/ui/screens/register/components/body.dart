@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:tm/core/api/services/auth_service.dart';
 import 'package:tm/core/localization/index.dart';
+import 'package:tm/core/providers/account_provider.dart';
+import 'package:tm/ui/helper/arzan_show_dialogs.dart';
 import 'package:tm/ui/screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +12,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/providers/auth_provider.dart';
 import '../../../helper/keyboard.dart';
-import '../../../helper/toast.dart';
 import '../../../size_config.dart';
 import '../../home/home_screen.dart';
 
@@ -37,12 +38,15 @@ class _BodyState extends State<Body> {
   int expireTime = 2 * 60 * 1000; // in ms
 
   _onRegister() {
-    String username = context.read<AuthProvider>().username;
+    // String username = context.read<AuthProvider>().username;
+    // showToast(context, "$username successfully logged in.");
 
-    showToast(context, "$username successfully logged in.");
+    var userId = context.read<AuthProvider>().userId;
+    context.read<AccountProvider>().initUser(userId: userId);
 
     Navigator.pop(context);
     Navigator.pushNamed(context, HomeScreen.routeName);
+    showDialogSuccess(context);
   }
 
   _sendSMS({

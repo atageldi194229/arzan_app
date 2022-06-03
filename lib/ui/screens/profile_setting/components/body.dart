@@ -23,7 +23,8 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  int isActiveColor = 0;
+  bool firstInit = false;
+  int? selectedRegionId;
 
   TextEditingController usernameInputController = TextEditingController();
   TextEditingController descriptionInputController = TextEditingController();
@@ -38,9 +39,21 @@ class _BodyState extends State<Body> {
     var accountProvider = context.watch<AccountProvider>();
 
     UserModel? user = accountProvider.user;
-    var regions = regionProvidor.regions;
+
     if (!authProvider.isLoggedIn || user == null) {
       return const Center(child: CircularProgressIndicator());
+    }
+
+    var regions = regionProvidor.regions;
+    var userRegions = accountProvider.user!.regions;
+
+    if (!firstInit) {
+      for (var region in regions) {
+        if (userRegions.any((e) => e.id == region.id)) {
+          selectedRegionId = region.id;
+        }
+      }
+      firstInit = true;
     }
 
     usernameInputController.text = user.username;
@@ -61,12 +74,12 @@ class _BodyState extends State<Body> {
         image: image,
         phoneNumber: phoneNumber,
         username: username,
-        // regionIds: regionId,
+        regionId: selectedRegionId,
       )
           .then((value) {
         if (value) {
           // Navigator.of(context).pop();
-
+          context.read<AccountProvider>().initUser(userId: user.id);
           showDialogSuccess(context);
         }
       });
@@ -211,11 +224,10 @@ class _BodyState extends State<Body> {
                       itemBuilder: (context, index) => RegionsProfileSetting(
                         iconSize: iconSize,
                         text: regions[index].name,
-                        changeColor: isActiveColor == index,
+                        changeColor: selectedRegionId == regions[index].id,
                         press: () {
                           setState(() {
-                            isActiveColor = index;
-                            // regionId = index;
+                            selectedRegionId = regions[index].id;
                           });
                         },
                       ),
@@ -341,7 +353,7 @@ class _BodyState extends State<Body> {
 class RegionsProfileSetting extends StatelessWidget {
   final String text;
   final bool changeColor;
-  final GestureTapCallback? press;
+  final void Function()? press;
 
   const RegionsProfileSetting({
     Key? key,
@@ -361,7 +373,7 @@ class RegionsProfileSetting extends StatelessWidget {
           changeColor ? const Color.fromARGB(255, 36, 173, 40) : Colors.grey,
       borderRadius: BorderRadius.circular(80),
       child: InkWell(
-        onTap: () => press!(),
+        onTap: press,
         child: Container(
             padding: const EdgeInsets.all(10),
             height: iconSize,

@@ -2,7 +2,10 @@ import "package:flutter/material.dart";
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:tm/core/api/models/index.dart';
+import 'package:tm/core/api/services/account_service.dart';
 import 'package:tm/core/api/services/post_service.dart';
+import 'package:tm/core/providers/auth_provider.dart';
+import 'package:tm/core/providers/region_provider.dart';
 import 'package:tm/core/providers/region_status_provider.dart';
 
 import 'package:tm/ui/constants.dart';
@@ -35,7 +38,16 @@ class _BodyState extends State<Body> {
     showToast(context, "Congratulations, you could create your post!!!");
 
     Navigator.pop(context);
-    Navigator.pushNamed(context, ProfileScreen.routeName);
+    // Navigator.pushNamed(context, ProfileScreen.routeName);
+
+    var authProvider = context.read<AuthProvider>();
+    Navigator.pushNamed(
+      context,
+      ProfileScreen.routeName,
+      arguments: ProfileScreenArguments(
+        loadUser: () => AccountService().fetchData(userId: authProvider.userId),
+      ),
+    );
   }
 
   _showFailureToast() {
@@ -70,11 +82,9 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    List<RegionStatusModel> regions =
-        context.watch<RegionStatusProvidor>().list;
+    List<RegionModel> regions = context.watch<RegionProvider>().regions;
 
-    List<String> regionNames =
-        regions.map((e) => e.name ?? "regionyn name yok").toList();
+    List<String> regionNames = regions.map((e) => e.name).toList();
 
     return Stack(
       children: [
@@ -101,9 +111,9 @@ class _BodyState extends State<Body> {
                       Regions(
                         items: regionNames,
                         onChanged: (index) {
-                          context
-                              .read<RegionStatusProvidor>()
-                              .setSelectedRegion(regions[index]);
+                          setState(() {
+                            regionIds = [regions[index].id];
+                          });
                         },
                       ),
                       SizedBox(height: getProportionateScreenWidth(20)),

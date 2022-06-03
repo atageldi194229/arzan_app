@@ -2,9 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tm/core/api/models/index.dart';
+import 'package:tm/core/api/services/account_service.dart';
 import 'package:tm/core/providers/account_provider.dart';
 import 'package:tm/core/providers/auth_provider.dart';
 import 'package:tm/ui/helper/arzan_show_dialogs.dart';
+import 'package:tm/ui/screens/profile/profile_screen.dart';
 
 import '../constants.dart';
 
@@ -38,7 +40,15 @@ class OfficialUser extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      showDialogOnDevelopment(context);
+                      Navigator.pushNamed(
+                        context,
+                        ProfileScreen.routeName,
+                        arguments: ProfileScreenArguments(
+                          loadUser: () =>
+                              AccountService().fetchData(userId: user.id),
+                        ),
+                      );
+                      // showDialogOnDevelopment(context);
                     },
                     child: LayoutBuilder(builder: (context, constraints) {
                       return Stack(
