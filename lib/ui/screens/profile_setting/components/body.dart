@@ -65,8 +65,7 @@ class _BodyState extends State<Body> {
       )
           .then((value) {
         if (value) {
-          // Navigator.of(context).pop();
-
+          context.read<AccountProvider>().initUser(userId: id);
           showDialogSuccess(context);
         }
       });
