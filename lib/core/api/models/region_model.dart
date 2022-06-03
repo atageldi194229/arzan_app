@@ -15,7 +15,7 @@ class RegionModel {
     return RegionModel(
       id: json['id'],
       name: json['name'],
-      order: json['order'],
+      order: json['order'] ?? 0,
       province: json['province'] ?? 0,
     );
   }

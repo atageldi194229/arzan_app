@@ -1,4 +1,5 @@
 import 'package:tm/core/localization/index.dart';
+import 'package:tm/core/providers/account_provider.dart';
 import 'package:tm/core/providers/auth_provider.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/helper/arzan_show_dialogs.dart';
@@ -21,7 +22,8 @@ class _BodyState extends State<Body> {
   TextEditingController passwordInputController = TextEditingController();
 
   _onLogin() {
-    // String username = context.read<AuthProvider>().username;
+    var userId = context.read<AuthProvider>().userId;
+    context.read<AccountProvider>().initUser(userId: userId);
 
     Navigator.pop(context);
     Navigator.pushNamed(context, HomeScreen.routeName);

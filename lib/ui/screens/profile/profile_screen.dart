@@ -1,13 +1,14 @@
-import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
+
 import 'package:tm/core/api/models/count_and_list_model.dart';
 import 'package:tm/core/api/models/index.dart';
 import 'package:tm/core/api/services/account_service.dart';
 import 'package:tm/core/api/services/post_service.dart';
-import 'package:tm/core/providers/account_provider.dart';
-import 'package:tm/core/providers/auth_provider.dart';
 import 'package:tm/ui/constants.dart';
+import 'package:tm/ui/helper/flutter_3_ambiguate.dart';
 import 'package:tm/ui/screens/profile/components/body.dart';
-import 'package:flutter/material.dart';
+import 'package:tm/ui/screens/profile/components/loading_widget.dart';
+import 'package:tm/ui/screens/profile/components/try_again.dart';
 
 import '../../enums.dart';
 import '../../widgets/custom_bottom_nav_bar.dart';
@@ -23,6 +24,9 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class ProfileScreenState extends State<ProfileScreen> {
+  UserModel? user;
+  bool loadFailed = false;
+
   ItemPaginationModel<UserModel> followingList = ItemPaginationModel();
   ItemPaginationModel<UserModel> followerList = ItemPaginationModel();
   ItemPaginationModel<PostModel> likedList = ItemPaginationModel();
@@ -30,13 +34,75 @@ class ProfileScreenState extends State<ProfileScreen> {
   ItemPaginationModel<PostModel> favoriteList = ItemPaginationModel();
   ItemPaginationModel<PostModel> pendingList = ItemPaginationModel();
 
-  int _userId = 0;
+  tryLoadUser() {
+    final args =
+        ModalRoute.of(context)!.settings.arguments as ProfileScreenArguments;
+
+    args.loadUser().then((user) {
+      setState(() {
+        this.user = user;
+      });
+
+      loadFollowings();
+      loadFollowers();
+      loadConfirmed();
+      loadFavorites();
+      loadPending();
+      loadLiked();
+    }).catchError((_) async {
+      setState(() {
+        loadFailed = true;
+      });
+      debugPrint("Error when loading user in UserScreen");
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    ambiguate(WidgetsBinding.instance)!.addPostFrameCallback((_) {
+      tryLoadUser();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments as ProfileScreenArguments;
+
+    Widget body = const LoadingWidget();
+
+    if (loadFailed) {
+      loadFailed = false;
+      body = TryAgain(onPressed: () => tryLoadUser());
+    }
+
+    if (user != null) {
+      body = Body(
+        parentState: this,
+        user: user!,
+        mode: args.mode,
+      );
+    }
+
+    return Scaffold(
+      backgroundColor: kScaffoldColor,
+      body: body,
+      extendBody: true,
+      bottomNavigationBar:
+          const CustomBottomNavBar(selectedMenu: MenuState.profile),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButton: const CustomFloatingActionButton(),
+      drawer: const CustomDrawer(),
+    );
+  }
 
   loadFollowings() async {
     try {
       CountAndListModel<UserModel> result =
           await AccountService().getFollowings(
-        userId: _userId,
+        userId: user!.id,
         limit: followingList.limit,
         offset: followingList.offset,
       );
@@ -54,7 +120,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   loadFollowers() async {
     try {
       CountAndListModel<UserModel> result = await AccountService().getFollowers(
-        userId: _userId,
+        userId: user!.id,
         limit: followerList.limit,
         offset: followerList.offset,
       );
@@ -72,7 +138,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   loadLiked() async {
     try {
       CountAndListModel<PostModel> result = await PostService().getUserPosts(
-        userId: _userId,
+        userId: user!.id,
         limit: likedList.limit,
         offset: likedList.offset,
         filter: "liked",
@@ -96,7 +162,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   loadPending() async {
     try {
       CountAndListModel<PostModel> result = await PostService().getUserPosts(
-        userId: _userId,
+        userId: user!.id,
         limit: pendingList.limit,
         offset: pendingList.offset,
         filter: "pending",
@@ -115,7 +181,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   loadConfirmed() async {
     try {
       CountAndListModel<PostModel> result = await PostService().getUserPosts(
-        userId: _userId,
+        userId: user!.id,
         limit: confirmedList.limit,
         offset: confirmedList.offset,
         filter: "confirmed",
@@ -134,7 +200,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   loadFavorites() async {
     try {
       CountAndListModel<PostModel> result = await PostService().getUserPosts(
-        userId: _userId,
+        userId: user!.id,
         limit: favoriteList.limit,
         offset: favoriteList.offset,
         filter: "favorites",
@@ -153,41 +219,6 @@ class ProfileScreenState extends State<ProfileScreen> {
     }
 
     setState(() {});
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    AuthProvider auth = context.read<AuthProvider>();
-    context.read<AccountProvider>().initUser(
-          userId: auth.userId,
-        );
-
-    _userId = auth.userId;
-
-    loadFollowings();
-    loadFollowers();
-    loadConfirmed();
-    loadFavorites();
-    loadPending();
-    loadLiked();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kScaffoldColor,
-      // appBar: DefaultAppBar(title: 'My Profile'),
-      body: Body(parentState: this),
-
-      extendBody: true,
-      bottomNavigationBar:
-          const CustomBottomNavBar(selectedMenu: MenuState.profile),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      floatingActionButton: const CustomFloatingActionButton(),
-      drawer: const CustomDrawer(),
-    );
   }
 }
 
@@ -213,4 +244,14 @@ class ItemPaginationModel<T> {
     this.list.addAll(list);
     offset += list.length;
   }
+}
+
+class ProfileScreenArguments {
+  final ProfileScreenMode mode;
+  final Future<UserModel> Function() loadUser;
+
+  ProfileScreenArguments({
+    this.mode = ProfileScreenMode.official,
+    required this.loadUser,
+  });
 }

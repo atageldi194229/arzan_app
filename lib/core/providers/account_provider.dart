@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class AccountProvider with ChangeNotifier {
   UserModel? _user;
   int _userId = 0;
-  bool _inited = false;
+  bool _isFetching = false;
 
   UserModel? get user => _user;
 
@@ -34,11 +34,12 @@ class AccountProvider with ChangeNotifier {
   }
 
   initUser({required int userId}) async {
-    if (_inited) return;
-    _inited = true;
+    if (_isFetching) return;
+    _isFetching = true;
 
     _userId = userId;
     await _fetchData();
+    _isFetching = false;
     _initFollowingIdList();
   }
 

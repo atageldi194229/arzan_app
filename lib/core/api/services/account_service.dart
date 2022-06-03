@@ -165,7 +165,7 @@ class AccountService {
     XFile? image,
     String? username,
     String? about,
-    int? regionIds,
+    int? regionId,
     String? phoneNumber,
   }) async {
     String token = ApiPath.userToken;
@@ -174,13 +174,13 @@ class AccountService {
 
     Uri uri = Uri.http(
       ApiPath.host,
-      '${ApiPath.getAccount}/$id',
+      '${ApiPath.getAccount}$id',
     );
 
     var request = http.MultipartRequest('PUT', uri);
 
     if (username != null) request.fields['username'] = username;
-    if (regionIds != null) request.fields['regionIds'] = regionIds as String;
+    if (regionId != null) request.fields['regions'] = "$regionId";
     if (about != null) request.fields['about'] = about;
     if (phoneNumber != null) request.fields['phoneNumber'] = phoneNumber;
     if (image != null) {
