@@ -6,7 +6,6 @@ import 'package:tm/core/api/services/account_service.dart';
 import 'package:tm/core/api/services/post_service.dart';
 import 'package:tm/core/providers/auth_provider.dart';
 import 'package:tm/core/providers/region_provider.dart';
-import 'package:tm/core/providers/region_status_provider.dart';
 
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/helper/toast.dart';
