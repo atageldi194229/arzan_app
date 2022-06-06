@@ -13,6 +13,7 @@ import 'package:tm/ui/components/official_user.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/helper/arzan_show_dialogs.dart';
 import 'package:tm/ui/helper/keyboard.dart';
+import 'package:tm/ui/screens/add_post/components/image_picker.dart';
 import 'package:tm/ui/size_config.dart';
 
 class Body extends StatefulWidget {
@@ -30,6 +31,7 @@ class _BodyState extends State<Body> {
   TextEditingController descriptionInputController = TextEditingController();
   TextEditingController phoneNumberInputController = TextEditingController();
 
+  List<XFile> banners = [];
   XFile? image;
 
   @override
@@ -75,6 +77,7 @@ class _BodyState extends State<Body> {
         phoneNumber: phoneNumber,
         username: username,
         regionId: selectedRegionId,
+        banners: banners,
       )
           .then((value) {
         if (value) {
@@ -141,10 +144,6 @@ class _BodyState extends State<Body> {
                     Positioned(
                       bottom: 5,
                       right: 0,
-                      // child: ImagePickingRow(
-                      //   countImage: 2,
-                      //   onChange: (values) => images,
-                      // )
                       child: InkWell(
                         onTap: () async {
                           XFile? tempImage = await ImagePicker()
@@ -169,21 +168,26 @@ class _BodyState extends State<Body> {
                 ),
               ),
               const SizedBox(height: 5),
-              const Text('Add banner: '),
+              const Text(
+                'Add banner: ',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 5),
               Material(
                 elevation: 6,
                 shadowColor: Colors.grey,
                 borderRadius: BorderRadius.circular(10),
                 child: Container(
-                  width: SizeConfig.screenWidth * 0.5,
-                  height: iconSize,
+                  width: SizeConfig.screenWidth * 0.9,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Icon(
-                    Icons.image,
-                    color: Colors.green,
+                  child: ImagePickingRow(
+                    countImage: 6,
+                    onChange: (values) => banners = values,
                   ),
                 ),
               ),
@@ -375,21 +379,21 @@ class RegionsProfileSetting extends StatelessWidget {
       child: InkWell(
         onTap: press,
         child: Container(
-            padding: const EdgeInsets.all(10),
-            height: iconSize,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Center(
-              child: Text(
-                text,
-                style: TextStyle(
-                  color: changeColor ? Colors.green : kTextColor,
-                  fontWeight: FontWeight.bold,
-                ),
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Center(
+            child: Text(
+              text,
+              style: TextStyle(
+                color: changeColor ? Colors.green : kTextColor,
+                fontWeight: FontWeight.bold,
               ),
-            )),
+            ),
+          ),
+        ),
       ),
     );
   }

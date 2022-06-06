@@ -116,6 +116,44 @@ void showDialogSuccess(BuildContext context) {
   );
 }
 
+void showDialogFailed(BuildContext context) {
+  showDialog<void>(
+    context: context,
+    builder: (context) {
+      Future.delayed(
+        const Duration(seconds: 2),
+        () {
+          Navigator.of(context).pop(true);
+        },
+      );
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        actions: [
+          Center(
+            child: Column(
+              children: [
+                Image.asset(
+                  'assets/images/red-x.png',
+                  width: SizeConfig.screenWidth * 0.3,
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  'Gynansakda yalnys!!!',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 void showDialogNewVersionAvailable(BuildContext context) {
   showDialog<void>(
     context: context,

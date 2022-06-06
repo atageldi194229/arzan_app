@@ -167,6 +167,7 @@ class AccountService {
     String? about,
     int? regionId,
     String? phoneNumber,
+    List<XFile>? banners,
   }) async {
     String token = ApiPath.userToken;
 
@@ -188,6 +189,13 @@ class AccountService {
       request.files.add(http.MultipartFile.fromBytes('image', imageAsBytes));
     }
 
+    if (banners!.isEmpty) {
+      var files = await Future.wait(banners.map((e) => e.readAsBytes()));
+
+      for (int i = 0; i < files.length; i++) {
+        request.files.add(http.MultipartFile.fromBytes('banners-$i', files[i]));
+      }
+    }
     request.headers['Authorization'] = "Bearer: $token";
 
     var response = await request.send();

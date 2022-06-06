@@ -1,3 +1,4 @@
+import 'package:tm/core/localization/index.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/widgets/default_appbar.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +11,10 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       backgroundColor: kScaffoldColor,
-      appBar: DefaultAppBar(title: 'Login'),
-      body: Body(),
+      appBar: DefaultAppBar(title: context.tt('login')),
+      body: const Body(),
     );
   }
 }

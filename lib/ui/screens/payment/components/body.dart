@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tm/ui/screens/payment/components/payment_container.dart';
-import 'payment_steps.dart';
+import 'package:tm/ui/screens/payment/payment_steps.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -12,10 +12,19 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
+    final PageController controller = PageController();
     Size size = MediaQuery.of(context).size;
     return PaymentContainer(
       size: size,
-      paymentSteps: const FirstPaymentStep(),
+      paymentSteps: PageView(
+        controller: controller,
+        children: const <Widget>[
+          FirstPaymentStep(),
+          SecondPaymentStep(),
+          ThirdPaymentStep(),
+          FourthPaymentStep()
+        ],
+      ),
     );
   }
 }

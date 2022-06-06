@@ -28,6 +28,8 @@ class _BodyState extends State<Body> {
     Navigator.pop(context);
     Navigator.pushNamed(context, HomeScreen.routeName);
     showDialogSuccess(context);
+
+    // bool bolsa     goymaly --> showDialogFailed(context);
   }
 
   void _tryLogin() async {
@@ -49,12 +51,14 @@ class _BodyState extends State<Body> {
     super.dispose();
   }
 
-  bool _obscureText = false;
+  bool _obscureText = true;
   void _toggle() {
     setState(() {
       _obscureText = !_obscureText;
     });
   }
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -80,11 +84,18 @@ class _BodyState extends State<Body> {
             SizedBox(height: getProportionateScreenHeight(30)),
             Expanded(
               child: Form(
+                key: _formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const SizedBox(height: 10),
                     TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter phone number';
+                        }
+                        return null;
+                      },
                       controller: phoneInputController,
                       onSaved: (_) => _tryLogin(),
                       // keyboardType: TextInputType.phone,
@@ -102,6 +113,12 @@ class _BodyState extends State<Body> {
                     ),
                     const SizedBox(height: 10),
                     TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter password';
+                        }
+                        return null;
+                      },
                       controller: passwordInputController,
                       obscureText: _obscureText,
                       onSaved: (_) => _tryLogin(),
@@ -115,8 +132,8 @@ class _BodyState extends State<Body> {
                         suffixIcon: IconButton(
                           icon: Icon(
                             _obscureText
-                                ? Icons.visibility
-                                : Icons.visibility_off,
+                                ? Icons.visibility_off
+                                : Icons.visibility,
                             color: kSoftGreen,
                           ),
                           onPressed: () => _toggle(),
@@ -153,7 +170,12 @@ class _BodyState extends State<Body> {
               child: Column(
                 children: [
                   InkWell(
-                    onTap: () => _tryLogin(),
+                    onTap: () => {
+                      if (_formKey.currentState!.validate())
+                        {
+                          _tryLogin(),
+                        },
+                    },
                     child: Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
@@ -181,10 +203,11 @@ class _BodyState extends State<Body> {
                             fontSize: getProportionateScreenWidth(32)),
                         children: <TextSpan>[
                           TextSpan(
-                              text: context.tt('dont_have_account'),
-                              style: const TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold)),
+                            text: context.tt('dont_have_account'),
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
                           TextSpan(
                               text: context.tt('sign_up'),
                               style: const TextStyle(
@@ -195,6 +218,7 @@ class _BodyState extends State<Body> {
                       textScaleFactor: 0.5,
                     ),
                   ),
+                  const SizedBox(height: 10)
                 ],
               ),
             ),

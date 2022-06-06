@@ -60,6 +60,7 @@ class AuthProvider with ChangeNotifier {
   _handleResponseData({
     required dynamic responseData,
     Function? onDone,
+    bool? status,
   }) {
     if (responseData["success"] == true) {
       isLoggedIn = true;
@@ -78,8 +79,10 @@ class AuthProvider with ChangeNotifier {
       if (onDone != null) onDone();
 
       notifyListeners();
+      status = true;
     } else {
       debugPrint("error message: ${responseData['error']}");
+      status = false;
 
       // if (responseData["errorCode"] == 11) {
       //   // debugPrint("Username or Password is invalid");

@@ -88,6 +88,7 @@ flutter:
     - assets/images/payment.png
     - assets/images/success.png
     - assets/images/edit_1.png
+    - assets/images/red-x.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

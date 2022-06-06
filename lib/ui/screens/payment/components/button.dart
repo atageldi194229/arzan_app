@@ -101,36 +101,72 @@ class PrevBtn extends StatelessWidget {
   }
 }
 
-class NextPreBtn extends StatelessWidget {
-  final String submitButton;
-  final Function onPressNext;
-  final Function onPressPrev;
-  final bool iconStatus;
-
-  const NextPreBtn(
-      {Key? key,
-      required this.onPressPrev,
-      required this.onPressNext,
-      required this.submitButton,
-      this.iconStatus = true})
-      : super(key: key);
+class PrevNextBtns extends StatelessWidget {
+  final Function pressNext;
+  final Function pressBack;
+  const PrevNextBtns({
+    Key? key,
+    required this.pressNext,
+    required this.pressBack,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        PrevBtn(
-          press: onPressPrev,
-          icon: Icons.arrow_left_sharp,
-          text: 'back',
+        InkWell(
+          onTap: () => pressBack,
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.green,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.arrow_left,
+                  color: Colors.white,
+                ),
+                Text(
+                  'back'.toUpperCase(),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-        NextBtn(
-          iconStatus: iconStatus,
-          text: submitButton,
-          icon: iconStatus ? Icons.arrow_right_sharp : null,
-          press: onPressNext,
-        )
+        InkWell(
+          onTap: () => pressNext,
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.green,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              children: [
+                Text(
+                  'next'.toUpperCase(),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+                const Icon(
+                  Icons.arrow_right,
+                  color: Colors.white,
+                ),
+              ],
+            ),
+          ),
+        ),
       ],
     );
   }
