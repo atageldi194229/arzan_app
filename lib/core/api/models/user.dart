@@ -37,7 +37,7 @@ class UserModel {
     required this.id,
     required this.username,
     required this.phoneNumber,
-    required String image,
+    required String? image,
     required this.about,
     required this.partnerType,
     required this.status,

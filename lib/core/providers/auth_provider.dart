@@ -61,6 +61,7 @@ class AuthProvider with ChangeNotifier {
     required dynamic responseData,
     Function? onDone,
     bool? status,
+    VoidCallback? onPasswordIncorrect,
   }) {
     if (responseData["success"] == true) {
       isLoggedIn = true;
@@ -84,7 +85,9 @@ class AuthProvider with ChangeNotifier {
       debugPrint("error message: ${responseData['error']}");
       status = false;
 
-      // if (responseData["errorCode"] == 11) {
+      if (responseData["errorCode"] == 11) {
+        onPasswordIncorrect?.call();
+      }
       //   // debugPrint("Username or Password is invalid");
       // } else if (responseData["errorCode"] == 10) {
       //   // debugPrint("User not found");
@@ -96,6 +99,8 @@ class AuthProvider with ChangeNotifier {
     required String username,
     required String password,
     VoidCallback? onLogin,
+    VoidCallback? onError,
+    VoidCallback? onPasswordIncorrect,
   }) {
     return AuthService()
         .login(
@@ -111,9 +116,11 @@ class AuthProvider with ChangeNotifier {
       _handleResponseData(
         responseData: res,
         onDone: onLogin,
+        onPasswordIncorrect: onPasswordIncorrect,
       );
     }).catchError((err) {
       debugPrint(err.message);
+      onError?.call();
     });
   }
 

@@ -28,8 +28,8 @@ class AuthService {
 
       return parsed;
     } else {
-      return "false";
-      // throw Exception("Unknown api error");
+      // return "false";
+      throw Exception("Unknown api error");
     }
   }
 

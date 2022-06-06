@@ -11,6 +11,7 @@ import 'package:tm/ui/screens/profile_setting/profile_setting_screen.dart';
 import 'package:tm/ui/screens/register/register_screen.dart';
 import 'package:tm/ui/screens/search/search_screen.dart';
 import 'package:tm/ui/screens/settings/settings_screen.dart';
+import 'package:tm/ui/screens/sms_verify/sms_verify_screen.dart';
 import 'package:tm/ui/screens/statistics/statistics_screen.dart';
 import 'package:tm/ui/screens/test_screen/test_screen.dart';
 import 'package:flutter/widgets.dart';
@@ -49,5 +50,6 @@ final Map<String, WidgetBuilder> routes = {
   //payment screen non use I gonna delete
   PaymentScreen.routeName: ((context) => const PaymentScreen()),
 
-  ProfileSettingScreen.routeName: (context) => const ProfileSettingScreen()
+  ProfileSettingScreen.routeName: (context) => const ProfileSettingScreen(),
+  SmsVerifyScreen.routeName: (context) => const SmsVerifyScreen(),
 };

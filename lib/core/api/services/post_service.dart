@@ -48,7 +48,7 @@ class PostService {
       "limit": limit.toString(),
       "offset": offset.toString(),
       "sort": "createdAt-desc",
-      "categoryId": "5",
+      // "categoryId": "5",
     });
 
     var response = await http.get(

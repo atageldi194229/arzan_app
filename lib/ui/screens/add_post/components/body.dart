@@ -13,6 +13,7 @@ import 'package:tm/ui/screens/profile/profile_screen.dart';
 import 'package:tm/ui/size_config.dart';
 import 'package:tm/ui/widgets/button.dart';
 import 'package:tm/ui/widgets/form_field.dart';
+import 'package:tm/ui/widgets/full_screen_loading.dart';
 
 import 'image_picker.dart';
 import 'regions.dart';
@@ -203,15 +204,10 @@ class _BodyState extends State<Body> {
             ),
           ),
         ),
-        if (isSending)
-          Container(
-            height: double.infinity,
-            width: double.infinity,
-            color: Colors.black.withOpacity(0.2),
-            child: const Center(
-              child: CircularProgressIndicator(),
-            ),
-          ),
+        Visibility(
+          visible: isSending,
+          child: const FullScreenLoading(),
+        ),
       ],
     );
   }

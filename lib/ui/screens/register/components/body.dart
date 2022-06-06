@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:tm/core/api/services/auth_service.dart';
 import 'package:tm/core/localization/index.dart';
 import 'package:tm/core/providers/account_provider.dart';
@@ -8,10 +7,10 @@ import 'package:tm/ui/screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tm/ui/constants.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:tm/ui/screens/sms_verify/sms_verify_screen.dart';
+import 'package:tm/ui/widgets/full_screen_loading.dart';
 
 import '../../../../core/providers/auth_provider.dart';
-import '../../../helper/keyboard.dart';
 import '../../../size_config.dart';
 import '../../home/home_screen.dart';
 
@@ -23,24 +22,20 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  final PageController _pageController = PageController(
-    initialPage: 0,
-  );
+  bool isLoading = false;
 
   TextEditingController usernameInputController = TextEditingController();
   TextEditingController phoneInputController = TextEditingController();
   TextEditingController passwordInputController = TextEditingController();
 
-  String? smsVerifyPhoneNumber;
-  String smsVerifyCode = '';
+  String? errorUsername;
+  String? errorPhoneNumber;
+  String? errorPassword;
 
   int smsSentTime = 0; // in ms
   int expireTime = 2 * 60 * 1000; // in ms
 
   _onRegister() {
-    // String username = context.read<AuthProvider>().username;
-    // showToast(context, "$username successfully logged in.");
-
     var userId = context.read<AuthProvider>().userId;
     context.read<AccountProvider>().initUser(userId: userId);
 
@@ -49,113 +44,68 @@ class _BodyState extends State<Body> {
     showDialogSuccess(context);
   }
 
-  _sendSMS({
-    required String tel,
-    required String body,
-  }) {
-    String? encodeQueryParameters(Map<String, String> params) {
-      return params.entries
-          .map((e) =>
-              '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
-          .join('&');
-    }
-
-    Uri url = Uri(
-      scheme: 'sms',
-      path: tel,
-      query: encodeQueryParameters(<String, String>{
-        'body': body,
-      }),
-    );
-
-    launchUrl(url);
-
-    smsSentTime = DateTime.now().millisecondsSinceEpoch;
-  }
-
   _verifySms() {
     String phoneNumber = phoneInputController.text;
     String username = usernameInputController.text;
     String password = passwordInputController.text;
 
-    context.read<AuthProvider>().register(
-          username: username,
-          phoneNumber: phoneNumber,
-          password: password,
-          notYet: () {
-            Timer(const Duration(seconds: 5), _verifySms);
-          },
-          onRegister: _onRegister,
-        );
-  }
+    Navigator.pushNamed(
+      context,
+      SmsVerifyScreen.routeName,
+      arguments: SmsVerifyScreenArguments(
+        phoneNumber: phoneNumber,
+        onVerify: () {
+          Completer<bool> c = Completer();
 
-  void _tryRegister() async {
-    KeyboardUtil.hideKeyboard(context);
+          context.read<AuthProvider>().register(
+                username: username,
+                phoneNumber: phoneNumber,
+                password: password,
+                notYet: () {
+                  c.complete(false);
+                },
+                onRegister: () {
+                  c.complete(true);
+                  _onRegister();
+                },
+              );
 
-    String phoneNumber = phoneInputController.text;
-
-    var responseBody = await AuthService().getSmsData(phoneNumber);
-
-    smsVerifyPhoneNumber = responseBody['phone_number'];
-    smsVerifyCode = responseBody['text'];
-
-    _sendSMS(
-      tel: smsVerifyPhoneNumber!,
-      body: smsVerifyCode,
+          return c.future;
+        },
+      ),
     );
-
-    _verifySms();
   }
 
   _validateAndNextPage() async {
-    bool anyValidationError = false;
+    setState(() => isLoading = true);
 
     String phoneNumber = phoneInputController.text;
     String username = usernameInputController.text;
-    String password = passwordInputController.text;
-
-    if (!phoneNumber.startsWith("+993") || phoneNumber.length != 12) {
-      // if (!phoneValidatorRegExp.hasMatch(phoneNumber)) {
-      debugPrint("validation error phonenumber");
-      anyValidationError = true;
-    }
-
-    if (!usernameValidatorRegExp.hasMatch(username)) {
-      debugPrint("validation error username");
-      anyValidationError = true;
-    }
-
-    if (password.length < 8) {
-      debugPrint("validation error password");
-      anyValidationError = true;
-    }
 
     var result = await AuthService().checkUser(
       username: username,
       phoneNumber: phoneNumber,
     );
 
-    if (!result['username'] || !result['phoneNumber']) {
-      debugPrint("username or phoneNumber already exists");
-      anyValidationError = true;
-      debugPrint(result);
+    if (!result['username']) {
+      setState(() {
+        errorUsername = 'Username already used';
+      });
     }
 
-    if (!anyValidationError) {
-      _changePageView(1);
+    if (!result['phoneNumber']) {
+      setState(() {
+        errorPhoneNumber = 'Phone number already exists';
+      });
+    }
+
+    if (result['username'] && result['phoneNumber']) {
+      _verifySms();
     } else {
       debugPrint("validation error broooooooooooooo");
     }
-  }
 
-  _changePageView(int index) {
-    KeyboardUtil.hideKeyboard(context);
-
-    _pageController.animateToPage(
-      index,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
-    );
+    setState(() => isLoading = false);
   }
 
   @override
@@ -178,30 +128,27 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    // bool _keyboardVisibility = MediaQuery.of(context).viewInsets.bottom != 0;
 
-    List<Widget> pages = [
-      registerPage(),
-      smsVerificationPage(),
-    ];
-
-    return SingleChildScrollView(
-      child: Container(
-        width: size.width,
-        height: size.height * 0.87,
-        margin: const EdgeInsets.all(10),
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        decoration: BoxDecoration(
-            boxShadow: kBoxShadow,
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(15)),
-        child: PageView.builder(
-          controller: _pageController,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (BuildContext context, int index) => pages[index],
-          itemCount: pages.length,
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          child: Container(
+            width: size.width,
+            height: size.height * 0.87,
+            margin: const EdgeInsets.all(10),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            decoration: BoxDecoration(
+                boxShadow: kBoxShadow,
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15)),
+            child: registerPage(),
+          ),
         ),
-      ),
+        Visibility(
+          visible: isLoading,
+          child: const FullScreenLoading(),
+        ),
+      ],
     );
   }
 
@@ -269,11 +216,17 @@ class _BodyState extends State<Body> {
 
   TextFormField buildUsernameFormField() {
     return TextFormField(
+      onChanged: (value) => setState(() => errorUsername = null),
       controller: usernameInputController,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return 'Please enter username';
+          return 'Fill empty field';
         }
+
+        if (!usernameValidatorRegExp.hasMatch(value)) {
+          return 'length-range: 3-30, can be: 0-9, a-z, A-Z';
+        }
+
         return null;
       },
       decoration: InputDecoration(
@@ -285,6 +238,7 @@ class _BodyState extends State<Body> {
         ),
         contentPadding: const EdgeInsets.all(0),
         hintText: context.tt("username"),
+        errorText: errorUsername,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -294,13 +248,19 @@ class _BodyState extends State<Body> {
 
   TextFormField buildPhoneNumberFormFeild() {
     return TextFormField(
+      onChanged: (value) => setState(() => errorPhoneNumber = null),
       controller: phoneInputController,
       validator: (value) {
-        if (value == null || value.isEmpty && value.length < 12) {
-          return 'Please enter  phone number';
-        } else if (value.length < 12) {
-          return '${value.length} is digit not a number!';
+        if (value == null || value.isEmpty) return "Fill empty field";
+
+        if (!value.startsWith("+993")) {
+          return "Phone number should start with +993";
         }
+
+        if (value.length != 12) {
+          return 'Length should be 12';
+        }
+
         return null;
       },
       keyboardType: TextInputType.phone,
@@ -314,18 +274,25 @@ class _BodyState extends State<Body> {
           ),
           contentPadding: const EdgeInsets.all(0),
           hintText: context.tt("phone_number"),
+          errorText: errorPhoneNumber,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
     );
   }
 
   TextFormField buildPasswordFormField() {
     return TextFormField(
+      onChanged: (value) => setState(() => errorPassword = null),
       controller: passwordInputController,
       obscureText: _obscureText,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return 'Please enter password';
+          return 'Fill empty field';
         }
+
+        if (value.length < 6) {
+          return 'Should be minimum 6 characters';
+        }
+
         return null;
       },
       decoration: InputDecoration(
@@ -345,6 +312,7 @@ class _BodyState extends State<Body> {
         ),
         contentPadding: const EdgeInsets.all(0),
         hintText: context.tt("password"),
+        errorText: errorPassword,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -375,20 +343,6 @@ class _BodyState extends State<Body> {
           borderRadius: BorderRadius.circular(10),
         ),
       ),
-    );
-  }
-
-  Widget smsVerificationPage() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(context.tt("phone_number_verification")),
-        ElevatedButton(
-          onPressed: () => _tryRegister(),
-          child: const Text('verify'),
-        ),
-      ],
     );
   }
 }

@@ -53,7 +53,8 @@ class ProfileScreenState extends State<ProfileScreen> {
       setState(() {
         loadFailed = true;
       });
-      debugPrint("Error when loading user in UserScreen");
+      debugPrint(_.toString());
+      debugPrint("Error when loading user in ProfileScreen");
     });
   }
 

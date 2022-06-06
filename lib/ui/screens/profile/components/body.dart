@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:tm/core/api/models/post_model.dart';
 import 'package:tm/core/api/models/user.dart';
 import 'package:tm/core/providers/banner_provider.dart';
+import 'package:tm/ui/components/default_user_image.dart';
 import 'package:tm/ui/components/official_user.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:flutter/material.dart';
@@ -186,163 +187,146 @@ class _BodyState extends State<Body> {
     double starIconSize = avatarLogoSize * 0.2;
 
     return SafeArea(
-      child: SingleChildScrollView(
-        controller: controller,
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                Column(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: bannerHeight,
-                      color: kSoftGreen,
-                      child: CachedNetworkImage(
-                        imageUrl: bannerImage,
-                        imageBuilder: (context, imageProvider) => Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: imageProvider,
-                              fit: BoxFit.fill,
+      child: RefreshIndicator(
+        onRefresh: () async {
+          await widget.parentState.tryLoadUser();
+        },
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          controller: controller,
+          child: Column(
+            children: [
+              Stack(
+                children: [
+                  Column(
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        height: bannerHeight,
+                        color: kSoftGreen,
+                        child: CachedNetworkImage(
+                          imageUrl: bannerImage,
+                          imageBuilder: (context, imageProvider) => Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.fill,
+                              ),
                             ),
                           ),
+                          placeholder: (context, url) =>
+                              const Center(child: CircularProgressIndicator()),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
                         ),
-                        placeholder: (context, url) =>
-                            const Center(child: CircularProgressIndicator()),
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: avatarLogoSize / 2,
-                            margin: const EdgeInsets.only(bottom: 8.0),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                SizedBox(
-                                  // color: kSoftGreen,
-                                  width: 40,
-                                  height: 40,
-                                ),
-                                Spacer(),
-                                SizedBox(
-                                  // color: kSoftGreen,
-                                  width: 40,
-                                  height: 40,
-                                ),
-                              ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Container(
+                              height: avatarLogoSize / 2,
+                              margin: const EdgeInsets.only(bottom: 8.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: const [
+                                  SizedBox(
+                                    // color: kSoftGreen,
+                                    width: 40,
+                                    height: 40,
+                                  ),
+                                  Spacer(),
+                                  SizedBox(
+                                    // color: kSoftGreen,
+                                    width: 40,
+                                    height: 40,
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0 * 2),
-                            child: Column(
-                              children: [
-                                Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 8.0),
-                                  child: Center(
-                                    child: Text(
-                                      user.username,
-                                      style:
-                                          Theme.of(context).textTheme.headline5,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0 * 2),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 8.0),
+                                    child: Center(
+                                      child: Text(
+                                        user.username,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline5,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 8.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        child: RichText(
-                                          textAlign: TextAlign.center,
-                                          softWrap: true,
-                                          text: TextSpan(
-                                            children: [
-                                              const WidgetSpan(
-                                                child: Icon(
-                                                  Icons.location_on_outlined,
-                                                  color: kTextColor,
+                                  Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 8.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                          child: RichText(
+                                            textAlign: TextAlign.center,
+                                            softWrap: true,
+                                            text: TextSpan(
+                                              children: [
+                                                const WidgetSpan(
+                                                  child: Icon(
+                                                    Icons.location_on_outlined,
+                                                    color: kTextColor,
+                                                  ),
                                                 ),
-                                              ),
-                                              TextSpan(
-                                                text: user.regions
-                                                    .map<String>((e) => e.name)
-                                                    .join(', '),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headline6!
-                                                    .copyWith(
-                                                        color: kTextColor),
-                                              )
-                                            ],
+                                                TextSpan(
+                                                  text: user.regions
+                                                      .map<String>(
+                                                          (e) => e.name)
+                                                      .join(', '),
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headline6!
+                                                      .copyWith(
+                                                          color: kTextColor),
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                if (user.about != null)
-                                  Container(
-                                    margin: const EdgeInsets.only(top: 8.0),
-                                    child: Text(
-                                      user.about ?? "",
-                                      //                                     """Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatum sed, autem voluptas assumenda dolorum tempore in quae impedit quod! Dolore rerum quam tempora corporis tenetur dicta aperiam perspiciatis, laborum magni?
-                                      // Eius eligendi at temporibus accusamus odio ducimus? Est accusantium expedita fugit tenetur provident, nesciunt amet quam. Sint, facere architecto voluptas adipisci dolorum, corrupti provident nostrum dolorem possimus temporibus saepe quis.""",
-                                      style: const TextStyle(color: kTextColor),
-                                      textAlign: TextAlign.center,
+                                      ],
                                     ),
                                   ),
-                              ],
-                            ),
-                          ),
-                          _buildCountButtons(context),
-                          itemListWidget,
-                          const SizedBox(height: 100),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Positioned(
-                  child: Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                blurRadius: 30,
-                                spreadRadius: 5,
+                                  if (user.about != null)
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 8.0),
+                                      child: Text(
+                                        user.about ?? "",
+                                        //                                     """Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatum sed, autem voluptas assumenda dolorum tempore in quae impedit quod! Dolore rerum quam tempora corporis tenetur dicta aperiam perspiciatis, laborum magni?
+                                        // Eius eligendi at temporibus accusamus odio ducimus? Est accusantium expedita fugit tenetur provident, nesciunt amet quam. Sint, facere architecto voluptas adipisci dolorum, corrupti provident nostrum dolorem possimus temporibus saepe quis.""",
+                                        style:
+                                            const TextStyle(color: kTextColor),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                ],
                               ),
-                            ],
-                          ),
-                          padding: const EdgeInsets.all(8.0),
-                          child: const Icon(
-                            Icons.arrow_back,
-                            size: iconSize * 1.5,
-                            color: Colors.white,
-                          ),
+                            ),
+                            _buildCountButtons(context),
+                            itemListWidget,
+                            const SizedBox(height: 100),
+                          ],
                         ),
                       ),
-                      const Spacer(),
-                      Visibility(
-                        visible: widget.mode == ProfileScreenMode.profile,
-                        child: InkWell(
+                    ],
+                  ),
+                  Positioned(
+                    child: Row(
+                      children: [
+                        InkWell(
                           onTap: () {
-                            Navigator.of(context)
-                                .pushNamed(ProfileSettingScreen.routeName);
+                            Navigator.of(context).pop();
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -356,36 +340,63 @@ class _BodyState extends State<Body> {
                             ),
                             padding: const EdgeInsets.all(8.0),
                             child: const Icon(
-                              Icons.settings,
+                              Icons.arrow_back,
                               size: iconSize * 1.5,
                               color: Colors.white,
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                        const Spacer(),
+                        Visibility(
+                          visible: widget.mode == ProfileScreenMode.profile,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context)
+                                  .pushNamed(ProfileSettingScreen.routeName);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    blurRadius: 30,
+                                    spreadRadius: 5,
+                                  ),
+                                ],
+                              ),
+                              padding: const EdgeInsets.all(8.0),
+                              child: const Icon(
+                                Icons.settings,
+                                size: iconSize * 1.5,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Positioned(
-                  top: bannerHeight - avatarLogoSize / 2,
-                  left: size.width / 2 - avatarLogoSize / 2,
-                  child: _AvatarLogo(
-                    user.image,
-                    size: avatarLogoSize,
+                  Positioned(
+                    top: bannerHeight - avatarLogoSize / 2,
+                    left: size.width / 2 - avatarLogoSize / 2,
+                    child: _AvatarLogo(
+                      user.image,
+                      size: avatarLogoSize,
+                    ),
                   ),
-                ),
-                Positioned(
-                  top: bannerHeight + avatarLogoSize / 2 - starIconSize / 2,
-                  left: size.width / 2 - starIconSize / 2,
-                  child: Image.asset(
-                    'assets/images/official_icon.png',
-                    width: starIconSize,
-                    height: starIconSize,
+                  Positioned(
+                    top: bannerHeight + avatarLogoSize / 2 - starIconSize / 2,
+                    left: size.width / 2 - starIconSize / 2,
+                    child: Image.asset(
+                      'assets/images/official_icon.png',
+                      width: starIconSize,
+                      height: starIconSize,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -515,7 +526,7 @@ class _BodyState extends State<Body> {
 }
 
 class _AvatarLogo extends StatelessWidget {
-  final String image;
+  final String? image;
   final double size;
   const _AvatarLogo(
     this.image, {
@@ -533,10 +544,13 @@ class _AvatarLogo extends StatelessWidget {
         // color: kSoftGreen,
         shape: BoxShape.circle,
       ),
-      child: CachedNetworkImage(
-        imageUrl: image,
-        fit: BoxFit.cover,
-      ),
+      child: Builder(builder: (context) {
+        if (image == null) return const DefaultUserImage();
+        return CachedNetworkImage(
+          imageUrl: image!,
+          fit: BoxFit.cover,
+        );
+      }),
     );
   }
 }
