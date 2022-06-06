@@ -28,6 +28,8 @@ class _BodyState extends State<Body> {
     Navigator.pop(context);
     Navigator.pushNamed(context, HomeScreen.routeName);
     showDialogSuccess(context);
+
+    // bool bolsa     goymaly --> showDialogFailed(context);
   }
 
   void _tryLogin() async {
@@ -49,7 +51,7 @@ class _BodyState extends State<Body> {
     super.dispose();
   }
 
-  bool _obscureText = false;
+  bool _obscureText = true;
   void _toggle() {
     setState(() {
       _obscureText = !_obscureText;
@@ -90,7 +92,7 @@ class _BodyState extends State<Body> {
                     TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
+                          return 'Please enter phone number';
                         }
                         return null;
                       },
@@ -113,7 +115,7 @@ class _BodyState extends State<Body> {
                     TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
+                          return 'Please enter password';
                         }
                         return null;
                       },
@@ -169,8 +171,10 @@ class _BodyState extends State<Body> {
                 children: [
                   InkWell(
                     onTap: () => {
-                      if (_formKey.currentState!.validate()) {},
-                      _tryLogin()
+                      if (_formKey.currentState!.validate())
+                        {
+                          _tryLogin(),
+                        },
                     },
                     child: Container(
                       padding: const EdgeInsets.all(12),
@@ -199,10 +203,11 @@ class _BodyState extends State<Body> {
                             fontSize: getProportionateScreenWidth(32)),
                         children: <TextSpan>[
                           TextSpan(
-                              text: context.tt('dont_have_account'),
-                              style: const TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold)),
+                            text: context.tt('dont_have_account'),
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
                           TextSpan(
                               text: context.tt('sign_up'),
                               style: const TextStyle(
@@ -213,6 +218,7 @@ class _BodyState extends State<Body> {
                       textScaleFactor: 0.5,
                     ),
                   ),
+                  const SizedBox(height: 10)
                 ],
               ),
             ),

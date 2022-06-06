@@ -191,11 +191,9 @@ class AccountService {
 
     if (banners!.isEmpty) {
       var files = await Future.wait(banners.map((e) => e.readAsBytes()));
-      print('value image true');
 
       for (int i = 0; i < files.length; i++) {
         request.files.add(http.MultipartFile.fromBytes('banners-$i', files[i]));
-        print('value image' + i.toString());
       }
     }
     request.headers['Authorization'] = "Bearer: $token";

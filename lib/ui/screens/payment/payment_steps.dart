@@ -112,7 +112,7 @@ class _FirstPaymentStepState extends State<FirstPaymentStep> {
                           color: Colors.black, fontWeight: FontWeight.w700)),
                   selected: _value,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Center(
@@ -290,11 +290,7 @@ class _SecondPaymentStepState extends State<SecondPaymentStep> {
             ),
           ),
           const SizedBox(height: 20),
-          PrevNextBtns(
-              pressNext: () {},
-              pressBack: () {
-                print('object');
-              }),
+          PrevNextBtns(pressNext: () {}, pressBack: () {}),
         ],
       ),
     );
@@ -436,11 +432,11 @@ class _FourthPaymentStepState extends State<FourthPaymentStep> {
           const SizedBox(
             height: 20,
           ),
-          UserContent(),
-          UserContent(),
-          UserContent(),
-          UserContent(),
-          SizedBox(
+          const UserContent(),
+          const UserContent(),
+          const UserContent(),
+          const UserContent(),
+          const SizedBox(
             height: 30,
           ),
           Row(
@@ -528,7 +524,7 @@ class UserContent extends StatelessWidget {
               Text('serg'),
             ],
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           const Divider(
             thickness: 2,
             color: Colors.green,

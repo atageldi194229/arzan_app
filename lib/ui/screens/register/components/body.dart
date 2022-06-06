@@ -166,12 +166,14 @@ class _BodyState extends State<Body> {
     super.dispose();
   }
 
-  bool _obscureText = false;
+  bool _obscureText = true;
   void _toggle() {
     setState(() {
       _obscureText = !_obscureText;
     });
   }
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -211,6 +213,7 @@ class _BodyState extends State<Body> {
         ),
         Expanded(
           child: Form(
+            key: _formKey,
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -228,39 +231,38 @@ class _BodyState extends State<Body> {
             ),
           ),
         ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            DefaultButtonGreen(
-              press: () => _validateAndNextPage(),
-              text: context.tt("register").toUpperCase(),
-            ),
-            const SizedBox(height: 15),
-            InkWell(
-                onTap: () =>
-                    Navigator.pushNamed(context, LoginScreen.routeName),
-                child: RichText(
-                  text: TextSpan(
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: getProportionateScreenWidth(32)),
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: context.tt("already_have_account"),
-                          style: const TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold)),
-                      TextSpan(
-                          text: context.tt("sign_in"),
-                          style: const TextStyle(
-                              color: Color.fromARGB(255, 12, 121, 15),
-                              fontWeight: FontWeight.bold))
-                    ],
-                  ),
-                  textScaleFactor: 0.5,
-                )),
-          ],
+        DefaultButtonGreen(
+          press: () {
+            if (_formKey.currentState!.validate()) {
+              _validateAndNextPage();
+            }
+          },
+          text: context.tt("register").toUpperCase(),
         ),
+        const SizedBox(height: 30),
+        InkWell(
+          onTap: () => Navigator.pushNamed(context, LoginScreen.routeName),
+          child: RichText(
+            text: TextSpan(
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: getProportionateScreenWidth(32)),
+              children: <TextSpan>[
+                TextSpan(
+                    text: context.tt("already_have_account"),
+                    style: const TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold)),
+                TextSpan(
+                    text: context.tt("sign_in"),
+                    style: const TextStyle(
+                        color: Color.fromARGB(255, 12, 121, 15),
+                        fontWeight: FontWeight.bold))
+              ],
+            ),
+            textScaleFactor: 0.5,
+          ),
+        ),
+        const SizedBox(height: 10),
       ],
     );
   }
@@ -268,25 +270,39 @@ class _BodyState extends State<Body> {
   TextFormField buildUsernameFormField() {
     return TextFormField(
       controller: usernameInputController,
-      // onSaved: (_) => _tryLogin(),
-      // keyboardType: TextInputType.phone,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter username';
+        }
+        return null;
+      },
       decoration: InputDecoration(
-          fillColor: Colors.grey.shade100,
-          filled: true,
-          prefixIcon: const Icon(
-            Icons.person_outline_rounded,
-            color: kSoftGreen,
-          ),
-          contentPadding: const EdgeInsets.all(0),
-          hintText: context.tt("username"),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+        fillColor: Colors.grey.shade100,
+        filled: true,
+        prefixIcon: const Icon(
+          Icons.person_outline_rounded,
+          color: kSoftGreen,
+        ),
+        contentPadding: const EdgeInsets.all(0),
+        hintText: context.tt("username"),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
     );
   }
 
   TextFormField buildPhoneNumberFormFeild() {
     return TextFormField(
       controller: phoneInputController,
-      // onSaved: (_) => _tryLogin(),
+      validator: (value) {
+        if (value == null || value.isEmpty && value.length < 12) {
+          return 'Please enter  phone number';
+        } else if (value.length < 12) {
+          return '${value.length} is digit not a number!';
+        }
+        return null;
+      },
       keyboardType: TextInputType.phone,
       maxLength: 12,
       decoration: InputDecoration(
@@ -306,14 +322,19 @@ class _BodyState extends State<Body> {
     return TextFormField(
       controller: passwordInputController,
       obscureText: _obscureText,
-      // onSaved: (_) => _tryLogin(),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter password';
+        }
+        return null;
+      },
       decoration: InputDecoration(
         fillColor: Colors.grey.shade100,
         filled: _obscureText,
         suffixIcon: IconButton(
           icon: Icon(
             // Based on passwordVisible state choose the icon
-            _obscureText ? Icons.visibility : Icons.visibility_off,
+            _obscureText ? Icons.visibility_off : Icons.visibility,
             color: kSoftGreen,
           ),
           onPressed: () => _toggle(),
@@ -335,7 +356,12 @@ class _BodyState extends State<Body> {
     return TextFormField(
       controller: passwordInputController,
       obscureText: _obscureText,
-      // onSaved: (_) => _tryLogin(),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter some text';
+        }
+        return null;
+      },
       decoration: InputDecoration(
         fillColor: const Color.fromRGBO(245, 245, 245, 1),
         filled: true,

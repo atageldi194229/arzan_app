@@ -25,9 +25,11 @@ class AuthService {
 
     if ([200, 500].contains(response.statusCode)) {
       var parsed = jsonDecode(response.body);
+
       return parsed;
     } else {
-      throw Exception("Unknown api error");
+      return "false";
+      // throw Exception("Unknown api error");
     }
   }
 
