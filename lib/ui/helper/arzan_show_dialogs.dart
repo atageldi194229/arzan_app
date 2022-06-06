@@ -154,7 +154,10 @@ void showDialogFailed(BuildContext context) {
   );
 }
 
-void showDialogNewVersionAvailable(BuildContext context) {
+void showDialogNewVersionAvailable(
+  BuildContext context, {
+  String? notes,
+}) {
   showDialog<void>(
     context: context,
     barrierDismissible: false, // user must tap button!
@@ -179,8 +182,8 @@ void showDialogNewVersionAvailable(BuildContext context) {
         ),
         content: SingleChildScrollView(
           child: ListBody(
-            children: const <Widget>[
-              Text(' - Please update the app from '),
+            children: [
+              if (notes != null) Text(notes),
             ],
           ),
         ),

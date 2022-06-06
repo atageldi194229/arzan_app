@@ -14,10 +14,13 @@ void newVersionCheck(BuildContext context) async {
     // String version = packageInfo.version;
     String buildNumberAsString = packageInfo.buildNumber;
 
-    String? storeBuildNumberAsString = await GlobalVarService()
+    var globalVar = await GlobalVarService()
         .getValue(GlobalVarKeys.storeAppBuildVersion.name);
 
-    if (storeBuildNumberAsString == null) return;
+    if (globalVar == null) return;
+    if (globalVar.value == null) return;
+
+    String storeBuildNumberAsString = globalVar.value ?? "0";
 
     int? storeBuildNumber = int.tryParse(storeBuildNumberAsString);
     int? buildNumber = int.tryParse(buildNumberAsString);
@@ -27,7 +30,7 @@ void newVersionCheck(BuildContext context) async {
     if (storeBuildNumber <= buildNumber) return;
 
     // ignore: use_build_context_synchronously
-    showDialogNewVersionAvailable(context);
+    showDialogNewVersionAvailable(context, notes: globalVar.note);
   } catch (error) {
     debugPrint("Error checking new version of app");
     debugPrint(error.toString());

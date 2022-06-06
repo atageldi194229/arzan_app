@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:tm/core/api/models/global_var.dart';
 import 'dart:convert';
 import '../api_path.dart';
 
 enum GlobalVarKeys { storeAppBuildVersion }
 
 class GlobalVarService {
-  Future<String?> getValue(String key) async {
+  Future<GlobalVar?> getValue(String key) async {
     try {
       Uri uri = Uri.http(ApiPath.host, ApiPath.getGlobalVar + key);
 
@@ -17,7 +18,9 @@ class GlobalVarService {
 
         if (parsed["globalVar"] == null) return null;
 
-        return parsed["globalVar"]["value"];
+        return GlobalVar.fromMap(parsed["globalVar"]);
+
+        // return parsed["globalVar"]["value"];
       }
     } catch (err) {
       debugPrint(err.toString());
