@@ -118,7 +118,7 @@ class _BodyState extends State<Body> {
                       ),
                       SizedBox(height: getProportionateScreenWidth(20)),
                       ImagePickingRow(
-                        countImage: 5,
+                        countImage: 6,
                         onChange: (values) => images = values,
                       ),
                       const Divider(),

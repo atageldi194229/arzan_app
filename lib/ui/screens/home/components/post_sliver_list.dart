@@ -29,23 +29,25 @@ class _PostSliverListState extends State<PostSliverList> {
         (BuildContext context, int index) {
           if (index == posts.length) {
             return const Padding(
-                padding: EdgeInsets.only(top: 20, bottom: 80),
-                child: CustomIndicator());
+              padding: EdgeInsets.only(top: 20, bottom: 80),
+              child: CustomIndicator(),
+            );
           }
           return PostCard(
-              post: posts[index],
-              onTap: () {
-                context.read<HomeScreenProvider>().setCurrentIndex(index);
-                Navigator.pushNamed(
-                  context,
-                  PostDetailScreen.routeName,
-                  arguments: PostDetailScreenArguments(
-                    posts: posts,
-                    defaultIndex: index,
-                    loadPosts: context.read<HomeScreenProvider>().loadPosts,
-                  ),
-                );
-              });
+            post: posts[index],
+            onTap: () {
+              context.read<HomeScreenProvider>().setCurrentIndex(index);
+              Navigator.pushNamed(
+                context,
+                PostDetailScreen.routeName,
+                arguments: PostDetailScreenArguments(
+                  posts: posts,
+                  defaultIndex: index,
+                  loadPosts: context.read<HomeScreenProvider>().loadPosts,
+                ),
+              );
+            },
+          );
         },
         childCount: posts.length + 1,
       ),

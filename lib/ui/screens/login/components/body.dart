@@ -56,6 +56,8 @@ class _BodyState extends State<Body> {
     });
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -80,11 +82,18 @@ class _BodyState extends State<Body> {
             SizedBox(height: getProportionateScreenHeight(30)),
             Expanded(
               child: Form(
+                key: _formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const SizedBox(height: 10),
                     TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
                       controller: phoneInputController,
                       onSaved: (_) => _tryLogin(),
                       // keyboardType: TextInputType.phone,
@@ -102,6 +111,12 @@ class _BodyState extends State<Body> {
                     ),
                     const SizedBox(height: 10),
                     TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
                       controller: passwordInputController,
                       obscureText: _obscureText,
                       onSaved: (_) => _tryLogin(),
@@ -115,8 +130,8 @@ class _BodyState extends State<Body> {
                         suffixIcon: IconButton(
                           icon: Icon(
                             _obscureText
-                                ? Icons.visibility
-                                : Icons.visibility_off,
+                                ? Icons.visibility_off
+                                : Icons.visibility,
                             color: kSoftGreen,
                           ),
                           onPressed: () => _toggle(),
@@ -153,7 +168,10 @@ class _BodyState extends State<Body> {
               child: Column(
                 children: [
                   InkWell(
-                    onTap: () => _tryLogin(),
+                    onTap: () => {
+                      if (_formKey.currentState!.validate()) {},
+                      _tryLogin()
+                    },
                     child: Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
