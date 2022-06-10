@@ -226,7 +226,6 @@ class _BodyState extends State<Body> {
         if (!usernameValidatorRegExp.hasMatch(value)) {
           return 'length-range: 3-30, can be: 0-9, a-z, A-Z';
         }
-
         return null;
       },
       decoration: InputDecoration(
