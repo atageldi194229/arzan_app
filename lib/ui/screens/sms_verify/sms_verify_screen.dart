@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:tm/core/api/services/auth_service.dart';
 import 'package:tm/core/localization/index.dart';
 import "package:flutter/material.dart";
@@ -39,7 +40,7 @@ class _SmsVerifyScreenState extends State<SmsVerifyScreen> {
     }
 
     return Scaffold(
-      appBar: DefaultAppBar(title: context.tt('sms verify')),
+      appBar: DefaultAppBar(title: context.tt('sms_verify')),
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
@@ -61,7 +62,7 @@ class _SmsVerifyScreenState extends State<SmsVerifyScreen> {
                       padding: EdgeInsets.symmetric(
                           horizontal: getProportionateScreenWidth(20)),
                       child: Text(
-                        'lorem' * 15,
+                        context.tt("sms_verify_text"),
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           color: kTextColor,
@@ -78,9 +79,9 @@ class _SmsVerifyScreenState extends State<SmsVerifyScreen> {
                     ),
                     ElevatedButton(
                       onPressed: () => _startVerify(args.phoneNumber),
-                      child: const Text('verify'),
+                      child: Text(context.tt('verify')),
                     ),
-                    if (left != -1) Text("To next check left: $left"),
+                    if (left != -1) Text("${context.tt('verify')}: $left"),
                   ],
                 ),
               ),
@@ -151,7 +152,32 @@ class _SmsVerifyScreenState extends State<SmsVerifyScreen> {
       // debugPrint("result of verify: $result");
 
       if (result) {
-        _closePage();
+        void showDialogAfterRegister(BuildContext context) {
+          showDialog<void>(
+            context: context,
+            builder: (BuildContext context) {
+              return CupertinoAlertDialog(
+                title: const Text(
+                  '',
+                ),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Close'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      _closePage();
+                    },
+                    child: const Text('ok'),
+                  )
+                ],
+              );
+            },
+          );
+        }
       }
     });
   }

@@ -5,9 +5,14 @@ class DefaultAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
   final bool count;
   final int? countAppBar;
-  const DefaultAppBar(
-      {Key? key, required this.title, this.count = false, this.countAppBar})
-      : preferredSize = const Size.fromHeight(kToolbarHeight),
+  final bool backgroundChange;
+  const DefaultAppBar({
+    Key? key,
+    required this.title,
+    this.count = false,
+    this.countAppBar,
+    this.backgroundChange = false,
+  })  : preferredSize = const Size.fromHeight(kToolbarHeight),
         super(key: key);
 
   @override
@@ -21,7 +26,7 @@ class DefaultAppBarState extends State<DefaultAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: widget.backgroundChange ? Colors.green : Colors.white,
       automaticallyImplyLeading: false,
       centerTitle: true,
       title: Row(
@@ -29,7 +34,9 @@ class DefaultAppBarState extends State<DefaultAppBar> {
         children: [
           Text(
             widget.title,
-            style: const TextStyle(color: kTextColor),
+            style: TextStyle(
+              color: widget.backgroundChange ? Colors.white : kTextColor,
+            ),
           ),
           widget.count
               ? Text(
@@ -45,7 +52,7 @@ class DefaultAppBarState extends State<DefaultAppBar> {
             onPressed: () => Navigator.pop(context),
             icon: Icon(
               Icons.chevron_left_rounded,
-              color: kSoftGreen,
+              color: widget.backgroundChange ? Colors.white : kSoftGreen,
               size: constraints.biggest.width / 1.5,
             ),
           );
