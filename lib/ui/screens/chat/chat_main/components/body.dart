@@ -1,14 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:provider/provider.dart';
 import 'package:tm/core/api/models/user.dart';
-import 'package:tm/core/providers/notification_provider.dart';
 import 'package:tm/core/providers/official_user_list_provider.dart';
 import 'package:tm/ui/components/official_user.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/screens/chat/user_chat/chat_user_screen.dart';
-import 'package:tm/ui/screens/notification_detail/notification_detail_screen.dart';
 import 'package:tm/ui/size_config.dart';
 
 class Body extends StatefulWidget {

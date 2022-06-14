@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tm/ui/constants.dart';
+import 'package:tm/ui/size_config.dart';
 import './components/body.dart';
 
 class UserChatScreen extends StatelessWidget {
@@ -11,6 +13,74 @@ class UserChatScreen extends StatelessWidget {
     return const Scaffold(
       appBar: ChatAppBar(),
       body: Body(),
+      floatingActionButton: UserChatBottomForm(),
+    );
+  }
+}
+
+class UserChatBottomForm extends StatelessWidget {
+  const UserChatBottomForm({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: SizeConfig.screenWidth * 0.8,
+              decoration: BoxDecoration(
+                color: Colors.grey.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Material(
+                elevation: 5.0,
+                shadowColor: Colors.grey,
+                borderRadius: BorderRadius.circular(20),
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    hintText: "Your sms",
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: getProportionateScreenHeight(20),
+                      vertical: getProportionateScreenWidth(15),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(left: 10),
+              decoration: const BoxDecoration(
+                color: kSoftGreen,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.chevron_right_rounded,
+                color: Colors.white,
+                size: SizeConfig.screenWidth * 0.09,
+              ),
+            )
+          ],
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: const [
+            Icon(Icons.add_reaction_outlined),
+            Icon(Icons.image),
+            Icon(Icons.add_reaction_outlined),
+          ],
+        )
+      ],
     );
   }
 }
@@ -53,8 +123,8 @@ class _ChatAppBarState extends State<ChatAppBar> {
               ),
             ],
           ),
-          Spacer(),
-          Icon(Icons.more_vert)
+          const Spacer(),
+          const Icon(Icons.more_vert)
         ],
       ),
       leading: LayoutBuilder(
