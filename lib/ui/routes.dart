@@ -1,5 +1,7 @@
 import 'package:tm/ui/screens/about_us/about_us_screen.dart';
 import 'package:tm/ui/screens/add_post/add_post_screen.dart';
+import 'package:tm/ui/screens/chat/chat_main/chat_main_screen.dart';
+import 'package:tm/ui/screens/chat/user_chat/chat_user_screen.dart';
 import 'package:tm/ui/screens/login/login_screen.dart';
 import 'package:tm/ui/screens/notification_detail/notification_detail_screen.dart';
 import 'package:tm/ui/screens/notifications/notifications_screen.dart';
@@ -52,4 +54,6 @@ final Map<String, WidgetBuilder> routes = {
 
   ProfileSettingScreen.routeName: (context) => const ProfileSettingScreen(),
   SmsVerifyScreen.routeName: (context) => const SmsVerifyScreen(),
+  ChatScreen.routeName: (context) => const ChatScreen(),
+  UserChatScreen.routeName: (context) => const UserChatScreen()
 };

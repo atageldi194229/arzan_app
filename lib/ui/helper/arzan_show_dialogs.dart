@@ -209,3 +209,30 @@ void showDialogNewVersionAvailable(
     },
   );
 }
+
+void showDialogAfterRegister(BuildContext context) {
+  showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return CupertinoAlertDialog(
+        title: const Text(
+          'Ulgama girmedigiňiz sebäpli bu mümkinçilik elýeterli däl!',
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Close'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pushNamed(context, LoginScreen.routeName);
+            },
+            child: const Text('Ulgama girmek'),
+          )
+        ],
+      );
+    },
+  );
+}

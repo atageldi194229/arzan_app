@@ -1,8 +1,11 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:tm/core/api/services/auth_service.dart';
 import 'package:tm/core/localization/index.dart';
 import "package:flutter/material.dart";
+import 'package:tm/ui/constants.dart';
+import 'package:tm/ui/size_config.dart';
 import 'package:tm/ui/widgets/default_appbar.dart';
 import 'package:tm/ui/widgets/full_screen_loading.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -37,24 +40,50 @@ class _SmsVerifyScreenState extends State<SmsVerifyScreen> {
     }
 
     return Scaffold(
-      appBar: DefaultAppBar(title: context.tt('sms verify')),
+      appBar: DefaultAppBar(title: context.tt('sms_verify')),
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          SizedBox(
-            width: double.infinity,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(context.tt("phone_number_verification")),
-                  ElevatedButton(
-                    onPressed: () => _startVerify(args.phoneNumber),
-                    child: const Text('verify'),
-                  ),
-                  if (left != -1) Text("To next check left: $left"),
-                ],
+          Center(
+            // width: double.infinity,
+            child: Container(
+              width: SizeConfig.screenWidth * 0.8,
+              height: SizeConfig.screenHeight * 0.5,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: getProportionateScreenWidth(20)),
+                      child: Text(
+                        context.tt("sms_verify_text"),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: kTextColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      context.tt("phone_number_verification"),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () => _startVerify(args.phoneNumber),
+                      child: Text(context.tt('verify')),
+                    ),
+                    if (left != -1) Text("${context.tt('verify')}: $left"),
+                  ],
+                ),
               ),
             ),
           ),
@@ -109,7 +138,7 @@ class _SmsVerifyScreenState extends State<SmsVerifyScreen> {
     timer?.cancel();
 
     timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
-      debugPrint(timer.tick.toString());
+      // debugPrint(timer.tick.toString());
 
       setState(() {});
 
@@ -120,10 +149,35 @@ class _SmsVerifyScreenState extends State<SmsVerifyScreen> {
 
       bool result = await verify!();
 
-      debugPrint("result of verify: $result");
+      // debugPrint("result of verify: $result");
 
       if (result) {
-        _closePage();
+        void showDialogAfterRegister(BuildContext context) {
+          showDialog<void>(
+            context: context,
+            builder: (BuildContext context) {
+              return CupertinoAlertDialog(
+                title: const Text(
+                  '',
+                ),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Close'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      _closePage();
+                    },
+                    child: const Text('ok'),
+                  )
+                ],
+              );
+            },
+          );
+        }
       }
     });
   }
