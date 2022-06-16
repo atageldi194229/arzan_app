@@ -7,10 +7,12 @@ import 'package:image_picker/image_picker.dart';
 class ImagePickingRow extends StatefulWidget {
   final Function onChange;
   final int countImage;
+  final String? Function(List<XFile> values)? validator;
   const ImagePickingRow({
     Key? key,
     required this.onChange,
     required this.countImage,
+    this.validator,
   }) : super(key: key);
 
   @override
@@ -19,10 +21,17 @@ class ImagePickingRow extends StatefulWidget {
 
 class _ImagePickingRowState extends State<ImagePickingRow> {
   List<XFile> images = [];
+  String? errorText;
 
   _customSetState(VoidCallback fn) {
     setState(fn);
     widget.onChange(images);
+
+    if (widget.validator != null) {
+      setState(() {
+        errorText = widget.validator!(images);
+      });
+    }
   }
 
   _addImages(List<XFile> images) {
@@ -58,55 +67,65 @@ class _ImagePickingRowState extends State<ImagePickingRow> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Column(
       children: [
-        InkWell(
-          onTap: () {
-            if (images.length >= widget.countImage) {
-              _removeAllImages();
-            } else {
-              _pickImages();
-            }
-          },
-          child: Container(
-            width: size.width / 8,
-            height: size.height / 16,
-            padding: const EdgeInsets.all(10),
-            margin: const EdgeInsets.symmetric(horizontal: 5),
-            decoration: BoxDecoration(
-              border: images.length >= widget.countImage
-                  ? Border.all(color: Colors.grey)
-                  : Border.all(color: Colors.green),
-              borderRadius: BorderRadius.circular(10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: () {
+                if (images.length >= widget.countImage) {
+                  _removeAllImages();
+                } else {
+                  _pickImages();
+                }
+              },
+              child: Container(
+                width: size.width / 8,
+                height: size.height / 16,
+                padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.symmetric(horizontal: 5),
+                decoration: BoxDecoration(
+                  border: images.length >= widget.countImage
+                      ? Border.all(color: Colors.grey)
+                      : Border.all(color: Colors.green),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: images.length >= widget.countImage
+                    ? const Icon(Icons.delete_forever_rounded,
+                        color: Colors.grey)
+                    : const Icon(Icons.image, color: Colors.green),
+              ),
             ),
-            child: images.length >= widget.countImage
-                ? const Icon(Icons.delete_forever_rounded, color: Colors.grey)
-                : const Icon(Icons.image, color: Colors.green),
-          ),
-        ),
-        images.isNotEmpty
-            ? Row(
-                children: List.generate(
-                  images.length,
-                  (index) => InkWell(
-                    onTap: () => _removeImage(index),
-                    child: Container(
-                      width: size.width / 8,
-                      height: size.height / 16,
-                      margin: const EdgeInsets.symmetric(
-                        vertical: 10,
-                        horizontal: 2,
-                      ),
-                      child: Image.file(
-                        File(images[index].path),
-                        fit: BoxFit.fill,
+            images.isNotEmpty
+                ? Row(
+                    children: List.generate(
+                      images.length,
+                      (index) => InkWell(
+                        onTap: () => _removeImage(index),
+                        child: Container(
+                          width: size.width / 8,
+                          height: size.height / 16,
+                          margin: const EdgeInsets.symmetric(
+                            vertical: 10,
+                            horizontal: 2,
+                          ),
+                          child: Image.file(
+                            File(images[index].path),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              )
-            : Container(),
+                  )
+                : Container(),
+          ],
+        ),
+        if (errorText != null)
+          Text(
+            errorText!,
+            style: const TextStyle(color: Colors.red),
+          ),
       ],
     );
   }

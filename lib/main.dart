@@ -64,19 +64,23 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    initNotification();
-    FirebaseMessaging.onMessage.listen((RemoteMessage msg) {
-      RemoteNotification? notification = msg.notification;
-      NotificationUtil().showNotification(
-          flnp,
-          notification?.title ?? 'No title',
-          msg.data['image'].toString(),
-          notification?.body ?? 'No body');
-    });
+    try {
+      initNotification();
+      FirebaseMessaging.onMessage.listen((RemoteMessage msg) {
+        RemoteNotification? notification = msg.notification;
+        NotificationUtil().showNotification(
+            flnp,
+            notification?.title ?? 'No title',
+            msg.data['image'].toString(),
+            notification?.body ?? 'No body');
+      });
 
-    FirebaseMessaging.instance.subscribeToTopic('all');
-    // FirebaseMessaging.instance.subscribeToTopic('test_1');
-    // FirebaseMessaging.onBackgroundMessage((message) => null)
+      FirebaseMessaging.instance.subscribeToTopic('all');
+      // FirebaseMessaging.instance.subscribeToTopic('test_1');
+      // FirebaseMessaging.onBackgroundMessage((message) => null)
+    } catch (_) {
+      debugPrint("$_");
+    }
   }
 
   @override

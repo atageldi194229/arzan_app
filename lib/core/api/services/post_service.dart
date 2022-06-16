@@ -87,6 +87,15 @@ class PostService {
       ..fields['title'] = title
       ..fields['content'] = content;
 
+    Map<String, String> regions = {
+      for (var i = 0; i < regionIds.length; i++)
+        'regions[$i]': "${regionIds[i]}"
+    };
+
+    request.fields.addAll({
+      ...regions,
+    });
+
     var files = await Future.wait(images.map((e) => e.readAsBytes()));
 
     for (int i = 0; i < files.length; i++) {

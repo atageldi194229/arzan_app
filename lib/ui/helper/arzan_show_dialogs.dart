@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:store_redirect/store_redirect.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/screens/login/login_screen.dart';
 import 'package:tm/ui/size_config.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 void showDialogOnDevelopment(BuildContext context) {
   showDialog<void>(
@@ -191,17 +190,11 @@ void showDialogNewVersionAvailable(
           TextButton(
             child: const Text('Update'),
             onPressed: () {
-              const String appPackageName = 'afisha.arzan.tm';
+              // const String appPackageName = 'afisha.arzan.tm';
 
               try {
-                launchUrl(Uri.parse("market://details?id=$appPackageName"));
-              } on PlatformException {
-                launchUrl(Uri.parse(
-                    "https://play.google.com/store/apps/details?id=$appPackageName"));
-              } finally {
-                launchUrl(Uri.parse(
-                    "https://play.google.com/store/apps/details?id=$appPackageName"));
-              }
+                StoreRedirect.redirect();
+              } catch (_) {}
             },
           ),
         ],

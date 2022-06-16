@@ -4,6 +4,7 @@ import 'package:tm/core/api/services/main_service.dart';
 import 'package:tm/core/providers/account_provider.dart';
 import 'package:tm/core/providers/auth_provider.dart';
 import 'package:tm/core/providers/banner_provider.dart';
+import 'package:tm/core/providers/chat_provider.dart';
 import 'package:tm/core/providers/region_provider.dart';
 import 'package:tm/ui/helper/flutter_3_ambiguate.dart';
 import 'package:tm/ui/screens/home/home_screen.dart';
@@ -49,6 +50,12 @@ class _BodyState extends State<Body> {
     return context.read<AccountProvider>().initUser(userId: auth.userId);
   }
 
+  _initChat() {
+    ChatProvider chat = context.read<ChatProvider>();
+    chat.initialize();
+    debugPrint("Initialize soccket 67767676677676");
+  }
+
   _handleNextPage() {
     if (context.read<RegionProvider>().isCurrentRegionSelected) {
       Navigator.pop(context);
@@ -76,6 +83,7 @@ class _BodyState extends State<Body> {
 
             await _initAllData(() async {
               _initUser();
+              _initChat();
               await _initRegions();
 
               _initDefaultRegion();

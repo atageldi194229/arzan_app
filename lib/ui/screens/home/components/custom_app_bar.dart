@@ -57,7 +57,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
           forceElevated: true,
           // elevation: 10,
           automaticallyImplyLeading: false,
-          expandedHeight: size.height / 2.5,
+          expandedHeight: size.height / 3.0,
           // excludeHeaderSemantics: true,
           // leading: ,
           primary: true,

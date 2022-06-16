@@ -50,7 +50,7 @@ class PostCard extends StatelessWidget {
                 //   ],
                 // ),
                 child: CachedNetworkImage(
-                  imageUrl: post.image,
+                  imageUrl: post.image ?? "",
                   imageBuilder: (context, imageProvider) => Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(

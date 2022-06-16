@@ -1,5 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:tm/core/localization/index.dart';
+import 'package:tm/core/providers/chat_provider.dart';
 
 import './region_status_provider.dart';
 import './region_provider.dart';
@@ -34,4 +35,5 @@ List<ChangeNotifierProvider> providers = [
   ChangeNotifierProvider<OfficialUserListProvider>(
       create: (context) => OfficialUserListProvider()),
   ChangeNotifierProvider<RegionProvider>(create: (context) => RegionProvider()),
+  ChangeNotifierProvider<ChatProvider>(create: (context) => ChatProvider()),
 ];

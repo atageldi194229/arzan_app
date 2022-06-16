@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:store_redirect/store_redirect.dart';
 import 'package:tm/core/localization/index.dart';
 import 'package:tm/core/providers/auth_provider.dart';
 import 'package:tm/ui/helper/arzan_show_dialogs.dart';
@@ -10,7 +10,6 @@ import 'package:tm/ui/screens/contact_us/contact_us_screen.dart';
 import 'package:tm/ui/screens/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 const String appPackageName = 'afisha.arzan.tm';
 
@@ -27,15 +26,19 @@ class CustomDrawer extends StatelessWidget {
   }
 
   _onRateUsTap() {
+    // try {
+    //   launchUrl(Uri.parse("market://details?id=$appPackageName"));
+    // } on PlatformException {
+    //   launchUrl(Uri.parse(
+    //       "https://play.google.com/store/apps/details?id=$appPackageName"));
+    // } finally {
+    //   launchUrl(Uri.parse(
+    //       "https://play.google.com/store/apps/details?id=$appPackageName"));
+    // }
+
     try {
-      launchUrl(Uri.parse("market://details?id=$appPackageName"));
-    } on PlatformException {
-      launchUrl(Uri.parse(
-          "https://play.google.com/store/apps/details?id=$appPackageName"));
-    } finally {
-      launchUrl(Uri.parse(
-          "https://play.google.com/store/apps/details?id=$appPackageName"));
-    }
+      StoreRedirect.redirect();
+    } catch (_) {}
   }
 
   @override

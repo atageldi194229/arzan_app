@@ -58,9 +58,9 @@ class NotificationUtil {
       styleInformation: BigPictureStyleInformation(
         FilePathAndroidBitmap(bigPicturePath),
         hideExpandedLargeIcon: false,
-        contentTitle: 'overridden <b>big</b> content title',
+        contentTitle: '<b>$title</b>', // 'overridden <b>big</b> content title',
         htmlFormatContentTitle: true,
-        summaryText: 'summary <i>text</i>',
+        summaryText: body, // 'summary <i>text</i>',
         htmlFormatSummaryText: true,
       ),
     );

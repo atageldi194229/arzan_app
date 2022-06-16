@@ -12,7 +12,6 @@ import 'package:tm/ui/helper/toast.dart';
 import 'package:tm/ui/screens/profile/profile_screen.dart';
 import 'package:tm/ui/size_config.dart';
 import 'package:tm/ui/widgets/button.dart';
-import 'package:tm/ui/widgets/form_field.dart';
 import 'package:tm/ui/widgets/full_screen_loading.dart';
 
 import 'image_picker.dart';
@@ -26,6 +25,8 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  final _formKey = GlobalKey<FormState>();
+
   List<XFile> images = [];
   String title = '';
   String content = '';
@@ -96,7 +97,7 @@ class _BodyState extends State<Body> {
             ),
             child: Container(
               width: size.width,
-              height: SizeConfig.screenHeight * 0.85,
+              // height: SizeConfig.screenHeight * 0.85,
               margin: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 boxShadow: kBoxShadow,
@@ -105,7 +106,8 @@ class _BodyState extends State<Body> {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(20),
-                child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
                   child: Column(
                     children: [
                       Regions(
@@ -116,10 +118,20 @@ class _BodyState extends State<Body> {
                           });
                         },
                       ),
+
                       SizedBox(height: getProportionateScreenWidth(20)),
                       ImagePickingRow(
                         countImage: 6,
-                        onChange: (values) => images = values,
+                        onChange: (values) {
+                          images = values;
+                        },
+                        validator: (values) {
+                          if (values.isEmpty) {
+                            return "Minimum images 1";
+                          }
+
+                          return null;
+                        },
                       ),
                       const Divider(),
                       SizedBox(height: getProportionateScreenWidth(40)),
@@ -129,7 +141,18 @@ class _BodyState extends State<Body> {
                         borderRadius: BorderRadius.circular(10),
                         child: TextFormField(
                           onChanged: ((value) => title = value),
-                          maxLines: 4,
+                          maxLength: 70,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Fill empty field";
+                            }
+
+                            if (value.length <= 5) {
+                              return 'Length should be more than 5';
+                            }
+
+                            return null;
+                          },
                           // keyboardType: TextInputType.phone,
                           decoration: InputDecoration(
                             fillColor: Colors.grey.shade100,
@@ -164,7 +187,23 @@ class _BodyState extends State<Body> {
                         borderRadius: BorderRadius.circular(10),
                         child: TextFormField(
                           onChanged: ((value) => contact = value),
-                          // keyboardType: TextInputType.phone,
+                          maxLength: 12,
+                          keyboardType: TextInputType.phone,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Fill empty field";
+                            }
+
+                            if (!value.startsWith("+993")) {
+                              return "Phone number should start with +993";
+                            }
+
+                            if (value.length != 12) {
+                              return 'Length should be 12';
+                            }
+
+                            return null;
+                          },
                           decoration: InputDecoration(
                             fillColor: Colors.grey.shade100,
                             filled: true,
@@ -189,13 +228,65 @@ class _BodyState extends State<Body> {
                         ),
                       ),
                       SizedBox(height: getProportionateScreenWidth(40)),
-                      TextFormFielTextarea(
-                        onChanged: (value) => content = value,
+                      // TextFormFielTextarea(
+                      //   onChanged: (value) => content = value,
+                      // ),
+                      Material(
+                        elevation: 5.0,
+                        shadowColor: Colors.grey,
+                        borderRadius: BorderRadius.circular(10),
+                        child: TextFormField(
+                          onChanged: ((value) => content = value),
+                          maxLength: 300,
+                          maxLines: null,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Fill empty field";
+                            }
+
+                            if (value.length <= 10) {
+                              return 'Length should be more than 10';
+                            }
+
+                            return null;
+                          },
+                          keyboardType: TextInputType.multiline,
+                          decoration: InputDecoration(
+                            fillColor: Colors.grey.shade100,
+                            filled: true,
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: getProportionateScreenHeight(20),
+                              vertical: getProportionateScreenWidth(15),
+                            ),
+                            hintText: 'Description...',
+                            hintStyle: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: const BorderSide(
+                                color: Colors.transparent,
+                              ),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: const BorderSide(
+                                color: Colors.transparent,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
+
                       SizedBox(height: getProportionateScreenWidth(20)),
                       DefaultButtonGreenBack(
                         text: "SEND",
-                        onPress: () => _createPost(),
+                        onPress: () {
+                          // Validate returns true if the form is valid, or false otherwise.
+                          if (_formKey.currentState!.validate()) {
+                            _createPost();
+                          }
+                        },
                       ),
                     ],
                   ),

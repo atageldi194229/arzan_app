@@ -20,7 +20,7 @@ class PostModel {
   bool isFavorite;
 
   get images => _images;
-  get image => _images.isEmpty ? null : _images.first;
+  String? get image => _images.isEmpty ? null : _images.first;
 
   static T tryCatch<T>(T Function() fn, T defaultValue) {
     try {
