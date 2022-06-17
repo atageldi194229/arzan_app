@@ -192,7 +192,7 @@ class AccountService {
       request.files.add(http.MultipartFile.fromBytes('image', imageAsBytes));
     }
 
-    if (banners!.isEmpty) {
+    if (banners != null && banners.isNotEmpty) {
       var files = await Future.wait(banners.map((e) => e.readAsBytes()));
 
       for (int i = 0; i < files.length; i++) {
