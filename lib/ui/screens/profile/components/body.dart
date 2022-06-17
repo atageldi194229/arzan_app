@@ -101,10 +101,17 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
+    UserModel user = widget.user;
+
     var banners = context.watch<BannerProvider>().banners;
+
     String bannerImage =
         "https://arzan.info:3021/api/uploads/banners/131/d60667cc-860b-4f01-889c-a33aa5deeb56.jpg";
-    if (banners.isNotEmpty) bannerImage = banners[0].image;
+    if (user.banners.isNotEmpty) {
+      bannerImage = user.banners[0].image;
+    } else if (banners.isNotEmpty) {
+      bannerImage = banners[0].image;
+    }
 
     var followerList = widget.parentState.followerList;
     var followingList = widget.parentState.followingList;
@@ -177,8 +184,6 @@ class _BodyState extends State<Body> {
       default:
         itemListWidget = Container();
     }
-
-    UserModel user = widget.user;
 
     Size size = MediaQuery.of(context).size;
 

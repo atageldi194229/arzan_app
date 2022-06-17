@@ -28,7 +28,7 @@ class CityButton extends StatelessWidget {
         child: Text(
           text!,
           style: TextStyle(
-            fontSize: getProportionateScreenWidth(18),
+            // fontSize: getProportionateScreenWidth(18),
             color: Colors.grey[900],
           ),
         ),

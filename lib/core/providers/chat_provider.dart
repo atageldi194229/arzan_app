@@ -24,7 +24,7 @@ class ChatProvider with ChangeNotifier {
 
     Socket socket = io(
       'http://arzan.info:3020',
-      // OptionBuilder().setTransports(['websocket']).build(),
+      OptionBuilder().setTransports(['websocket']).build(),
     );
 
     socket.onConnectError((data) => debugPrint("on connect error $data"));

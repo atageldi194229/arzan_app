@@ -22,7 +22,10 @@ class AccountService {
       var parsed = jsonDecode(response.body);
 
       if (parsed["success"] is bool && parsed["success"] == true) {
-        return UserModel.fromMap(parsed["user"]);
+        return UserModel.fromMap({
+          ...parsed["user"],
+          "banners": parsed["banners"],
+        });
       }
     }
 

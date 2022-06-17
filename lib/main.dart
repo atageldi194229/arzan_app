@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:tm/core/localization/index.dart';
 import 'package:tm/core/utils/notification_util.dart';
@@ -15,9 +18,20 @@ import 'package:provider/provider.dart';
 
 import 'core/providers/index.dart';
 
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // TT.init();
+
+  HttpOverrides.global = MyHttpOverrides();
 
   // await Firebase.initializeApp();
   await Firebase.initializeApp(
@@ -34,8 +48,10 @@ void main() async {
 
 printToken() async {
   debugPrint("get token started");
-  String? token = await FirebaseMessaging.instance.getToken();
-  debugPrint("FIREBASE MESSAGING TOKEN: $token");
+  if (!kIsWeb) {
+    String? token = await FirebaseMessaging.instance.getToken();
+    debugPrint("FIREBASE MESSAGING TOKEN: $token");
+  }
 }
 
 class MyApp extends StatefulWidget {
@@ -58,7 +74,10 @@ class _MyAppState extends State<MyApp> {
     );
     var initializationSettings =
         InitializationSettings(android: android, iOS: iOS);
-    flnp.initialize(initializationSettings);
+
+    if (!kIsWeb) {
+      flnp.initialize(initializationSettings);
+    }
   }
 
   @override
@@ -66,18 +85,21 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     try {
       initNotification();
-      FirebaseMessaging.onMessage.listen((RemoteMessage msg) {
-        RemoteNotification? notification = msg.notification;
-        NotificationUtil().showNotification(
-            flnp,
-            notification?.title ?? 'No title',
-            msg.data['image'].toString(),
-            notification?.body ?? 'No body');
-      });
 
-      FirebaseMessaging.instance.subscribeToTopic('all');
-      // FirebaseMessaging.instance.subscribeToTopic('test_1');
-      // FirebaseMessaging.onBackgroundMessage((message) => null)
+      if (!kIsWeb) {
+        FirebaseMessaging.onMessage.listen((RemoteMessage msg) {
+          RemoteNotification? notification = msg.notification;
+          NotificationUtil().showNotification(
+              flnp,
+              notification?.title ?? 'No title',
+              msg.data['image'].toString(),
+              notification?.body ?? 'No body');
+        });
+
+        FirebaseMessaging.instance.subscribeToTopic('all');
+        // FirebaseMessaging.instance.subscribeToTopic('test_1');
+        // FirebaseMessaging.onBackgroundMessage((message) => null)
+      }
     } catch (_) {
       debugPrint("$_");
     }

@@ -13,11 +13,17 @@ class BannerService {
     // if (client != null) _client = client;
   }
 
-  Future<List<BannerModel>> fetchData() async {
+  Future<List<BannerModel>> fetchData({
+    int? regionId,
+  }) async {
     // return [BannerModel(id: 1, image: "", keywords: "sdf", payload: "qwe")];
 
-    Uri uri = Uri.http(
-        ApiPath.host, ApiPath.getBanners, {"search": "app_banner_page%"});
+    Map<String, String> query = {
+      if (regionId != null) "regionId": "$regionId",
+      "search": "app_banner_page%",
+    };
+
+    Uri uri = Uri.http(ApiPath.host, ApiPath.getBanners, query);
     var response = await http.get(uri);
 
     if (response.statusCode == 200) {

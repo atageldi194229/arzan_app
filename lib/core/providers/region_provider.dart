@@ -36,7 +36,7 @@ class RegionProvider extends ChangeNotifier {
   RegionModel get currentRegion {
     return _regions.firstWhere(
       (region) => region.id == currentRegionId,
-      orElse: () => RegionModel(id: 0, name: "Ashgabat"),
+      orElse: () => RegionModel(id: 1, name: "Ashgabat"),
     );
   }
 

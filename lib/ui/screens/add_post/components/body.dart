@@ -8,6 +8,7 @@ import 'package:tm/core/providers/auth_provider.dart';
 import 'package:tm/core/providers/region_provider.dart';
 
 import 'package:tm/ui/constants.dart';
+import 'package:tm/ui/enums.dart';
 import 'package:tm/ui/helper/toast.dart';
 import 'package:tm/ui/screens/profile/profile_screen.dart';
 import 'package:tm/ui/size_config.dart';
@@ -46,6 +47,7 @@ class _BodyState extends State<Body> {
       context,
       ProfileScreen.routeName,
       arguments: ProfileScreenArguments(
+        mode: ProfileScreenMode.profile,
         loadUser: () => AccountService().fetchData(userId: authProvider.userId),
       ),
     );

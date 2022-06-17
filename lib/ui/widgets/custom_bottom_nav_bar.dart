@@ -122,6 +122,7 @@ class CustomBottomNavBar extends StatelessWidget {
               child: _NavbarItem(
                 child: Icon(
                   Icons.chat,
+                  size: MediaQuery.of(context).size.width / 15,
                   color: _getIconColor(MenuState.payment),
                 ),
                 onTap: () {

@@ -67,7 +67,13 @@ class _BodyState extends State<Body> {
   }
 
   _initDefaultRegion() {
-    context.read<RegionProvider>().addListenerToPref(_handleNextPage);
+    var regionProvider = context.read<RegionProvider>();
+    regionProvider.addListenerToPref(_handleNextPage);
+    regionProvider.addListenerToPref(() {
+      context
+          .read<BannerProvider>()
+          .initData(regionId: regionProvider.currentRegionId);
+    });
   }
 
   @override
@@ -124,13 +130,13 @@ class _BodyState extends State<Body> {
                   const Spacer(flex: 5),
                   Image.asset(
                     'assets/images/logo_ticket.png',
-                    width: getProportionateScreenWidth(200),
+                    width: getProportionateScreenHeight(200),
                   ),
                   Text(
                     "Arzan",
                     style: TextStyle(
                       fontFamily: 'Arista',
-                      fontSize: getProportionateScreenWidth(70),
+                      fontSize: getProportionateScreenHeight(70),
                       color: Colors.white, // aPrimaryColor,
                       fontWeight: FontWeight.bold,
                     ),
@@ -138,7 +144,7 @@ class _BodyState extends State<Body> {
                   Text(
                     "ÝURDUMYZYŇ ÄHLI KÜNJEGINDE",
                     style: TextStyle(
-                      fontSize: getProportionateScreenWidth(15),
+                      fontSize: getProportionateScreenHeight(15),
                       color: Colors.white,
                       // fontWeight: FontWeight.bold
                     ),

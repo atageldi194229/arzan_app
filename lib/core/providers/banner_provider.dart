@@ -13,9 +13,11 @@ class BannerProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  initData() {
+  initData({
+    int? regionId,
+  }) {
     return BannerService()
-        .fetchData()
+        .fetchData(regionId: regionId)
         .then((banners) => this.banners = banners);
   }
 }

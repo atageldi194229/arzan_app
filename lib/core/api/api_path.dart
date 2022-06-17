@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
 class ApiPath {
   // static String host = "192.168.110.215:8788";
   static List<String> availableHosts = [
@@ -61,6 +64,7 @@ class ApiPath {
       socket.destroy();
       return DateTime.now().difference(startTime);
     }).catchError((error) {
+      debugPrint("$error");
       // return Future.value(null);
     });
   }
@@ -107,6 +111,12 @@ class ApiPath {
   }
 
   static searchForConnection() async {
+    if (kIsWeb) {
+      var uri = Uri.parse(availableHosts.first);
+      host = "${uri.host}:${uri.port}";
+      return true;
+    }
+
     Completer c = Completer();
     _searchForConnection(onResult: (e) => c.complete(e));
     return c.future;

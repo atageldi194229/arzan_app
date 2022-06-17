@@ -1,4 +1,4 @@
-import 'package:tm/core/api/models/region_model.dart';
+import 'package:tm/core/api/models/index.dart';
 
 import '../api_path.dart';
 
@@ -15,6 +15,7 @@ class UserModel {
   final String? loggedAt;
 
   List<RegionModel> regions;
+  List<BannerModel> banners;
   // final String? updatedAt;
 
   final int? followerCount;
@@ -51,16 +52,24 @@ class UserModel {
     required this.videoCount,
     required this.viewCount,
     this.regions = const [],
+    this.banners = const [],
   }) {
     _setImage(image);
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     List<RegionModel> regions = [];
+    List<BannerModel> banners = [];
 
     if (map.containsKey('regions')) {
       regions = List.from(map['regions'])
           .map<RegionModel>((e) => RegionModel.fromMap(e))
+          .toList();
+    }
+
+    if (map.containsKey('banners')) {
+      banners = List.from(map['banners'])
+          .map<BannerModel>((e) => BannerModel.fromMap(e))
           .toList();
     }
 
@@ -82,6 +91,7 @@ class UserModel {
       videoCount: map['videoCount'],
       viewCount: map['viewCount'],
       regions: regions,
+      banners: banners,
     );
   }
 }
