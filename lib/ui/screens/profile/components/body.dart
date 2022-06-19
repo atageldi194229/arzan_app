@@ -187,7 +187,7 @@ class _BodyState extends State<Body> {
 
     Size size = MediaQuery.of(context).size;
 
-    double bannerHeight = size.width * 0.7;
+    double bannerHeight = size.width * 0.5;
     double avatarLogoSize = size.width * 0.3;
     double starIconSize = avatarLogoSize * 0.2;
 
@@ -215,7 +215,8 @@ class _BodyState extends State<Body> {
                             decoration: BoxDecoration(
                               image: DecorationImage(
                                 image: imageProvider,
-                                fit: BoxFit.fill,
+                                alignment: Alignment.topCenter,
+                                fit: BoxFit.cover,
                               ),
                             ),
                           ),

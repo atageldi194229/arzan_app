@@ -99,7 +99,6 @@ class _BodyState extends State<Body> {
             ),
             child: Container(
               width: size.width,
-              // height: SizeConfig.screenHeight * 0.85,
               margin: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 boxShadow: kBoxShadow,
@@ -120,15 +119,14 @@ class _BodyState extends State<Body> {
                           });
                         },
                       ),
-
                       SizedBox(height: getProportionateScreenWidth(20)),
-                      ImagePickingRow(
-                        countImage: 6,
-                        onChange: (values) {
-                          images = values;
+                      ImagePickerFormField(
+                        maxLength: 6,
+                        onSaved: (value) {
+                          images = value ?? [];
                         },
-                        validator: (values) {
-                          if (values.isEmpty) {
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
                             return "Minimum images 1";
                           }
 
@@ -144,42 +142,9 @@ class _BodyState extends State<Body> {
                         child: TextFormField(
                           onChanged: ((value) => title = value),
                           maxLength: 70,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Fill empty field";
-                            }
-
-                            if (value.length <= 5) {
-                              return 'Length should be more than 5';
-                            }
-
-                            return null;
-                          },
-                          // keyboardType: TextInputType.phone,
-                          decoration: InputDecoration(
-                            fillColor: Colors.grey.shade100,
-                            filled: true,
-                            contentPadding: EdgeInsets.symmetric(
-                              horizontal: getProportionateScreenHeight(20),
-                              vertical: getProportionateScreenWidth(15),
-                            ),
-                            hintText: 'Enter Title...',
-                            hintStyle: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: const BorderSide(
-                                color: Colors.transparent,
-                              ),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: const BorderSide(
-                                color: Colors.transparent,
-                              ),
-                            ),
-                          ),
+                          validator: _validatorInputTitle,
+                          decoration:
+                              _buildInputDecoration(hintText: 'Enter title...'),
                         ),
                       ),
                       SizedBox(height: getProportionateScreenWidth(20)),
@@ -191,48 +156,12 @@ class _BodyState extends State<Body> {
                           onChanged: ((value) => contact = value),
                           maxLength: 12,
                           keyboardType: TextInputType.phone,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Fill empty field";
-                            }
-
-                            if (!value.startsWith("+993")) {
-                              return "Phone number should start with +993";
-                            }
-
-                            if (value.length != 12) {
-                              return 'Length should be 12';
-                            }
-
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            fillColor: Colors.grey.shade100,
-                            filled: true,
-                            contentPadding: const EdgeInsets.all(15),
-                            hintText: 'Enter your phone number...',
-                            hintStyle: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: const BorderSide(
-                                color: Colors.transparent,
-                              ),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: const BorderSide(
-                                color: Colors.transparent,
-                              ),
-                            ),
-                          ),
+                          validator: _validatorInputPhoneNumber,
+                          decoration: _buildInputDecoration(
+                              hintText: 'Enter your phone number...'),
                         ),
                       ),
-                      SizedBox(height: getProportionateScreenWidth(40)),
-                      // TextFormFielTextarea(
-                      //   onChanged: (value) => content = value,
-                      // ),
+                      SizedBox(height: getProportionateScreenWidth(20)),
                       Material(
                         elevation: 5.0,
                         shadowColor: Colors.grey,
@@ -241,45 +170,12 @@ class _BodyState extends State<Body> {
                           onChanged: ((value) => content = value),
                           maxLength: 300,
                           maxLines: null,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Fill empty field";
-                            }
-
-                            if (value.length <= 10) {
-                              return 'Length should be more than 10';
-                            }
-
-                            return null;
-                          },
                           keyboardType: TextInputType.multiline,
-                          decoration: InputDecoration(
-                            fillColor: Colors.grey.shade100,
-                            filled: true,
-                            contentPadding: EdgeInsets.symmetric(
-                              horizontal: getProportionateScreenHeight(20),
-                              vertical: getProportionateScreenWidth(15),
-                            ),
-                            hintText: 'Description...',
-                            hintStyle: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: const BorderSide(
-                                color: Colors.transparent,
-                              ),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: const BorderSide(
-                                color: Colors.transparent,
-                              ),
-                            ),
-                          ),
+                          validator: _validatorInputDescription,
+                          decoration:
+                              _buildInputDecoration(hintText: 'Description...'),
                         ),
                       ),
-
                       SizedBox(height: getProportionateScreenWidth(20)),
                       DefaultButtonGreenBack(
                         text: "SEND",
@@ -302,6 +198,75 @@ class _BodyState extends State<Body> {
           child: const FullScreenLoading(),
         ),
       ],
+    );
+  }
+
+  String? _validatorInputDescription(value) {
+    if (value == null || value.isEmpty) {
+      return "Fill empty field";
+    }
+
+    if (value.length <= 10) {
+      return 'Length should be more than 10';
+    }
+
+    return null;
+  }
+
+  String? _validatorInputPhoneNumber(value) {
+    if (value == null || value.isEmpty) {
+      return "Fill empty field";
+    }
+
+    if (!value.startsWith("+993")) {
+      return "Phone number should start with +993";
+    }
+
+    if (value.length != 12) {
+      return 'Length should be 12';
+    }
+
+    return null;
+  }
+
+  String? _validatorInputTitle(value) {
+    if (value == null || value.isEmpty) {
+      return "Fill empty field";
+    }
+
+    if (value.length <= 5) {
+      return 'Length should be more than 5';
+    }
+
+    return null;
+  }
+
+  InputDecoration _buildInputDecoration({
+    String hintText = '',
+  }) {
+    return InputDecoration(
+      fillColor: Colors.grey.shade100,
+      filled: true,
+      contentPadding: EdgeInsets.symmetric(
+        horizontal: getProportionateScreenHeight(20),
+        vertical: getProportionateScreenWidth(15),
+      ),
+      hintText: hintText,
+      hintStyle: const TextStyle(
+        fontWeight: FontWeight.bold,
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(15),
+        borderSide: const BorderSide(
+          color: Colors.transparent,
+        ),
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(15),
+        borderSide: const BorderSide(
+          color: Colors.transparent,
+        ),
+      ),
     );
   }
 }

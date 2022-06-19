@@ -1,5 +1,6 @@
 import 'package:tm/core/api/models/index.dart';
 import 'package:tm/core/providers/home_screen_provider.dart';
+import 'package:tm/core/providers/region_provider.dart';
 import 'package:tm/ui/screens/post_detail/post_detail_screen.dart';
 import 'package:tm/ui/widgets/custom_indicator.dart';
 import 'package:tm/ui/widgets/post_card.dart';
@@ -17,7 +18,8 @@ class _PostSliverListState extends State<PostSliverList> {
   @override
   void initState() {
     super.initState();
-    context.read<HomeScreenProvider>().loadPosts();
+    int regionId = context.read<RegionProvider>().currentRegionId;
+    context.read<HomeScreenProvider>().loadPostsByRegion(regionId: regionId);
   }
 
   @override
@@ -43,7 +45,13 @@ class _PostSliverListState extends State<PostSliverList> {
                 arguments: PostDetailScreenArguments(
                   posts: posts,
                   defaultIndex: index,
-                  loadPosts: context.read<HomeScreenProvider>().loadPosts,
+                  loadPosts: () {
+                    int regionId =
+                        context.read<RegionProvider>().currentRegionId;
+                    return context
+                        .read<HomeScreenProvider>()
+                        .loadPostsByRegion(regionId: regionId);
+                  },
                 ),
               );
             },

@@ -11,16 +11,17 @@ class PostService {
     int offset = 0,
     String? search,
     int? categoryId,
+    int? regionId,
     String sort = "createdAt-desc",
   }) async {
     Map<String, String> query = {
       "sort": sort,
       "limit": limit.toString(),
       "offset": offset.toString(),
+      if (search != null) "search": search,
+      if (regionId != null) "regionId": "$regionId",
+      if (categoryId != null) "categoryId": "$categoryId",
     };
-
-    if (search != null) query["search"] = search;
-    if (categoryId != null) query["categoryId"] = categoryId.toString();
 
     Uri uri = Uri.http(ApiPath.host, ApiPath.getPosts, query);
 
@@ -43,12 +44,13 @@ class PostService {
   }
 
   Future<List<PostModel>> fetchDataForMainScreen(
-      {int limit = 30, int offset = 0}) async {
-    Uri uri = Uri.http(ApiPath.host, ApiPath.getPosts, {
-      "limit": limit.toString(),
-      "offset": offset.toString(),
+      {int limit = 30, int offset = 0, int? regionId}) async {
+    Uri uri = Uri.http(ApiPath.host, ApiPath.getPosts, <String, String>{
+      "limit": "$limit",
+      "offset": "$offset",
       "sort": "createdAt-desc",
       // "categoryId": "5",
+      if (regionId != null) "regionId": "$regionId",
     });
 
     var response = await http.get(
@@ -65,7 +67,7 @@ class PostService {
           .map<PostModel>((e) => PostModel.fromMap(e))
           .toList();
     } else {
-      throw "Unable to fetch data";
+      throw Exception("Unable to fetch data");
     }
   }
 

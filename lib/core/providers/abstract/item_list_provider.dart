@@ -21,6 +21,11 @@ abstract class ItemListProvider<T> extends ChangeNotifier {
     notifyListeners();
   }
 
+  empty() {
+    offset = 0;
+    _items.clear();
+  }
+
   addAllItems(List<T> itemList) {
     _items.addAll(itemList);
     offset += limit;

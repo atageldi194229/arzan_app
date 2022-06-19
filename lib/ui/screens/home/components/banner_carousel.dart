@@ -1,7 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:tm/core/api/models/index.dart';
 import 'package:tm/core/providers/banner_provider.dart';
-import 'package:tm/core/providers/region_provider.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';

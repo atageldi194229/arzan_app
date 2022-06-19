@@ -1,4 +1,5 @@
 import 'package:tm/core/providers/recommended_post_provider.dart';
+import 'package:tm/core/providers/region_provider.dart';
 import 'package:tm/core/utils/new_version_util.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/helper/flutter_3_ambiguate.dart';
@@ -28,7 +29,10 @@ class _HomeScreenState extends State<HomeScreen> {
     newVersionCheck(context);
 
     ambiguate(WidgetsBinding.instance)!.addPostFrameCallback((_) {
-      context.read<RecommendedPostProvider>().loadPosts();
+      int regionId = context.read<RegionProvider>().currentRegionId;
+      context
+          .read<RecommendedPostProvider>()
+          .loadPostsByRegion(regionId: regionId);
     });
   }
 

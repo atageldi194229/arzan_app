@@ -4,6 +4,7 @@ import 'package:tm/core/api/models/index.dart';
 import 'package:tm/core/providers/recommended_post_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tm/core/providers/region_provider.dart';
 import 'package:tm/ui/helper/flutter_3_ambiguate.dart';
 import 'package:tm/ui/screens/post_detail/post_detail_screen.dart';
 import './recommended_card.dart';
@@ -72,8 +73,13 @@ class _RecommendedCartsState extends State<RecommendedCarts> {
                   arguments: PostDetailScreenArguments(
                     posts: posts,
                     defaultIndex: index,
-                    loadPosts:
-                        context.read<RecommendedPostProvider>().loadPosts,
+                    loadPosts: () {
+                      int regionId =
+                          context.read<RegionProvider>().currentRegionId;
+                      return context
+                          .read<RecommendedPostProvider>()
+                          .loadPostsByRegion(regionId: regionId);
+                    },
                   ),
                 );
               },

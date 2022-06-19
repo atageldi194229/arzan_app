@@ -139,7 +139,7 @@ void showDialogFailed(BuildContext context) {
                 ),
                 const SizedBox(height: 20),
                 const Text(
-                  'Gynansakda yalnys!!!',
+                  'Something went wrong. Failure',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),

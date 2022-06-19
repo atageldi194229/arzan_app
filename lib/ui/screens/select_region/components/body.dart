@@ -1,6 +1,8 @@
 import 'package:provider/provider.dart';
 import 'package:tm/core/api/models/index.dart';
 import 'package:tm/core/providers/banner_provider.dart';
+import 'package:tm/core/providers/home_screen_provider.dart';
+import 'package:tm/core/providers/recommended_post_provider.dart';
 import 'package:tm/core/providers/region_provider.dart';
 import 'package:tm/ui/constants.dart';
 import 'package:tm/ui/screens/home/home_screen.dart';
@@ -30,7 +32,17 @@ class Body extends StatelessWidget {
 
   _onRegionTap(BuildContext context, RegionModel region) {
     context.read<RegionProvider>().currentRegionId = region.id;
+
     context.read<BannerProvider>().initData(regionId: region.id);
+
+    var p = context.read<HomeScreenProvider>();
+    p.empty();
+    p.loadPostsByRegion(regionId: region.id);
+
+    var p2 = context.read<RecommendedPostProvider>();
+    p2.empty();
+    p2.loadPostsByRegion(regionId: region.id);
+
     _goToNextPage(context);
   }
 

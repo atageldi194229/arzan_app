@@ -15,6 +15,7 @@ import 'package:tm/ui/helper/arzan_show_dialogs.dart';
 import 'package:tm/ui/helper/keyboard.dart';
 import 'package:tm/ui/screens/add_post/components/image_picker.dart';
 import 'package:tm/ui/size_config.dart';
+import 'package:tm/ui/widgets/full_screen_loading.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -26,6 +27,7 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   bool firstInit = false;
   int? selectedRegionId;
+  bool isSending = false;
 
   TextEditingController usernameInputController = TextEditingController();
   TextEditingController descriptionInputController = TextEditingController();
@@ -69,6 +71,9 @@ class _BodyState extends State<Body> {
       String about = descriptionInputController.text;
       String phoneNumber = phoneNumberInputController.text;
       int id = user.id;
+      setState(() {
+        isSending = true;
+      });
       await AccountService()
           .update(
         id: id,
@@ -85,6 +90,12 @@ class _BodyState extends State<Body> {
           context.read<AccountProvider>().initUser(userId: user.id);
           showDialogSuccess(context);
         }
+      }).catchError((_) {
+        showDialogFailed(context);
+      });
+
+      setState(() {
+        isSending = false;
       });
     }
 
@@ -122,135 +133,144 @@ class _BodyState extends State<Body> {
       );
     }
 
-    return SingleChildScrollView(
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          double iconSize = constraints.maxWidth * 0.09;
-          return Column(
-            children: [
-              Center(
-                child: Stack(
-                  children: [
-                    userImageWidget,
-                    Positioned(
-                      bottom: 0,
-                      right: image == null ? iconSize + 8 : iconSize + 0.5,
-                      child: Image.asset(
-                        'assets/images/official_icon.png',
-                        width: iconSize - 7,
-                        height: iconSize,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 5,
-                      right: 0,
-                      child: InkWell(
-                        onTap: () async {
-                          XFile? tempImage = await ImagePicker()
-                              .pickImage(source: ImageSource.gallery);
-                          setState(() => image = tempImage);
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 30, 128, 33),
-                              borderRadius: BorderRadius.circular(10)),
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              double iconSize = constraints.maxWidth * 0.09;
+              return Column(
+                children: [
+                  Center(
+                    child: Stack(
+                      children: [
+                        userImageWidget,
+                        Positioned(
+                          bottom: 0,
+                          right: image == null ? iconSize + 8 : iconSize + 0.5,
                           child: Image.asset(
-                            'assets/images/edit_1.png',
-                            width: iconSize / 2.2,
-                            height: iconSize / 2,
-                            color: Colors.white,
+                            'assets/images/official_icon.png',
+                            width: iconSize - 7,
+                            height: iconSize,
                           ),
                         ),
-                      ),
+                        Positioned(
+                          bottom: 5,
+                          right: 0,
+                          child: InkWell(
+                            onTap: () async {
+                              XFile? tempImage = await ImagePicker()
+                                  .pickImage(source: ImageSource.gallery);
+                              setState(() => image = tempImage);
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                  color: const Color.fromARGB(255, 30, 128, 33),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Image.asset(
+                                'assets/images/edit_1.png',
+                                width: iconSize / 2.2,
+                                height: iconSize / 2,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 5),
-              const Text(
-                'Add banner: ',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 5),
-              Material(
-                elevation: 6,
-                shadowColor: Colors.grey,
-                borderRadius: BorderRadius.circular(10),
-                child: Container(
-                  width: SizeConfig.screenWidth * 0.9,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
+                  ),
+                  const SizedBox(height: 5),
+                  const Text(
+                    'Add banner: ',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  Material(
+                    elevation: 6,
+                    shadowColor: Colors.grey,
                     borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: ImagePickingRow(
-                    countImage: 6,
-                    onChange: (values) => banners = values,
-                  ),
-                ),
-              ),
-              SizedBox(height: getProportionateScreenHeight(20)),
-              Container(
-                padding: EdgeInsets.symmetric(
-                  vertical: getProportionateScreenHeight(10),
-                  horizontal: getProportionateScreenHeight(10),
-                ),
-                width: SizeConfig.screenWidth * 0.9,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Column(
-                  children: [
-                    const NameContent(text: "Username: "),
-                    profileSettingUsername(user),
-                    const SizedBox(height: 10),
-                    const NameContent(text: "About:"),
-                    profileSettingAbout(),
-                    const SizedBox(height: 50),
-                    const NameContent(text: "Phone number:"),
-                    profileSettingPhoneNumber(user),
-                    const SizedBox(height: 50),
-                    const NameContent(text: "Regions:"),
-                    GridView.builder(
-                      itemCount: regions.length,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      padding: const EdgeInsets.all(8.0),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        childAspectRatio: 3,
-                        mainAxisSpacing: 8.0,
-                        crossAxisSpacing: 8.0,
+                    child: Container(
+                      width: SizeConfig.screenWidth * 0.9,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      itemBuilder: (context, index) => RegionsProfileSetting(
-                        iconSize: iconSize,
-                        text: regions[index].name,
-                        changeColor: selectedRegionId == regions[index].id,
-                        press: () {
-                          setState(() {
-                            selectedRegionId = regions[index].id;
-                          });
-                        },
+                      child: ImagePickingRow(
+                        countImage: 6,
+                        onChange: (values) => banners = values,
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    DefaultButtonGreen(
-                      text: "sumbit",
-                      press: () {
-                        _submit();
-                      },
+                  ),
+                  SizedBox(height: getProportionateScreenHeight(20)),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      vertical: getProportionateScreenHeight(10),
+                      horizontal: getProportionateScreenHeight(10),
                     ),
-                    const SizedBox(height: 10),
-                  ],
-                ),
-              )
-            ],
-          );
-        },
-      ),
+                    width: SizeConfig.screenWidth * 0.9,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Column(
+                      children: [
+                        const NameContent(text: "Username: "),
+                        profileSettingUsername(user),
+                        const SizedBox(height: 10),
+                        const NameContent(text: "About:"),
+                        profileSettingAbout(),
+                        const SizedBox(height: 50),
+                        const NameContent(text: "Phone number:"),
+                        profileSettingPhoneNumber(user),
+                        const SizedBox(height: 50),
+                        const NameContent(text: "Regions:"),
+                        GridView.builder(
+                          itemCount: regions.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: const EdgeInsets.all(8.0),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            childAspectRatio: 3,
+                            mainAxisSpacing: 8.0,
+                            crossAxisSpacing: 8.0,
+                          ),
+                          itemBuilder: (context, index) =>
+                              RegionsProfileSetting(
+                            iconSize: iconSize,
+                            text: regions[index].name,
+                            changeColor: selectedRegionId == regions[index].id,
+                            press: () {
+                              setState(() {
+                                selectedRegionId = regions[index].id;
+                              });
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        DefaultButtonGreen(
+                          text: "sumbit",
+                          press: () {
+                            _submit();
+                          },
+                        ),
+                        const SizedBox(height: 10),
+                      ],
+                    ),
+                  )
+                ],
+              );
+            },
+          ),
+        ),
+        Visibility(
+          visible: isSending,
+          child: const FullScreenLoading(),
+        ),
+      ],
     );
   }
 
@@ -267,7 +287,9 @@ class _BodyState extends State<Body> {
         ),
         child: TextField(
           controller: descriptionInputController,
-          maxLines: 12,
+          maxLength: 300,
+          maxLines: null,
+          keyboardType: TextInputType.multiline,
           decoration: InputDecoration(
             border: InputBorder.none,
             enabledBorder: InputBorder.none,

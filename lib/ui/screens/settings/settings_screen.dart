@@ -5,8 +5,6 @@ import 'package:tm/ui/screens/settings/components/notification_tile.dart';
 import 'package:tm/ui/widgets/default_appbar.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter/services.dart';
-
 class SettingsScreen extends StatefulWidget {
   static String routeName = '/settings';
   const SettingsScreen({Key? key}) : super(key: key);
@@ -33,27 +31,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(15)),
             child: Column(
-              children: [
-                const NotificationTile(),
-                const LanguageTile(),
-                SettingTile(
-                    icon: Icons.location_pin,
-                    title: context.tt('select_region'),
-                    onTap: () {}),
-                SettingTile(
-                    icon: Icons.list, title: context.tt("rules"), onTap: () {}),
-                SettingTile(
-                    icon: Icons.credit_card_rounded,
-                    title: context.tt("online_payment"),
-                    onTap: () {}),
-                SettingTile(
-                    icon: Icons.arrow_downward_rounded,
-                    title: context.tt('download'),
-                    onTap: () {}),
-                SettingTile(
-                    icon: Icons.exit_to_app,
-                    title: context.tt('exit'),
-                    onTap: () => SystemNavigator.pop()),
+              children: const [
+                NotificationTile(),
+                LanguageTile(),
+                // SettingTile(
+                //     icon: Icons.location_pin,
+                //     title: context.tt('select_region'),
+                //     onTap: () {}),
+                // SettingTile(
+                //     icon: Icons.list, title: context.tt("rules"), onTap: () {}),
+                // SettingTile(
+                //     icon: Icons.credit_card_rounded,
+                //     title: context.tt("online_payment"),
+                //     onTap: () {}),
+                // SettingTile(
+                //     icon: Icons.arrow_downward_rounded,
+                //     title: context.tt('download'),
+                //     onTap: () {}),
+                // SettingTile(
+                //     icon: Icons.exit_to_app,
+                //     title: context.tt('exit'),
+                //     onTap: () => SystemNavigator.pop()),
               ],
             ),
           )
