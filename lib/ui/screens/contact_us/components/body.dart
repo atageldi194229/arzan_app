@@ -1,21 +1,33 @@
+import 'package:tm/core/api/services/feedback_sercvcie.dart';
 import 'package:tm/ui/constants.dart';
+import 'package:tm/ui/helper/arzan_show_dialogs.dart';
 import 'package:tm/ui/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:tm/ui/widgets/form_field.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
+
+  @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  String? content;
+  String? phone;
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-          margin: const EdgeInsets.all(12),
-          width: SizeConfig.screenWidth * 1.5,
-          // height: SizeConfig.screenHeight * 4,
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(20)),
-          child: Column(mainAxisSize: MainAxisSize.min, children: [
+        margin: const EdgeInsets.all(12),
+        width: SizeConfig.screenWidth * 1.5,
+        // height: SizeConfig.screenHeight * 4,
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(20)),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
             const Padding(
               padding: EdgeInsets.all(15.0),
               child: Text(
@@ -39,6 +51,7 @@ class Body extends StatelessWidget {
                 shadowColor: Colors.grey,
                 borderRadius: BorderRadius.circular(10),
                 child: TextField(
+                  onChanged: (value) => phone = value,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     enabledBorder: InputBorder.none,
@@ -64,16 +77,36 @@ class Body extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
               ),
               child: TextFormFielTextarea(
-                onChanged: (value) {},
+                onChanged: (value) => content = value,
               ),
             ),
             const SizedBox(height: 10),
             Padding(
-              padding:
-                  EdgeInsets.only(bottom: getProportionateScreenHeight(20)),
-              child: DefaultButtonGreen(text: "SEND", press: () {}),
-            )
-          ])),
+              padding: EdgeInsets.only(
+                bottom: getProportionateScreenHeight(20),
+              ),
+              child: DefaultButtonGreen(
+                text: "SEND",
+                press: () {
+                  debugPrint("send pressed");
+                  FeedbackService()
+                      .userFeedback(
+                    type: FeedbackType.contactMe,
+                    text: "[$phone] \n $content",
+                  )
+                      .then((value) {
+                    if (value) {
+                      showDialogSuccess(context);
+                    } else {
+                      showDialogFailed(context);
+                    }
+                  });
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

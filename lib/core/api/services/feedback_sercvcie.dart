@@ -3,12 +3,17 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../api_path.dart';
 
+enum FeedbackType { complaint, contactMe, offer, official, thanks }
+
 class FeedbackService {
-  Future<bool> userFeedback(String feedback) async {
+  Future<bool> userFeedback({
+    required String text,
+    FeedbackType type = FeedbackType.complaint,
+  }) async {
     try {
       Map<String, String> body = {
-        "content": feedback,
-        "type": "complaint",
+        "content": text,
+        "type": type.name,
       };
 
       Uri uri = Uri.http(ApiPath.host, ApiPath.createFeedback);

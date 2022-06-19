@@ -117,19 +117,19 @@ class CustomBottomNavBar extends StatelessWidget {
                 );
               }),
             ),
-            Expanded(
-              flex: 5,
-              child: _NavbarItem(
-                child: Icon(
-                  Icons.chat,
-                  size: MediaQuery.of(context).size.width / 15,
-                  color: _getIconColor(MenuState.payment),
-                ),
-                onTap: () {
-                  Navigator.pushNamed(context, ChatScreen.routeName);
-                },
-              ),
-            ),
+            // Expanded(
+            //   flex: 5,
+            //   child: _NavbarItem(
+            //     child: Icon(
+            //       Icons.chat,
+            //       size: MediaQuery.of(context).size.width / 15,
+            //       color: _getIconColor(MenuState.payment),
+            //     ),
+            //     onTap: () {
+            //       Navigator.pushNamed(context, ChatScreen.routeName);
+            //     },
+            //   ),
+            // ),
             const Spacer(flex: 6),
           ],
         ),

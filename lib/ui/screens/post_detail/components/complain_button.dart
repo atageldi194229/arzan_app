@@ -174,7 +174,7 @@ class _ComplainButtonState extends State<ComplainButton> {
                 child: InkWell(
                   onTap: () {
                     FeedbackService()
-                        .userFeedback(complainFeedback.text)
+                        .userFeedback(text: complainFeedback.text)
                         .then((value) {
                       if (value) {
                         Navigator.of(context).pop();
